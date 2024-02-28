@@ -1,0 +1,101 @@
+.form-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px!important;
+}
+
+.form, .form-nav {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.form-nav p {
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.form-nav button {
+  box-sizing: border-box;
+  padding: 0 15px;
+  min-width: unset;
+  height: 25px;
+}
+
+.form-nav button span {
+  margin: 0;
+}
+
+.form-nav button span svg {
+  font-size: 12px !important;
+}
+
+.form {
+  padding: 0 15px;
+}
+
+.form main {
+  width: 100%;
+  padding: 0;
+}
+
+.form form {
+  width: 100%;
+}
+
+.form-control {
+  width: 100%;
+  text-align: left;
+}
+
+.image-labels {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.76);
+}
+
+.image-labels,
+.form-images {
+  font-size: 14px !important;
+  text-align: left;
+}
+
+.form-images {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-images p {
+  display: flex;
+  align-items: center;
+}
+
+.delete-image {
+  padding: 0 !important;
+  min-width: unset !important;
+  margin-right: 5px !important;
+}
+
+.delete-image span {
+  margin: 0;
+}
+
+.description-field {
+  margin-top: 20px !important;
+  width: 100% !important;
+}
+
+@media (max-width: 400px) {
+  #demo-simple-select {
+    padding: 13px 28px 13px 14px;
+  }
+
+  .form-nav {
+    max-width: 280px;
+  }
+
+  .form-nav p {
+    font-size: 18px;
+  }
+}
