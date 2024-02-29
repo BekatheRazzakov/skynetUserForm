@@ -3,39 +3,27 @@ import {Box, Button, Grid, Typography} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Props {
-  handleImageChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  removeImage?: (filename: string) => void;
-  handleLocationImageChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  removeLocationImage?: () => void;
+  handleImageChange?: (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => void;
+  removeImage?: (key: string) => void;
   label: string;
-  files: File[] | undefined;
+  file: File | null;
   currentImageInput: string;
 }
 
 const FileInput: React.FC<Props> = (
-  {handleImageChange, removeImage, files, label, handleLocationImageChange, removeLocationImage, currentImageInput}
+  {handleImageChange, removeImage, file, label, currentImageInput}
 ) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (currentImageInput === 'location' && handleLocationImageChange) {
-      handleLocationImageChange(e);
-    } else if (currentImageInput === 'passport' && handleImageChange) {
-      handleImageChange(e);
+    if (handleImageChange) {
+      handleImageChange(e, currentImageInput);
     }
   };
 
   const activateInput = () => {
     if (inputRef.current) {
       inputRef.current.click();
-    }
-  };
-
-  const getFileNames = () => {
-    if (files) {
-      return files.map(file => {
-        return file.name;
-      });
     }
   };
 
@@ -51,24 +39,20 @@ const FileInput: React.FC<Props> = (
         <Grid item xs>
           <Box className="form-images">
             {
-              files?.length ?
-                getFileNames()?.map((filename, index) => (
-                  <Typography className="image-labels" key={index}>
-                    <Button
-                      className="delete-image"
-                      variant="outlined"
-                      startIcon={<DeleteIcon/>}
-                      onClick={() => {
-                        if (currentImageInput === 'location' && removeLocationImage) {
-                          removeLocationImage();
-                        } else if (currentImageInput === 'passport' && removeImage) {
-                          removeImage(filename);
-                        }
-                      }}
-                    />
-                    {filename}
-                  </Typography>
-                )) : label
+              file ?
+                <Typography className="image-labels">
+                  <Button
+                    className="delete-image"
+                    variant="outlined"
+                    startIcon={<DeleteIcon/>}
+                    onClick={() => {
+                      if (removeImage) {
+                        removeImage(currentImageInput);
+                      }
+                    }}
+                  />
+                  {file.name}
+                </Typography> : label
             }
           </Box>
         </Grid>

@@ -1,9 +1,17 @@
-import React from 'react';
+import React, {FormEvent} from 'react';
 import './confirmFormModal.css';
 import {Box, Button, Typography} from "@mui/material";
+import axios from "axios";
+
+interface IAssets {
+  file1: File | null;
+  file2: File | null;
+  file3: File | null;
+}
 
 interface IProps {
   toggleModal: () => void;
+  state: string;
   data: {
     region: { name: string; hydra_id: number; } | null;
     region2: string;
@@ -16,8 +24,9 @@ interface IProps {
     routerInstallationType: { VALUE: string; ID: number; } | null;
     tariff: { VALUE: string; ID: number; } | null;
     superTv: { VALUE: string; ID: number; } | null;
-    passport: File[];
-    locationScreenShot: File[];
+    passport: File;
+    passport2: File;
+    locationScreenShot: File;
     description: string;
     providerFrom: { VALUE: string; ID: number; } | null;
     username: string;
@@ -27,10 +36,66 @@ interface IProps {
   } | null
 }
 
-const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal}) => {
+const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state}) => {
+  const sendAssets = async () => {
+    const assets: IAssets = {
+      file1: data?.passport || null,
+      file2: data?.passport2 || null,
+      file3: data?.locationScreenShot || null,
+    };
+    const formData = new FormData();
+    const keys = Object.keys(assets) as (keyof IAssets)[];
+
+    keys.forEach((key) => {
+      const value = assets[key];
+
+      if (value !== undefined && value !== null) {
+        // @ts-ignore
+        formData.append(key, value);
+      }
+    });
+
+    await axios.post("http://10.1.9.122:8000/upload-passport/", formData);
+  };
+
+  const onSubmit = async (e: FormEvent) => {
+    try {
+      e.preventDefault();
+      let body = {...data};
+      delete body.region;
+      delete body.city;
+      delete body.district;
+      if (body.street) {
+        delete body.street;
+      }
+      delete body.address;
+      delete body.passport;
+      delete body.passport2;
+      delete body.locationScreenShot;
+      body = {
+        ...body,
+        // @ts-ignore
+        address: {
+          region: data?.region,
+          city: data?.city,
+          district2: data?.district,
+          address: data?.address,
+        },
+      };
+      if (data?.street) {
+        // @ts-ignore
+        body.address.street = data.street;
+      }
+      await axios.post("http://10.1.9.122:8000/zayavka/", body);
+      await sendAssets();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <div className='confirm-modal'>
-      <Box className='confirm-modal-inner' component="form">
+    <div className={`confirm-modal-${state}`}>
+      <Box className='confirm-modal-inner' component="form" onSubmit={onSubmit}>
         <Typography variant="h6">Подтвердите данные</Typography>
         <div className="data-list">
           <div className='data-line'>
@@ -79,6 +144,30 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal}) => {
           <div className='data-line'>
             <span>Установка SuperTV:</span>
             <span>{data?.superTv?.VALUE || '-'}</span>
+          </div>
+          <div className='data-line'>
+            <span>Лицевая сторона паспорта:</span>
+            {
+              data?.passport ?
+                <img src={data?.passport ? URL.createObjectURL(data.passport) : ''} alt="passport"/>
+                : '-'
+            }
+          </div>
+          <div className='data-line'>
+            <span>Обратная сторона паспорта:</span>
+            {
+              data?.passport2 ?
+                <img src={data?.passport2 ? URL.createObjectURL(data.passport2) : ''} alt="passport"/>
+                : '-'
+            }
+          </div>
+          <div className='data-line'>
+            <span>Скриншот локации:</span>
+            {
+              data?.locationScreenShot ?
+                <img src={data?.locationScreenShot ? URL.createObjectURL(data.locationScreenShot) : ''} alt="passport"/>
+                : '-'
+            }
           </div>
           <div className='data-line'>
             <span>Описание:</span>

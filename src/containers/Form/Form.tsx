@@ -10,8 +10,8 @@ import AboutUser from "../../components/aboutUser/aboutUser";
 import Location2 from "../../components/location2/location2";
 import axios from "axios";
 import {IState} from "../../App";
-import './form.css';
 import ConfirmFormModal from "../../components/confirmFormModal/ConfirmFormModal";
+import './form.css';
 
 export interface IRegion {
   ID: number;
@@ -21,6 +21,14 @@ export interface IRegion {
 interface IRegions {
   [region: string]: IRegion[]
 }
+
+const tests = [
+  {name: "hello", hydra_id: 1,},
+  {name: "world", hydra_id: 2,},
+  {name: "name", hydra_id: 3,},
+  {name: "Beka", hydra_id: 4,},
+  {name: "Razzakov", hydra_id: 5,},
+];
 
 const Form = () => {
   const [regions, setRegions] = useState([]);
@@ -47,15 +55,21 @@ const Form = () => {
     tariff: {VALUE: "", ID: -1,},
     superTv: {VALUE: "", ID: -1,},
     providerFrom: {VALUE: "", ID: -1,},
-    passport: [],
-    locationScreenShot: [],
+    passport: null,
+    passport2: null,
+    locationScreenShot: null,
     description: "",
+    test: {name: "", hydra_id: -1,},
   });
   const [currentImageInput, setCurrentImageInput] = useState('');
-  const [confirmationReq, setConfirmationReq] = useState(false);
+  const [confirmationReq, setConfirmationReq] = useState('');
 
   const toggleConfirmation = () => {
-    setConfirmationReq(!confirmationReq);
+    if (confirmationReq === 'open') {
+      setConfirmationReq('closed');
+    } else if (confirmationReq === 'closed' || confirmationReq === '') {
+      setConfirmationReq('open');
+    }
   };
 
   const handleChange = (
@@ -107,38 +121,40 @@ const Form = () => {
     }
   };
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const selectChangeHandler = (name: string, obj: { hydra_id: number; name: string; } | null) => {
+    setState((prevState) => ({
+      ...prevState,
+      [name]: obj,
+    }));
+  };
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
     if (!e.target.files) return;
-    const files = Array.from(e.target.files);
-    setState((prevState) => ({
-      ...prevState,
-      passport: [...files.concat(prevState.passport || [])],
-    }));
+    const file = e.target.files[0];
+    if (
+      file && (
+        file.name.slice(-4) === '.jpg' ||
+        file.name.slice(-4) === '.jpeg' ||
+        file.name.slice(-4) === '.png'
+      )) {
+      setState((prevState) => ({
+        ...prevState,
+        [fieldName]: file,
+      }));
+    } else if (
+      file && (
+        file.name.slice(-4) !== '.jpg' ||
+        file.name.slice(-4) !== '.jpeg' ||
+        file.name.slice(-4) !== '.png'
+      )) {
+      alert('Загрузка фото только в формате .jpg, .jpeg или .png');
+    }
   };
 
-  const handleLocationImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const files = Array.from(e.target.files);
+  const removeImage = (key: string) => {
     setState((prevState) => ({
       ...prevState,
-      locationScreenShot: [...files.concat(prevState.locationScreenShot || [])],
-    }));
-  };
-
-  const removeImage = (filename: string) => {
-    if (!state.passport) return;
-    const updatedList = state.passport.filter(file => file.name !== filename);
-    setState((prevState) => ({
-      ...prevState,
-      passport: [...updatedList],
-    }));
-  };
-
-  const removeLocationImage = () => {
-    if (!state.locationScreenShot) return;
-    setState((prevState) => ({
-      ...prevState,
-      locationScreenShot: [],
+      [key]: null,
     }));
   };
 
@@ -282,8 +298,9 @@ const Form = () => {
   const assets = () => {
     return Boolean(
       state.passport &&
-      state.passport.length >= 2 &&
-      state.locationScreenShot?.length);
+      state.passport &&
+      state.passport2 &&
+      state.locationScreenShot);
   };
 
   const clientInfoFilled = () => {
@@ -294,32 +311,6 @@ const Form = () => {
       state.userPhoneNumber &&
       state.userAdditionalPhoneNumber
     );
-  };
-
-  const onSubmit = async () => {
-    const body = {
-      region: state.region,
-      city: state.city,
-      district: state.district,
-      region2: state.region2,
-      district2: state.district2,
-      street: state.street,
-      address: state.address,
-      orderStatus: state.orderStatus,
-      routerInstallationType: state.routerInstallationType,
-      tariff: state.tariff,
-      superTv: state.superTv,
-      passport: state.passport,
-      locationScreenShot: state.locationScreenShot,
-      description: state.description,
-      providerFrom: state.providerFrom,
-      username: state.username,
-      userSirName: state.userSirName,
-      userPhoneNumber: state.userPhoneNumber,
-      userAdditionalPhoneNumber: state.userAdditionalPhoneNumber,
-    };
-    console.log(body);
-    toggleConfirmation();
   };
 
   return (
@@ -354,8 +345,9 @@ const Form = () => {
       </Box>
       <Box className="form" component="form" onSubmit={(e) => {
         e.preventDefault();
-        // if (!submissionAvailable()) return;
-        void onSubmit();
+        if (locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled()) {
+          toggleConfirmation();
+        }
       }}>
         {currentForm === 1 && <Location
           regions={regions}
@@ -367,7 +359,10 @@ const Form = () => {
           district={state.district}
           street={state.street}
           address={state.address}
+          test={state.test}
+          tests={tests}
           handleChange={handleChange}
+          selectChangeHandler={selectChangeHandler}
         />}
         {currentForm === 2 && <Location2
           regions2={Object.keys(regions2)}
@@ -399,9 +394,26 @@ const Form = () => {
               onMouseDown={() => setCurrentImageInput('passport')}
             >
               <FileInput
-                label="Лицевая и обратная сторона паспорта"
+                label="Лицевая сторона паспорта"
                 handleImageChange={handleImageChange}
-                files={state.passport}
+                file={state?.passport ? state.passport : null}
+                removeImage={removeImage}
+                currentImageInput={currentImageInput}
+              />
+            </Box>
+            <Box
+              style={{
+                margin: '25px 0',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+              onMouseDown={() => setCurrentImageInput('passport2')}
+            >
+              <FileInput
+                label="Обратная сторона паспорта"
+                handleImageChange={handleImageChange}
+                file={state?.passport2 ? state.passport2 : null}
                 removeImage={removeImage}
                 currentImageInput={currentImageInput}
               />
@@ -413,13 +425,13 @@ const Form = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
               }}
-              onMouseDown={() => setCurrentImageInput('location')}
+              onMouseDown={() => setCurrentImageInput('locationScreenShot')}
             >
               <FileInput
                 label="Скриншот локации"
-                handleLocationImageChange={handleLocationImageChange}
-                files={state.locationScreenShot}
-                removeLocationImage={removeLocationImage}
+                handleImageChange={handleImageChange}
+                file={state?.locationScreenShot ? state.locationScreenShot : null}
+                removeImage={removeImage}
                 currentImageInput={currentImageInput}
               />
             </Box>
@@ -453,21 +465,23 @@ const Form = () => {
         {
           locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() &&
           <Button
+            className='confirm-form-button'
             type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}
           >
             {
               locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?
-              'Подтвердить'
-              : 'Заполните все поля'
+                'Подтвердить'
+                : 'Заполните все поля'
             }
           </Button>
         }
       </Box>
-      {confirmationReq && <ConfirmFormModal
+      <ConfirmFormModal
         // @ts-ignore
         data={state}
+        state={confirmationReq}
         toggleModal={toggleConfirmation}
-      />}
+      />
     </div>
   );
 }

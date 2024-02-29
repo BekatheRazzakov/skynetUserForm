@@ -1,0 +1,75 @@
+.custom-select {
+  position: relative;
+  width: 100%;
+  margin: 16px 0 0 16px;
+  z-index: 999!important;
+}
+
+.select-options-,
+.select-options-open,
+.select-options-closed {
+  position: absolute!important;
+  display: flex;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  height: 0;
+  flex-direction: column;
+  box-shadow: 0 3px 15px -10px;
+  border-radius: 12px;
+  padding: 0!important;
+  opacity: 0;
+}
+
+.select-options-open {
+  height: unset;
+  opacity: 1;
+  padding: 8px 0!important;
+  animation: showOptions 0.2s;
+}
+
+.select-options-closed {
+  height: 0;
+  opacity: 0;
+  animation: closeOptions 0.2s;
+  transition: 0.2s;
+}
+
+ul {
+  z-index: 999!important;
+}
+
+ul li {
+  z-index: 999!important;
+}
+
+@keyframes showOptions {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  50% {
+    opacity: .5;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes closeOptions {
+  0% {
+    height: unset;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50% {
+    height: unset;
+    opacity: .5;
+  }
+  100% {
+    height: unset;
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}

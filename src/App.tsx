@@ -9,6 +9,7 @@ export interface IState {
     obj?: { name: string; hydra_id: number; } | null,
     dist?: { VALUE: string; ID: number; } | null,
   ) => void;
+  selectChangeHandler?: (name: string, obj: { name: string; hydra_id: number; } | null) => void;
   handleImageChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   regions?: { name: string; hydra_id: number; }[];
   regions2?: string[];
@@ -27,8 +28,9 @@ export interface IState {
   routerInstallationType?: { VALUE: string; ID: number; } | null;
   tariff?: { VALUE: string; ID: number; } | null;
   superTv?: { VALUE: string; ID: number; } | null;
-  passport?: File[];
-  locationScreenShot?: File[];
+  passport?: File | null;
+  passport2?: File | null;
+  locationScreenShot?: File | null;
   description?: string;
   providerFrom?: { VALUE: string; ID: number; } | null;
   username?: string;
@@ -40,6 +42,8 @@ export interface IState {
   tariffs?: IRegion[];
   providersFrom?: IRegion[];
   superTvs?: IRegion[];
+  test?: { name: string; hydra_id: number; } | null;
+  tests?: { name: string; hydra_id: number; }[];
 }
 
 const App = () => {

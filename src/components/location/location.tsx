@@ -5,9 +5,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {IState} from "../../App";
+import CustomSelect from "../select/Select";
 
 const Location: React.FC<IState> = (
-  {regions, cities, districts, streets, region, city, district, street, address, handleChange}
+  {regions, cities, districts, streets, region, city, district, street, address, handleChange, selectChangeHandler}
 ) => {
   const getCurrentRegion = (name: string) => {
     return regions?.filter(region => region.name === name)[0] || null;
@@ -15,14 +16,6 @@ const Location: React.FC<IState> = (
 
   const getCurrentCity = (name: string) => {
     return cities?.filter(city => city.name === name)[0] || null;
-  };
-
-  const getCurrentDistrict = (name: string) => {
-    return districts?.filter(district => district.name === name)[0] || null;
-  };
-
-  const getCurrentStreet = (name: string) => {
-    return streets?.filter(district => district.name === name)[0] || null;
   };
 
   return (
@@ -79,48 +72,26 @@ const Location: React.FC<IState> = (
             </Grid>
           }
           {city?.name &&
-            <Grid item xs={12}>
-              <FormControl fullWidth className="form-control">
-                <InputLabel id="demo-simple-select-label">Район</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={district?.name}
-                  label="Район"
-                  name="district"
-                  onChange={(e) => handleChange ? handleChange(e, getCurrentDistrict(e.target.value)) : () => {
-                  }}
-                >
-                  {
-                    districts?.map((location, index) => (
-                      <MenuItem value={location.name} key={index}>{location.name}</MenuItem>
-                    ))
-                  }
-                </Select>
-              </FormControl>
-            </Grid>
+            <CustomSelect
+              label="Мкр/ж-в/улица"
+              name="district"
+              value={district?.name}
+              // @ts-ignore
+              options={districts}
+              // @ts-ignore
+              onChange={selectChangeHandler}
+            />
           }
           {district?.name && streets?.length !== 0 &&
-            <Grid item xs={12}>
-              <FormControl fullWidth className="form-control">
-                <InputLabel id="demo-simple-select-label">Улица</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={street?.name}
-                  label="Улица"
-                  name="street"
-                  onChange={(e) => handleChange ? handleChange(e, getCurrentStreet(e.target.value)) : () => {
-                  }}
-                >
-                  {
-                    streets?.map((location, index) => (
-                      <MenuItem value={location.name} key={index}>{location.name}</MenuItem>
-                    ))
-                  }
-                </Select>
-              </FormControl>
-            </Grid>
+            <CustomSelect
+              label="Улица"
+              name="street"
+              value={street?.name}
+              // @ts-ignore
+              options={streets}
+              // @ts-ignore
+              onChange={selectChangeHandler}
+            />
           }
           {district?.name &&
             <Grid item xs={12}>
