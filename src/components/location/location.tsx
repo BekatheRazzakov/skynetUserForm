@@ -1,14 +1,13 @@
 import React from 'react';
-import {Box, Container, Grid, TextField} from '@mui/material';
+import {Autocomplete, Box, Container, Grid, TextField} from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {IState} from "../../App";
-import CustomSelect from "../select/Select";
 
 const Location: React.FC<IState> = (
-  {regions, cities, districts, streets, region, city, district, street, address, handleChange, selectChangeHandler}
+  {regions, cities, districts, streets, region, city, district, address, handleChange}
 ) => {
   const getCurrentRegion = (name: string) => {
     return regions?.filter(region => region.name === name)[0] || null;
@@ -16,6 +15,14 @@ const Location: React.FC<IState> = (
 
   const getCurrentCity = (name: string) => {
     return cities?.filter(city => city.name === name)[0] || null;
+  };
+
+  const getCurrentDistrict = (name: string) => {
+    return districts?.filter(district => district.name === name)[0] || null;
+  };
+
+  const getCurrentStreet = (name: string) => {
+    return streets?.filter(street => street.name === name)[0] || null;
   };
 
   return (
@@ -72,25 +79,29 @@ const Location: React.FC<IState> = (
             </Grid>
           }
           {city?.name &&
-            <CustomSelect
-              label="Мкр/ж-в/улица"
-              name="district"
-              value={district?.name}
+            <Autocomplete
+              disablePortal
+              noOptionsText="Не найдено"
+              id="combo-box-demo"
               // @ts-ignore
-              options={districts}
-              // @ts-ignore
-              onChange={selectChangeHandler}
+              options={districts?.map((item) => item.name)}
+              onChange={(e) =>
+                // @ts-ignore
+                handleChange(e, getCurrentDistrict(e.target.innerHTML))}
+              renderInput={(params) => <TextField {...params} label="Мкр/ж-в/улица"/>}
             />
           }
           {district?.name && streets?.length !== 0 &&
-            <CustomSelect
-              label="Улица"
-              name="street"
-              value={street?.name}
+            <Autocomplete
+              disablePortal
+              noOptionsText="Не найдено"
+              id="combo-box-demo"
               // @ts-ignore
-              options={streets}
-              // @ts-ignore
-              onChange={selectChangeHandler}
+              options={streets?.map((item) => item.name)}
+              onChange={(e) =>
+                // @ts-ignore
+                handleChange(e, getCurrentStreet(e.target.innerHTML))}
+              renderInput={(params) => <TextField {...params} label="Улица"/>}
             />
           }
           {district?.name &&
@@ -110,8 +121,7 @@ const Location: React.FC<IState> = (
         </Grid>
       </Box>
     </Container>
-  )
-    ;
+  );
 }
 
 export default Location;

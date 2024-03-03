@@ -22,14 +22,6 @@ interface IRegions {
   [region: string]: IRegion[]
 }
 
-const tests = [
-  {name: "hello", hydra_id: 1,},
-  {name: "world", hydra_id: 2,},
-  {name: "name", hydra_id: 3,},
-  {name: "Beka", hydra_id: 4,},
-  {name: "Razzakov", hydra_id: 5,},
-];
-
 const Form = () => {
   const [regions, setRegions] = useState([]);
   const [regions2, setRegions2] = useState<IRegions>({});
@@ -59,7 +51,6 @@ const Form = () => {
     passport2: null,
     locationScreenShot: null,
     description: "",
-    test: {name: "", hydra_id: -1,},
   });
   const [currentImageInput, setCurrentImageInput] = useState('');
   const [confirmationReq, setConfirmationReq] = useState('');
@@ -334,10 +325,10 @@ const Form = () => {
           variant="contained"
           endIcon={<ArrowForwardIosIcon/>}
           disabled={
-            (currentForm === 1 && !locationFilled()) ||
-            (currentForm === 2 && !location2Filled()) ||
-            (currentForm === 3 && !orderStatus()) ||
-            (currentForm === 4 && !assets()) ||
+            // (currentForm === 1 && !locationFilled()) ||
+            // (currentForm === 2 && !location2Filled()) ||
+            // (currentForm === 3 && !orderStatus()) ||
+            // (currentForm === 4 && !assets()) ||
             currentForm === 6
           }
           onClick={() => setCurrentForm(currentForm + 1)}
@@ -359,10 +350,7 @@ const Form = () => {
           district={state.district}
           street={state.street}
           address={state.address}
-          test={state.test}
-          tests={tests}
           handleChange={handleChange}
-          selectChangeHandler={selectChangeHandler}
         />}
         {currentForm === 2 && <Location2
           regions2={Object.keys(regions2)}

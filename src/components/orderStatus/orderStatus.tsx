@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {IState} from "../../App";
-import {IRegion} from "../../containers/Form/Form";
+import {IRegion} from "../../containers/form/Form";
 
 const OrderStatus: React.FC<IState> = (
   {

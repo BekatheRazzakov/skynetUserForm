@@ -1,7 +1,8 @@
 import React, {ChangeEvent} from 'react';
 import {Route, Routes} from "react-router-dom";
-import Form, {IRegion} from "./containers/Form/Form";
+import Form, {IRegion} from "./containers/form/Form";
 import {SelectChangeEvent} from "@mui/material/Select";
+import SignUp from "./containers/signUp/SignUp";
 
 export interface IState {
   handleChange?: (
@@ -9,7 +10,6 @@ export interface IState {
     obj?: { name: string; hydra_id: number; } | null,
     dist?: { VALUE: string; ID: number; } | null,
   ) => void;
-  selectChangeHandler?: (name: string, obj: { name: string; hydra_id: number; } | null) => void;
   handleImageChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   regions?: { name: string; hydra_id: number; }[];
   regions2?: string[];
@@ -42,8 +42,6 @@ export interface IState {
   tariffs?: IRegion[];
   providersFrom?: IRegion[];
   superTvs?: IRegion[];
-  test?: { name: string; hydra_id: number; } | null;
-  tests?: { name: string; hydra_id: number; }[];
 }
 
 const App = () => {
@@ -51,6 +49,7 @@ const App = () => {
     <div>
       <Routes>
         <Route path='form' element={<Form />} />
+        <Route path='sign-up' element={<SignUp />} />
       </Routes>
     </div>
   );
