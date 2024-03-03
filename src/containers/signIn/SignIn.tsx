@@ -2,10 +2,12 @@ import React, {useState} from 'react';
 import {Avatar, Box, Button, Container, Grid, Link, TextField, Typography} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import './sign-in.css';
-import axios from "axios";
 import {ISignIn} from "../../type";
+import {useAppDispatch} from "../../app/hooks";
+import {signIn} from "../../features/userThunk";
 
 const SignIn = () => {
+  const dispatch = useAppDispatch();
   const [state, setState] = useState<ISignIn>({
     username: '',
     password: '',
@@ -21,8 +23,7 @@ const SignIn = () => {
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    const req = await axios.post('http://10.1.2.10:8001/login/', state);
-    console.log(await req.data);
+    dispatch(signIn(state));
   };
 
   return (

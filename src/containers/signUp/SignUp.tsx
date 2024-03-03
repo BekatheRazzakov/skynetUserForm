@@ -4,8 +4,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import './sign-up.css';
 import axios from "axios";
 import {ISignUp, ISupervizer} from "../../type";
+import {useAppDispatch} from "../../app/hooks";
+import {signUp} from "../../features/userThunk";
 
 const SignUp = () => {
+  const dispatch = useAppDispatch();
   const [state, setState] = useState<ISignUp>({
     username: '',
     surname: '',
@@ -32,8 +35,7 @@ const SignUp = () => {
     if (state.password !== state.confirmPassword) {
       return;
     }
-    const req = await axios.post('http://10.1.2.10:8001/register/', state);
-    console.log(await req.data);
+    dispatch(signUp(state));
   };
 
   const getSupervizers = async () => {

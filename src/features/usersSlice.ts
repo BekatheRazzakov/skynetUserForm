@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {IUserState} from "../type";
-import {signUp} from "./userThunk";
+import {signIn, signUp} from "./userThunk";
 
 const initialState: IUserState = {
   user: null,
@@ -21,6 +21,16 @@ const UsersSlice = createSlice({
     });
     builder.addCase(signUp.rejected, (state) => {
       state.signUpLoading = false;
+    });
+
+    builder.addCase(signIn.pending, (state) => {
+      state.signInLoading = true;
+    });
+    builder.addCase(signIn.fulfilled, (state) => {
+      state.signInLoading = false;
+    });
+    builder.addCase(signIn.rejected, (state) => {
+      state.signInLoading = false;
     });
   },
 });
