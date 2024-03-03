@@ -318,10 +318,10 @@ const Form = () => {
           variant="contained"
           endIcon={<ArrowForwardIosIcon/>}
           disabled={
-            // (currentForm === 1 && !locationFilled()) ||
-            // (currentForm === 2 && !location2Filled()) ||
-            // (currentForm === 3 && !orderStatus()) ||
-            // (currentForm === 4 && !assets()) ||
+            (currentForm === 1 && !locationFilled()) ||
+            (currentForm === 2 && !location2Filled()) ||
+            (currentForm === 3 && !orderStatus()) ||
+            (currentForm === 4 && !assets()) ||
             currentForm === 6
           }
           onClick={() => setCurrentForm(currentForm + 1)}
