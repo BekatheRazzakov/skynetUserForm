@@ -61,8 +61,6 @@ const SignUp = () => {
     setPasswordError('');
   };
 
-  console.log(state.supervizer);
-
   return (
     <Container component="main" maxWidth="xs">
       <Box

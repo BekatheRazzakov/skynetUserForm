@@ -3,6 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import Form, {IRegion} from "./containers/form/Form";
 import {SelectChangeEvent} from "@mui/material/Select";
 import SignUp from "./containers/signUp/SignUp";
+import SignIn from "./containers/signIn/SignIn";
 
 export interface IState {
   handleChange?: (
@@ -50,6 +51,7 @@ const App = () => {
       <Routes>
         <Route path='form' element={<Form />} />
         <Route path='sign-up' element={<SignUp />} />
+        <Route path='sign-in' element={<SignIn />} />
       </Routes>
     </div>
   );

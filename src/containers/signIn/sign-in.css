@@ -1,0 +1,18 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 350px;
+}
+
+.MuiTextField-root {
+  width: 100% !important;
+}
+
+.MuiAutocomplete-root {
+  padding: 0;
+}
+
+.hydra-id-input {
+  position: relative;
+}

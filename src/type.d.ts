@@ -27,3 +27,8 @@ export interface IUserState {
   signUpLoading: boolean;
   signInLoading: boolean;
 }
+
+export interface ISignIn {
+  username: string;
+  password: string;
+}
