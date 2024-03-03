@@ -16,10 +16,10 @@ const UsersSlice = createSlice({
     builder.addCase(signUp.pending, (state) => {
       state.signUpLoading = true;
     });
-    builder.addCase(signUp.fulfilled, (state, { payload }) => {
+    builder.addCase(signUp.fulfilled, (state) => {
       state.signUpLoading = false;
     });
-    builder.addCase(signUp.rejected, (state, { payload: error }) => {
+    builder.addCase(signUp.rejected, (state) => {
       state.signUpLoading = false;
     });
   },

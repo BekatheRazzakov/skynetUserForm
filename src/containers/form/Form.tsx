@@ -112,13 +112,6 @@ const Form = () => {
     }
   };
 
-  const selectChangeHandler = (name: string, obj: { hydra_id: number; name: string; } | null) => {
-    setState((prevState) => ({
-      ...prevState,
-      [name]: obj,
-    }));
-  };
-
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
