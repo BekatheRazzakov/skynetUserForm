@@ -7,7 +7,7 @@ import Select from '@mui/material/Select';
 import {IState} from "../../App";
 
 const Location: React.FC<IState> = (
-  {regions, cities, districts, streets, region, city, district, address, handleChange}
+  {regions, cities, districts, streets, region, city, district, street, address, handleChange}
 ) => {
   const getCurrentRegion = (name: string) => {
     return regions?.filter(region => region.name === name)[0] || null;
@@ -79,30 +79,44 @@ const Location: React.FC<IState> = (
             </Grid>
           }
           {city?.name &&
-            <Autocomplete
-              disablePortal
-              noOptionsText="Не найдено"
-              id="combo-box-demo"
-              // @ts-ignore
-              options={districts?.map((item) => item.name)}
-              onChange={(e) =>
+            <Grid item xs={12}>
+              <Autocomplete
+                disablePortal
+                value={district?.name}
+                noOptionsText="Не найдено"
+                id="combo-box-demo"
                 // @ts-ignore
-                handleChange(e, getCurrentDistrict(e.target.innerHTML))}
-              renderInput={(params) => <TextField {...params} label="Мкр/ж-в/улица"/>}
-            />
+                options={districts?.map((item) => item.name)}
+                onChange={(e) =>
+                  // @ts-ignore
+                  handleChange({
+                    // @ts-ignore
+                    target: {name: 'district'}
+                    // @ts-ignore
+                  }, getCurrentDistrict(e.target.innerHTML))}
+                renderInput={(params) => <TextField {...params} label="Мкр/ж-в/улица"/>}
+              />
+            </Grid>
           }
           {district?.name && streets?.length !== 0 &&
-            <Autocomplete
-              disablePortal
-              noOptionsText="Не найдено"
-              id="combo-box-demo"
-              // @ts-ignore
-              options={streets?.map((item) => item.name)}
-              onChange={(e) =>
+            <Grid item xs={12}>
+              <Autocomplete
+                disablePortal
+                value={street?.name}
+                noOptionsText="Не найдено"
+                id="combo-box-demo"
                 // @ts-ignore
-                handleChange(e, getCurrentStreet(e.target.innerHTML))}
-              renderInput={(params) => <TextField {...params} label="Улица"/>}
-            />
+                options={streets?.map((item) => item.name)}
+                onChange={(e) =>
+                  // @ts-ignore
+                  handleChange({
+                    // @ts-ignore
+                    target: {name: 'street'}
+                    // @ts-ignore
+                  }, getCurrentStreet(e.target.innerHTML))}
+                renderInput={(params) => <TextField {...params} label="Улица"/>}
+              />
+            </Grid>
           }
           {district?.name &&
             <Grid item xs={12}>

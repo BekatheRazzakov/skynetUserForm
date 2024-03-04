@@ -1,17 +1,26 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Avatar, Box, Button, Container, Grid, Link, TextField, Typography} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import './sign-in.css';
 import {ISignIn} from "../../type";
-import {useAppDispatch} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {signIn} from "../../features/userThunk";
+import {useNavigate} from "react-router-dom";
 
 const SignIn = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const userToken = useAppSelector((state) => state.userState.user);
   const [state, setState] = useState<ISignIn>({
     username: '',
     password: '',
   });
+
+  useEffect(() => {
+    if (userToken) {
+      navigate('/form');
+    }
+  }, [navigate, userToken]);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target;
@@ -23,7 +32,11 @@ const SignIn = () => {
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(signIn(state));
+    try {
+      dispatch(signIn(state));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

@@ -2,3 +2,35 @@
   text-align: center;
   overflow-y: auto;
 }
+
+.MuiToolbar-root {
+  padding: 0 100px!important;
+}
+
+.MuiToolbar-root .MuiTypography-h6 {
+  text-transform: uppercase;
+}
+
+@media (max-width: 1024px) {
+  .MuiToolbar-root {
+    padding: 0 70px!important;
+  }
+}
+
+@media (max-width: 600px) {
+  .MuiToolbar-root {
+    padding: 0 40px!important;
+  }
+}
+
+@media (max-width: 400px) {
+  .MuiToolbar-root {
+    padding: 0 15px!important;
+  }
+
+  form {
+    width: 100%;
+    box-sizing: border-box;
+    max-width: unset;
+  }
+}

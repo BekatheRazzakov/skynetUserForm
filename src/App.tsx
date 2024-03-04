@@ -4,6 +4,7 @@ import Form, {IRegion} from "./containers/form/Form";
 import {SelectChangeEvent} from "@mui/material/Select";
 import SignUp from "./containers/signUp/SignUp";
 import SignIn from "./containers/signIn/SignIn";
+import AppToolbar from "./components/toolbar/Toolbar";
 
 export interface IState {
   handleChange?: (
@@ -48,6 +49,7 @@ export interface IState {
 const App = () => {
   return (
     <div>
+      <AppToolbar />
       <Routes>
         <Route path='form' element={<Form />} />
         <Route path='sign-up' element={<SignUp />} />

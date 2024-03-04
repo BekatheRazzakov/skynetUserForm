@@ -12,6 +12,8 @@ import axios from "axios";
 import {IState} from "../../App";
 import ConfirmFormModal from "../../components/confirmFormModal/ConfirmFormModal";
 import './form.css';
+import {useNavigate} from "react-router-dom";
+import {useAppSelector} from "../../app/hooks";
 
 export interface IRegion {
   ID: number;
@@ -54,6 +56,20 @@ const Form = () => {
   });
   const [currentImageInput, setCurrentImageInput] = useState('');
   const [confirmationReq, setConfirmationReq] = useState('');
+  const navigate = useNavigate();
+  const userToken = useAppSelector((state) => state.userState.user);
+
+  useEffect(() => {
+    void getRegions();
+    void getRegions2();
+    void getOrderStatusData();
+  }, []);
+
+  useEffect(() => {
+    if (!userToken) {
+      navigate('/sign-in');
+    }
+  }, [navigate, userToken]);
 
   const toggleConfirmation = () => {
     if (confirmationReq === 'open') {
@@ -145,7 +161,7 @@ const Form = () => {
   const getRegions = async () => {
     try {
       const res = await axios.get(
-        'http://10.1.9.122:8000/region_list/');
+        'http://10.1.2.10:8001/region_list/');
       const regions = await res.data;
       setRegions(regions);
     } catch (e) {
@@ -155,7 +171,7 @@ const Form = () => {
 
   const getRegions2 = async () => {
     try {
-      const res = await axios.get(`http://10.1.9.122:8000/bx/`);
+      const res = await axios.get(`http://10.1.2.10:8001/bx/`);
       setRegions2(res.data);
     } catch (e) {
       console.log(e);
@@ -169,7 +185,7 @@ const Form = () => {
   const getCities = async (parent_id: string) => {
     try {
       const res = await axios.get(
-        `http://10.1.9.122:8000/get_child/?parent_id=${parent_id}`);
+        `http://10.1.2.10:8001/get_child/?parent_id=${parent_id}`);
       const cities = await res.data;
       setCities(cities);
     } catch (e) {
@@ -180,7 +196,7 @@ const Form = () => {
   const getDistricts = async (parent_id: string) => {
     try {
       const res = await axios.get(
-        `http://10.1.9.122:8000/get_child/?parent_id=${parent_id}`);
+        `http://10.1.2.10:8001/get_child/?parent_id=${parent_id}`);
       const cities = await res.data;
       setDistricts(cities);
     } catch (e) {
@@ -191,7 +207,7 @@ const Form = () => {
   const getStreets = async (parent_id: string) => {
     try {
       const res = await axios.get(
-        `http://10.1.9.122:8000/get_child/?parent_id=${parent_id}`);
+        `http://10.1.2.10:8001/get_child/?parent_id=${parent_id}`);
       const cities = await res.data;
       setStreets(cities);
     } catch (e) {
@@ -202,7 +218,7 @@ const Form = () => {
   const getOrderStatusData = async () => {
     try {
       const res = await axios.get(
-        `http://10.1.9.122:8000/send-data-router/`);
+        `http://10.1.2.10:8001/send-data-router/`);
       const orderStatuses = await res.data[2];
       setOrderStatuses(orderStatuses.splice(0, 2));
 
@@ -248,12 +264,6 @@ const Form = () => {
     }
   };
 
-  useEffect(() => {
-    void getRegions();
-    void getRegions2();
-    void getOrderStatusData();
-  }, []);
-
   const locationFilled = () => {
     return Boolean(
       state.region?.name &&
@@ -272,10 +282,10 @@ const Form = () => {
 
   const orderStatus = () => {
     return Boolean(
-      state.orderStatus &&
-      state.routerInstallationType &&
-      state.tariff &&
-      state.superTv
+      state.orderStatus?.VALUE &&
+      state.routerInstallationType?.VALUE &&
+      state.tariff?.VALUE &&
+      state.superTv?.VALUE
     );
   };
 
@@ -289,11 +299,10 @@ const Form = () => {
 
   const clientInfoFilled = () => {
     return Boolean(
-      state.providerFrom &&
+      state.providerFrom?.VALUE &&
       state.username &&
       state.userSirName &&
-      state.userPhoneNumber &&
-      state.userAdditionalPhoneNumber
+      state.userPhoneNumber
     );
   };
 

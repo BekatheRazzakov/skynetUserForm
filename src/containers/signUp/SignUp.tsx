@@ -4,11 +4,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import './sign-up.css';
 import axios from "axios";
 import {ISignUp, ISupervizer} from "../../type";
-import {useAppDispatch} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {signUp} from "../../features/userThunk";
+import {useNavigate} from "react-router-dom";
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const userToken = useAppSelector((state) => state.userState.user);
   const [state, setState] = useState<ISignUp>({
     username: '',
     surname: '',
@@ -19,6 +22,16 @@ const SignUp = () => {
   });
   const [supervizers, setSupervizers] = useState<ISupervizer[]>([]);
   const [passwordError, setPasswordError] = useState('');
+
+  useEffect(() => {
+    void getSupervizers();
+  }, []);
+
+  useEffect(() => {
+    if (userToken) {
+      navigate('/form');
+    }
+  }, [navigate, userToken]);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target;
@@ -47,10 +60,6 @@ const SignUp = () => {
       console.log(e);
     }
   };
-
-  useEffect(() => {
-    void getSupervizers();
-  }, []);
 
   const getCurrentSupervizer = (name: string) => {
     return Number(supervizers.filter((item) => item.supervizer_surname === name)[0].id);

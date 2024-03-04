@@ -86,7 +86,7 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state}) => {
         // @ts-ignore
         body.address.street = data.street;
       }
-      await axios.post("http://10.1.9.122:8000/zayavka/", body);
+      await axios.post("http://10.1.2.10:8001/zayavka/", body);
       await sendAssets();
     } catch (e) {
       console.log(e);

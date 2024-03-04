@@ -17,18 +17,19 @@ export interface ISupervizer {
   supervizer_surname: string;
 }
 
-export interface IUser {
-  username: string;
-  token: string;
-}
-
 export interface IUserState {
-  user: IUser | null;
+  user: string;
   signUpLoading: boolean;
   signInLoading: boolean;
+  authorizationError: string;
+  authorizationMessage: string;
 }
 
 export interface ISignIn {
   username: string;
   password: string;
+}
+
+export interface ValidationError {
+  error: string;
 }
