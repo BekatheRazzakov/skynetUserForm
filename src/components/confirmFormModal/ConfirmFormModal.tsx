@@ -1,7 +1,9 @@
-import React, {FormEvent} from 'react';
+import React, {FormEvent, useState} from 'react';
 import './confirmFormModal.css';
 import {Box, Button, Typography} from "@mui/material";
 import axios from "axios";
+import {IRegion} from "../../containers/form/Form";
+import {LoadingButton} from "@mui/lab";
 
 interface IAssets {
   file1: File | null;
@@ -12,6 +14,7 @@ interface IAssets {
 interface IProps {
   toggleModal: () => void;
   state: string;
+  regions2: IRegion[];
   data: {
     region: { name: string; hydra_id: number; } | null;
     region2: string;
@@ -36,26 +39,42 @@ interface IProps {
   } | null
 }
 
-const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state}) => {
+const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state, regions2}) => {
+  const [assets, setAssets] = useState({
+    passport1: "",
+    passport2: "",
+    locationScreenShot: "",
+  });
+  const [sendDataLoading, setSendDataLoading] = useState(false);
+
   const sendAssets = async () => {
-    const assets: IAssets = {
-      file1: data?.passport || null,
-      file2: data?.passport2 || null,
-      file3: data?.locationScreenShot || null,
-    };
-    const formData = new FormData();
-    const keys = Object.keys(assets) as (keyof IAssets)[];
+    try {
+      const assets: IAssets = {
+        file1: data?.passport || null,
+        file2: data?.passport2 || null,
+        file3: data?.locationScreenShot || null,
+      };
+      const formData = new FormData();
+      const keys = Object.keys(assets) as (keyof IAssets)[];
 
-    keys.forEach((key) => {
-      const value = assets[key];
+      keys.forEach((key) => {
+        const value = assets[key];
 
-      if (value !== undefined && value !== null) {
-        // @ts-ignore
-        formData.append(key, value);
-      }
-    });
+        if (value !== undefined && value !== null) {
+          // @ts-ignore
+          formData.append(key, value);
+        }
+      });
 
-    await axios.post("http://10.1.9.122:8000/upload-passport/", formData);
+      const res = await axios.post("http://10.1.2.10:8001/upload-passport/", formData);
+      setAssets(() => ({
+        passport1: res.data.data[0].image_path,
+        passport2: res.data.data[1].image_path,
+        locationScreenShot: res.data.data[2].image_path,
+      }));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const onSubmit = async (e: FormEvent) => {
@@ -79,15 +98,24 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state}) => {
           region: data?.region,
           city: data?.city,
           district2: data?.district,
+        },
+        exactAddress: {
           address: data?.address,
         },
+        // @ts-ignore
+        region2: regions2.filter(region => region.VALUE === body.region2)[0],
+        assets,
       };
-      if (data?.street) {
+      if (data?.street?.name) {
         // @ts-ignore
         body.address.street = data.street;
       }
-      await axios.post("http://10.1.2.10:8001/zayavka/", body);
-      await sendAssets();
+      setSendDataLoading(true);
+      // await sendAssets();
+      setTimeout(() => {
+        void axios.post("http://10.1.2.10:8001/zayavka/", body)
+          .then(() => setSendDataLoading(true));
+      }, 500);
     } catch (e) {
       console.log(e);
     }
@@ -149,7 +177,11 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state}) => {
             <span>Лицевая сторона паспорта:</span>
             {
               data?.passport ?
-                <img src={data?.passport ? URL.createObjectURL(data.passport) : ''} alt="passport"/>
+                <img
+                  src={data?.passport ? URL.createObjectURL(data.passport) : ''}
+                  alt="passport"
+                  loading="lazy"
+                />
                 : '-'
             }
           </div>
@@ -157,7 +189,11 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state}) => {
             <span>Обратная сторона паспорта:</span>
             {
               data?.passport2 ?
-                <img src={data?.passport2 ? URL.createObjectURL(data.passport2) : ''} alt="passport"/>
+                <img
+                  src={data?.passport2 ? URL.createObjectURL(data.passport2) : ''}
+                  alt="passport"
+                  loading="lazy"
+                />
                 : '-'
             }
           </div>
@@ -165,7 +201,11 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state}) => {
             <span>Скриншот локации:</span>
             {
               data?.locationScreenShot ?
-                <img src={data?.locationScreenShot ? URL.createObjectURL(data.locationScreenShot) : ''} alt="passport"/>
+                <img
+                  src={data?.locationScreenShot ? URL.createObjectURL(data.locationScreenShot) : ''}
+                  alt="passport"
+                  loading="lazy"
+                />
                 : '-'
             }
           </div>
@@ -195,8 +235,15 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state}) => {
           </div>
         </div>
         <div className="confirm-form-buttons">
-          <Button variant="outlined" onClick={toggleModal}>Изменить данные</Button>
-          <Button variant="contained" type="submit">Подтвердить</Button>
+          <Button variant="outlined" onClick={toggleModal} disabled={sendDataLoading}>Изменить данные</Button>
+          <LoadingButton
+            loading={sendDataLoading}
+            disabled={sendDataLoading}
+            variant="contained"
+            type="submit"
+          >
+            <span>Подтвердить</span>
+          </LoadingButton>
         </div>
       </Box>
     </div>

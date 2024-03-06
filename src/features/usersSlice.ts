@@ -13,7 +13,11 @@ const initialState: IUserState = {
 const UsersSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.user = '';
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(signUp.pending, (state) => {
       state.user = '';
@@ -46,4 +50,4 @@ const UsersSlice = createSlice({
 });
 
 export const userReducer = UsersSlice.reducer;
-export const {} = UsersSlice.actions;
+export const {logout} = UsersSlice.actions;

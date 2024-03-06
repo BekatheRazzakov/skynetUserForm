@@ -55,8 +55,10 @@
   padding: 16px 0 0 16px;
 }
 
-.image-labels {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.76);
+.image-labels img {
+  object-fit: contain;
+  max-height: 65px;
+  max-width: 100px;
 }
 
 .image-labels,

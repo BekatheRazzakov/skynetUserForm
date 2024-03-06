@@ -10,31 +10,31 @@ export interface IState {
   handleChange?: (
     e: SelectChangeEvent | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     obj?: { name: string; hydra_id: number; } | null,
-    dist?: { VALUE: string; ID: number; } | null,
+    dist?: { VALUE: string; ID: string; } | null,
   ) => void;
   handleImageChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   regions?: { name: string; hydra_id: number; }[];
-  regions2?: string[];
+  regions2?: { VALUE: string; ID: string; }[];
   cities?: { name: string; hydra_id: number; }[];
   districts?: { name: string; hydra_id: number; }[];
-  districts2?: { VALUE: string; ID: number; }[];
+  districts2?: { VALUE: string; ID: string; }[];
   streets?: { name: string; hydra_id: number; }[];
   region?: { name: string; hydra_id: number; } | null;
   region2?: string;
   city?: { name: string; hydra_id: number; } | null;
   district?: { name: string; hydra_id: number; } | null;
-  district2?: { VALUE: string; ID: number; } | null;
+  district2?: { VALUE: string; ID: string; };
   street?: { name: string; hydra_id: number; } | null;
   address?: string;
-  orderStatus?: { VALUE: string; ID: number; } | null;
-  routerInstallationType?: { VALUE: string; ID: number; } | null;
-  tariff?: { VALUE: string; ID: number; } | null;
-  superTv?: { VALUE: string; ID: number; } | null;
+  orderStatus?: { VALUE: string; ID: string; };
+  routerInstallationType?: { VALUE: string; ID: string; };
+  tariff?: { VALUE: string; ID: string; };
+  superTv?: { VALUE: string; ID: string; };
   passport?: File | null;
   passport2?: File | null;
   locationScreenShot?: File | null;
   description?: string;
-  providerFrom?: { VALUE: string; ID: number; } | null;
+  providerFrom?: { VALUE: string; ID: string; };
   username?: string;
   userSirName?: string;
   userPhoneNumber?: string;
@@ -49,11 +49,11 @@ export interface IState {
 const App = () => {
   return (
     <div>
-      <AppToolbar />
+      <AppToolbar/>
       <Routes>
-        <Route path='form' element={<Form />} />
-        <Route path='sign-up' element={<SignUp />} />
-        <Route path='sign-in' element={<SignIn />} />
+        <Route path='form' element={<Form/>}/>
+        <Route path='sign-up' element={<SignUp/>}/>
+        <Route path='sign-in' element={<SignIn/>}/>
       </Routes>
     </div>
   );

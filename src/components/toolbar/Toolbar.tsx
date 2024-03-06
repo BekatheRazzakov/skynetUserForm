@@ -10,9 +10,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import {useLocation} from "react-router-dom";
 import '../../App.css';
-import {useAppSelector} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {logout} from "../../features/usersSlice";
 
 const AppToolbar = () => {
+  const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const location = useLocation();
   const userToken = useAppSelector((state) => state.userState.user);
@@ -64,7 +66,7 @@ const AppToolbar = () => {
             >
               {
                 userToken ?
-                  <MenuItem onClick={handleClose}>Выйти из аккантуа</MenuItem>
+                  <MenuItem onClick={() => dispatch(logout())}>Выйти из аккантуа</MenuItem>
                   :
                   <>
                     <MenuItem onClick={handleClose}>Логин</MenuItem>

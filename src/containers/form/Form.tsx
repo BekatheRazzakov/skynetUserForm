@@ -16,7 +16,7 @@ import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../app/hooks";
 
 export interface IRegion {
-  ID: number;
+  ID: string;
   VALUE: string;
 }
 
@@ -27,6 +27,7 @@ interface IRegions {
 const Form = () => {
   const [regions, setRegions] = useState([]);
   const [regions2, setRegions2] = useState<IRegions>({});
+  const [regions2List, setRegions2List] = useState<IRegion[]>([]);
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [districts2, setDistricts2] = useState<IRegion[]>([]);
@@ -42,13 +43,13 @@ const Form = () => {
     region2: "",
     city: {name: "", hydra_id: -1,},
     district: {name: "", hydra_id: -1,},
-    district2: {VALUE: "", ID: -1,},
+    district2: {VALUE: "", ID: "",},
     address: "",
-    orderStatus: {VALUE: "", ID: -1,},
-    routerInstallationType: {VALUE: "", ID: -1,},
-    tariff: {VALUE: "", ID: -1,},
-    superTv: {VALUE: "", ID: -1,},
-    providerFrom: {VALUE: "", ID: -1,},
+    orderStatus: {VALUE: "", ID: "",},
+    routerInstallationType: {VALUE: "", ID: "",},
+    tariff: {VALUE: "", ID: "",},
+    superTv: {VALUE: "", ID: "",},
+    providerFrom: {VALUE: "", ID: "",},
     passport: null,
     passport2: null,
     locationScreenShot: null,
@@ -67,22 +68,14 @@ const Form = () => {
 
   useEffect(() => {
     if (!userToken) {
-      navigate('/sign-in');
+      // navigate('/sign-in');
     }
   }, [navigate, userToken]);
-
-  const toggleConfirmation = () => {
-    if (confirmationReq === 'open') {
-      setConfirmationReq('closed');
-    } else if (confirmationReq === 'closed' || confirmationReq === '') {
-      setConfirmationReq('open');
-    }
-  };
 
   const handleChange = (
     event: SelectChangeEvent | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     obj?: { name: string; hydra_id: number; } | null,
-    dist?: { VALUE: string; ID: number; } | null,
+    dist?: { VALUE: string; ID: string; } | null,
   ) => {
     const {name, value} = event.target;
     setState((prevState) => ({
@@ -92,7 +85,8 @@ const Form = () => {
         name === 'city' ||
         name === 'district' ||
         name === 'street' ?
-          obj : name === 'district2' ||
+          obj :
+          name === 'district2' ||
           name === 'orderStatus' ||
           name === 'routerInstallationType' ||
           name === 'superTv' ||
@@ -118,13 +112,21 @@ const Form = () => {
         street: {name: '', hydra_id: -1},
       }));
       void getStreets(obj?.hydra_id.toString() || '');
-    } else if (name === 'region2') {
+    } else if (name === 'region2' && dist) {
       setState((prevState) => ({
         ...prevState,
-        district2: {VALUE: '', ID: -1},
+        district2: {VALUE: '', ID: ""},
       }));
-      const dists = getRegions2Districts(value);
+      const dists = getRegions2Districts(dist?.VALUE);
       setDistricts2(dists);
+    }
+  };
+
+  const toggleConfirmation = () => {
+    if (confirmationReq === 'open') {
+      setConfirmationReq('closed');
+    } else if (confirmationReq === 'closed' || confirmationReq === '') {
+      setConfirmationReq('open');
     }
   };
 
@@ -134,7 +136,9 @@ const Form = () => {
     if (
       file && (
         file.name.slice(-4) === '.jpg' ||
-        file.name.slice(-4) === '.jpeg' ||
+        file.name.slice(-4) === '.PNG' ||
+        file.name.slice(-5) === '.JPEG' ||
+        file.name.slice(-5) === '.jpeg' ||
         file.name.slice(-4) === '.png'
       )) {
       setState((prevState) => ({
@@ -179,7 +183,13 @@ const Form = () => {
   };
 
   const getRegions2Districts = (name: string) => {
-    return regions2[name];
+    let dists: IRegion[] = [];
+    Object.keys(regions2).forEach((regionName) => {
+      if (name.includes(regionName)) {
+        dists = [...dists, ...regions2[regionName]]
+      }
+    });
+    return dists;
   };
 
   const getCities = async (parent_id: string) => {
@@ -219,16 +229,16 @@ const Form = () => {
     try {
       const res = await axios.get(
         `http://10.1.2.10:8001/send-data-router/`);
-      const orderStatuses = await res.data[2];
+      const orderStatuses = await res.data[3];
       setOrderStatuses(orderStatuses.splice(0, 2));
 
-      const superTvs = await res.data[4];
+      const superTvs = await res.data[5];
       setSuperTvs(superTvs);
 
-      const routerInstallations = await res.data[1];
+      const routerInstallations = await res.data[2];
       setRouterInstallations(routerInstallations.filter((item: IRegion) => item.VALUE !== 'Да выкуп'));
 
-      const tariffs = await res.data[0].map((item: IRegion) => {
+      const tariffs = await res.data[1].map((item: IRegion) => {
         if (
           item.VALUE === 'Оптимальный (600)' ||
           item.VALUE === 'Sky70 (890)' ||
@@ -241,7 +251,7 @@ const Form = () => {
       });
       setTariffs(tariffs.filter((item: IRegion) => item));
 
-      const providersFrom = await res.data[3].map((item: IRegion) => {
+      const providersFrom = await res.data[4].map((item: IRegion) => {
         if (
           item.VALUE.includes('Aknet') ||
           item.VALUE.includes('Saima Telecom') ||
@@ -259,6 +269,7 @@ const Form = () => {
         }
       });
       setProvidersFrom(providersFrom.filter((item: IRegion) => item));
+      setRegions2List(res.data[0]);
     } catch (e) {
       console.log(e);
     }
@@ -338,8 +349,8 @@ const Form = () => {
       </Box>
       <Box className="form" component="form" onSubmit={(e) => {
         e.preventDefault();
+        toggleConfirmation();
         if (locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled()) {
-          toggleConfirmation();
         }
       }}>
         {currentForm === 1 && <Location
@@ -355,10 +366,10 @@ const Form = () => {
           handleChange={handleChange}
         />}
         {currentForm === 2 && <Location2
-          regions2={Object.keys(regions2)}
-          districts2={districts2}
           region2={state.region2}
           district2={state.district2}
+          regions2={regions2List}
+          districts2={districts2}
           handleChange={handleChange}
         />}
         {currentForm === 3 && <OrderStatus
@@ -453,15 +464,15 @@ const Form = () => {
           />
         }
         {
-          locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() &&
+          // locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() &&
           <Button
             className='confirm-form-button'
             type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}
           >
             {
-              locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?
-                'Подтвердить'
-                : 'Заполните все поля'
+              // locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?
+              'Подтвердить'
+              // : 'Заполните все поля'
             }
           </Button>
         }
@@ -471,6 +482,7 @@ const Form = () => {
         data={state}
         state={confirmationReq}
         toggleModal={toggleConfirmation}
+        regions2={regions2List}
       />
     </div>
   );

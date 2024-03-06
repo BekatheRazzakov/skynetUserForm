@@ -41,26 +41,33 @@ const FileInput: React.FC<Props> = (
             {
               file ?
                 <Typography className="image-labels">
-                  <Button
-                    className="delete-image"
-                    variant="outlined"
-                    startIcon={<DeleteIcon/>}
-                    onClick={() => {
-                      if (removeImage) {
-                        removeImage(currentImageInput);
-                      }
-                    }}
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={label}
+                    loading="lazy"
                   />
-                  {file.name}
                 </Typography> : label
             }
           </Box>
         </Grid>
 
-        <Grid item>
-          <Button variant="contained" onClick={activateInput} style={{fontSize: '10px'}}>
-            Загрузить
-          </Button>
+        <Grid item style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'stretch' }}>
+          {
+            !file ?
+              <Button variant="contained" onClick={activateInput} style={{fontSize: '10px'}}>
+                Загрузить
+              </Button> :
+              <Button
+                className="delete-image"
+                variant="outlined"
+                startIcon={<DeleteIcon/>}
+                onClick={() => {
+                  if (removeImage) {
+                    removeImage(currentImageInput);
+                  }
+                }}
+              />
+          }
         </Grid>
       </Grid>
     </>

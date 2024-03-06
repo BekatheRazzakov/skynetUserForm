@@ -6,7 +6,7 @@ export const signUp = createAsyncThunk<
   ISignUpRes,
   ISignUp,
   { rejectValue: ValidationError }
->("user/signUp", async (userData, { rejectWithValue }) => {
+>("user/signUp", async (userData, {rejectWithValue}) => {
   try {
     const response = await axios.post<ISignUpRes>("http://10.1.2.10:8001/register/", userData);
     return response.data;
@@ -22,7 +22,7 @@ export const signIn = createAsyncThunk<
   ISignUpRes,
   ISignIn,
   { rejectValue: ValidationError }
->("user/signIn", async (userData, { rejectWithValue }) => {
+>("user/signIn", async (userData, {rejectWithValue}) => {
   try {
     const response = await axios.post<ISignUpRes>("http://10.1.2.10:8001/login/", userData);
     return response.data;
