@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import '../../App.css';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {logout} from "../../features/usersSlice";
@@ -33,7 +33,7 @@ const AppToolbar = () => {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
             {
-              location.pathname === '/form' ? 'Форма' :
+              location.pathname === '/form' ? 'Создание заявки' :
                 location.pathname === '/sign-in' ? 'Логин' :
                   location.pathname === '/sign-up' ? 'Регистрация' : ''
             }
@@ -69,8 +69,12 @@ const AppToolbar = () => {
                   <MenuItem onClick={() => dispatch(logout())}>Выйти из аккантуа</MenuItem>
                   :
                   <>
-                    <MenuItem onClick={handleClose}>Логин</MenuItem>
-                    <MenuItem onClick={handleClose}>Регистрация</MenuItem>
+                    <Link to="/sign-in">
+                      <MenuItem onClick={handleClose}>Логин</MenuItem>
+                    </Link>
+                    <Link to="/sign-up">
+                      <MenuItem onClick={handleClose}>Регистрация</MenuItem>
+                    </Link>
                   </>
               }
             </Menu>

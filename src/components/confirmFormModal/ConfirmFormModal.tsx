@@ -4,6 +4,7 @@ import {Box, Button, Typography} from "@mui/material";
 import axios from "axios";
 import {IRegion} from "../../containers/form/Form";
 import {LoadingButton} from "@mui/lab";
+import axiosApi from "../../axiosApi";
 
 interface IAssets {
   file1: File | null;
@@ -104,6 +105,8 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state, regions2}
         },
         // @ts-ignore
         region2: regions2.filter(region => region.VALUE === body.region2)[0],
+        userPhoneNumber: `996${data?.userPhoneNumber}`,
+        userAdditionalPhoneNumber: `996${data?.userAdditionalPhoneNumber}`,
         assets,
       };
       if (data?.street?.name) {
@@ -111,10 +114,10 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state, regions2}
         body.address.street = data.street;
       }
       setSendDataLoading(true);
-      // await sendAssets();
+      await sendAssets();
       setTimeout(() => {
-        void axios.post("http://10.1.2.10:8001/zayavka/", body)
-          .then(() => setSendDataLoading(true));
+        void axiosApi.post("http://10.1.2.10:8001/zayavka/", body)
+          .then(() => setSendDataLoading(false));
       }, 500);
     } catch (e) {
       console.log(e);
@@ -237,8 +240,8 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state, regions2}
         <div className="confirm-form-buttons">
           <Button variant="outlined" onClick={toggleModal} disabled={sendDataLoading}>Изменить данные</Button>
           <LoadingButton
-            loading={sendDataLoading}
-            disabled={sendDataLoading}
+            // loading={sendDataLoading}
+            // disabled={sendDataLoading}
             variant="contained"
             type="submit"
           >

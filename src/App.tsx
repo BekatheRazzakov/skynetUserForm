@@ -44,6 +44,7 @@ export interface IState {
   tariffs?: IRegion[];
   providersFrom?: IRegion[];
   superTvs?: IRegion[];
+  domoPhone?: string;
 }
 
 const App = () => {

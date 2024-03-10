@@ -7,7 +7,7 @@ import Select from '@mui/material/Select';
 import {IState} from "../../App";
 
 const AboutUser: React.FC<IState> = (
-  {providerFrom, providersFrom, username, userSirName, userPhoneNumber, userAdditionalPhoneNumber, handleChange}
+  {providerFrom, providersFrom, username, userSirName, userPhoneNumber, userAdditionalPhoneNumber, domoPhone, handleChange}
 ) => {
   const getCurrentChoice = (value: string) => {
     return providersFrom?.filter(item => item.VALUE === value)[0];
@@ -49,7 +49,6 @@ const AboutUser: React.FC<IState> = (
             <FormControl fullWidth className="form-control">
               <TextField
                 id="outlined-multiline-flexible"
-                maxRows={4}
                 value={username}
                 label="Имя абонента"
                 name="username"
@@ -73,11 +72,15 @@ const AboutUser: React.FC<IState> = (
             <FormControl fullWidth className="form-control">
               <TextField
                 id="outlined-multiline-flexible"
-                maxRows={4}
                 value={userPhoneNumber}
-                label="Основной номер телефона в формате: 555112233"
+                label="Основной номер телефона"
                 name="userPhoneNumber"
                 onChange={handleChange}
+                inputProps={{maxLength: 9}}
+                helperText={
+                  userPhoneNumber &&
+                  userPhoneNumber?.length < 9 && 'Формат: 700555333'
+                }
               />
             </FormControl>
           </Grid>
@@ -85,11 +88,40 @@ const AboutUser: React.FC<IState> = (
             <FormControl fullWidth className="form-control">
               <TextField
                 id="outlined-multiline-flexible"
-                maxRows={4}
                 value={userAdditionalPhoneNumber}
-                label="Доп. номер телефона в формате: 555112233"
+                label="Доп. номер телефона"
                 name="userAdditionalPhoneNumber"
                 onChange={handleChange}
+                inputProps={{maxLength: 9}}
+                helperText={
+                  userAdditionalPhoneNumber &&
+                  userAdditionalPhoneNumber?.length < 9 ? 'Формат: 700555333' :
+                    userAdditionalPhoneNumber && userAdditionalPhoneNumber === userPhoneNumber ?
+                      'Основной и доп. номера не должны быть похожими' : ''
+                }
+                error={userAdditionalPhoneNumber &&
+                userAdditionalPhoneNumber?.length > 0 ? userAdditionalPhoneNumber === userPhoneNumber : false}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth className="form-control">
+              <TextField
+                id="outlined-multiline-flexible"
+                value={domoPhone}
+                label="Лицевой счёт домофона"
+                name="domoPhone"
+                onChange={handleChange}
+                type="number"
+                // inputProps={{maxLength: 9}}
+                // helperText={
+                //   userAdditionalPhoneNumber &&
+                //   userAdditionalPhoneNumber?.length < 9 ? 'Формат: 700555333' :
+                //     userAdditionalPhoneNumber && userAdditionalPhoneNumber === userPhoneNumber ?
+                //       'Основной и доп. номера не должны быть похожими' : ''
+                // }
+                // error={userAdditionalPhoneNumber &&
+                // userAdditionalPhoneNumber?.length > 0 ? userAdditionalPhoneNumber === userPhoneNumber : false}
               />
             </FormControl>
           </Grid>

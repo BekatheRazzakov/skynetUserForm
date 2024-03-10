@@ -3,6 +3,11 @@
   overflow-y: auto;
 }
 
+#menu-appbar a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .MuiToolbar-root {
   padding: 0 100px!important;
 }

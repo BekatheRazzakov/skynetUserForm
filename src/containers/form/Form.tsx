@@ -8,12 +8,12 @@ import {SelectChangeEvent} from "@mui/material/Select";
 import FileInput from "../../components/FileInput/FileInput";
 import AboutUser from "../../components/aboutUser/aboutUser";
 import Location2 from "../../components/location2/location2";
-import axios from "axios";
 import {IState} from "../../App";
 import ConfirmFormModal from "../../components/confirmFormModal/ConfirmFormModal";
 import './form.css';
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../app/hooks";
+import axiosApi from "../../axiosApi";
 
 export interface IRegion {
   ID: string;
@@ -54,6 +54,7 @@ const Form = () => {
     passport2: null,
     locationScreenShot: null,
     description: "",
+    domoPhone: "",
   });
   const [currentImageInput, setCurrentImageInput] = useState('');
   const [confirmationReq, setConfirmationReq] = useState('');
@@ -68,7 +69,7 @@ const Form = () => {
 
   useEffect(() => {
     if (!userToken) {
-      // navigate('/sign-in');
+      navigate('/sign-in');
     }
   }, [navigate, userToken]);
 
@@ -92,7 +93,11 @@ const Form = () => {
           name === 'superTv' ||
           name === 'providerFrom' ||
           name === 'tariff' ?
-            dist : value,
+            dist :
+      name === 'userPhoneNumber' ||
+      name === 'domoPhone' ||
+      name === 'userAdditionalPhoneNumber' ?
+        formatPhoneNumber(value) : value,
     }));
     if (name === 'region') {
       setState((prevState) => ({
@@ -155,6 +160,10 @@ const Form = () => {
     }
   };
 
+  const formatPhoneNumber = (phoneNum: string) => {
+    return phoneNum.replace(/\D/g, '');
+  }
+
   const removeImage = (key: string) => {
     setState((prevState) => ({
       ...prevState,
@@ -164,7 +173,7 @@ const Form = () => {
 
   const getRegions = async () => {
     try {
-      const res = await axios.get(
+      const res = await axiosApi.get(
         'http://10.1.2.10:8001/region_list/');
       const regions = await res.data;
       setRegions(regions);
@@ -175,7 +184,7 @@ const Form = () => {
 
   const getRegions2 = async () => {
     try {
-      const res = await axios.get(`http://10.1.2.10:8001/bx/`);
+      const res = await axiosApi.get(`http://10.1.2.10:8001/bx/`);
       setRegions2(res.data);
     } catch (e) {
       console.log(e);
@@ -194,7 +203,7 @@ const Form = () => {
 
   const getCities = async (parent_id: string) => {
     try {
-      const res = await axios.get(
+      const res = await axiosApi.get(
         `http://10.1.2.10:8001/get_child/?parent_id=${parent_id}`);
       const cities = await res.data;
       setCities(cities);
@@ -205,7 +214,7 @@ const Form = () => {
 
   const getDistricts = async (parent_id: string) => {
     try {
-      const res = await axios.get(
+      const res = await axiosApi.get(
         `http://10.1.2.10:8001/get_child/?parent_id=${parent_id}`);
       const cities = await res.data;
       setDistricts(cities);
@@ -216,7 +225,7 @@ const Form = () => {
 
   const getStreets = async (parent_id: string) => {
     try {
-      const res = await axios.get(
+      const res = await axiosApi.get(
         `http://10.1.2.10:8001/get_child/?parent_id=${parent_id}`);
       const cities = await res.data;
       setStreets(cities);
@@ -227,7 +236,7 @@ const Form = () => {
 
   const getOrderStatusData = async () => {
     try {
-      const res = await axios.get(
+      const res = await axiosApi.get(
         `http://10.1.2.10:8001/send-data-router/`);
       const orderStatuses = await res.data[3];
       setOrderStatuses(orderStatuses.splice(0, 2));
@@ -313,7 +322,10 @@ const Form = () => {
       state.providerFrom?.VALUE &&
       state.username &&
       state.userSirName &&
-      state.userPhoneNumber
+      state.userPhoneNumber &&
+      state.userAdditionalPhoneNumber &&
+      state.domoPhone &&
+      (state.userPhoneNumber !== state.userAdditionalPhoneNumber)
     );
   };
 
@@ -338,10 +350,10 @@ const Form = () => {
           variant="contained"
           endIcon={<ArrowForwardIosIcon/>}
           disabled={
-            (currentForm === 1 && !locationFilled()) ||
-            (currentForm === 2 && !location2Filled()) ||
-            (currentForm === 3 && !orderStatus()) ||
-            (currentForm === 4 && !assets()) ||
+            // (currentForm === 1 && !locationFilled()) ||
+            // (currentForm === 2 && !location2Filled()) ||
+            // (currentForm === 3 && !orderStatus()) ||
+            // (currentForm === 4 && !assets()) ||
             currentForm === 6
           }
           onClick={() => setCurrentForm(currentForm + 1)}
@@ -459,6 +471,7 @@ const Form = () => {
             username={state.username}
             userSirName={state.userSirName}
             userPhoneNumber={state.userPhoneNumber}
+            domoPhone={state.domoPhone}
             userAdditionalPhoneNumber={state.userAdditionalPhoneNumber}
             handleChange={handleChange}
           />
