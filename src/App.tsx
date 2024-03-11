@@ -45,6 +45,12 @@ export interface IState {
   providersFrom?: IRegion[];
   superTvs?: IRegion[];
   domoPhone?: string;
+  regionsLoading?: boolean;
+  regions2Loading?: boolean;
+  citiesLoading?: boolean;
+  districtsLoading?: boolean;
+  districts2Loading?: boolean;
+  streetsLoading?: boolean;
 }
 
 const App = () => {

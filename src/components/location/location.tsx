@@ -7,7 +7,10 @@ import Select from '@mui/material/Select';
 import {IState} from "../../App";
 
 const Location: React.FC<IState> = (
-  {regions, cities, districts, streets, region, city, district, street, address, handleChange}
+  {
+    regions, cities, districts, streets, regionsLoading, citiesLoading,
+    districtsLoading, streetsLoading, region, city, district, street, address, handleChange
+  }
 ) => {
   const getCurrentRegion = (name: string) => {
     return regions?.filter(region => region.name === name)[0] || null;
@@ -49,9 +52,12 @@ const Location: React.FC<IState> = (
                 }}
               >
                 {
-                  regions?.map((location, i) => (
-                    <MenuItem value={location.name} key={i}>{location.name}</MenuItem>
-                  ))
+                  regionsLoading ?
+                    <MenuItem>Загрузка...</MenuItem>
+                    :
+                    regions?.map((location, i) => (
+                      <MenuItem value={location.name} key={i}>{location.name}</MenuItem>
+                    ))
                 }
               </Select>
             </FormControl>
@@ -70,9 +76,12 @@ const Location: React.FC<IState> = (
                   }}
                 >
                   {
-                    cities?.map((location, index) => (
-                      <MenuItem value={location.name} key={index}>{location.name}</MenuItem>
-                    ))
+                    citiesLoading ?
+                      <MenuItem>Загрузка...</MenuItem>
+                      :
+                      cities?.map((location, index) => (
+                        <MenuItem value={location.name} key={index}>{location.name}</MenuItem>
+                      ))
                   }
                 </Select>
               </FormControl>
@@ -94,6 +103,8 @@ const Location: React.FC<IState> = (
                     target: {name: 'district'}
                     // @ts-ignore
                   }, getCurrentDistrict(e.target.innerHTML))}
+                loading={districtsLoading}
+                loadingText="Загрузка..."
                 renderInput={(params) => <TextField {...params} label="Мкр/ж-в/улица"/>}
               />
             </Grid>
@@ -114,6 +125,8 @@ const Location: React.FC<IState> = (
                     target: {name: 'street'}
                     // @ts-ignore
                   }, getCurrentStreet(e.target.innerHTML))}
+                loading={streetsLoading}
+                loadingText="Загрузка..."
                 renderInput={(params) => <TextField {...params} label="Улица"/>}
               />
             </Grid>

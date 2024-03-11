@@ -1,0 +1,129 @@
+.confirm-res-modal-,
+.confirm-res-modal-open,
+.confirm-res-modal-closed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.confirm-res-modal-open {
+  height: 100%;
+  opacity: 1;
+  transform: scale(1);
+  animation: popup .2s linear;
+}
+
+.confirm-res-modal-closed {
+  height: 0;
+  opacity: 0;
+  transform: scale(1.07);
+  animation: popupClose .15s linear;
+}
+
+.confirm-modal-inner {
+  width: 450px;
+  padding: 20px 10px;
+  background-color: white;
+  border-radius: 12px;
+  margin: 0 10px;
+}
+
+.confirm-modal-inner h6 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.data-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+  max-height: 450px;
+  min-height: 100px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.data-line {
+  display: flex;
+  flex-wrap: nowrap;
+  border-radius: 15px;
+  padding: 8px 10px;
+  background-color: #FFF;
+  text-align: left;
+}
+
+.data-line img {
+  max-height: 40px;
+}
+
+.data-line span:nth-child(1) {
+  width: 50%;
+  margin-right: 5px;
+}
+
+.data-line span:nth-child(2) {
+  flex-grow: 1;
+}
+
+.confirm-form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px auto 0;
+}
+
+@media (max-width: 400px) {
+  .data-list {
+    max-height: 350px;
+  }
+
+  .data-line span {
+    font-size: 14px;
+  }
+
+  .confirm-form-buttons button {
+    font-size: 10px;
+  }
+}
+
+@keyframes popup {
+  0% {
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.07);
+  }
+  80% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  100% {
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes popupClose {
+  0% {
+    height: 100%;
+    opacity: 1;
+    transform: scale(1);
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.07);
+  }
+}

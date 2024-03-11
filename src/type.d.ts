@@ -23,6 +23,10 @@ export interface IUserState {
   signInLoading: boolean;
   authorizationError: string;
   authorizationMessage: string;
+  zayavkaRes: {
+    hydra_ls: string;
+    dogovor: string;
+  } | null;
 }
 
 export interface ISignIn {

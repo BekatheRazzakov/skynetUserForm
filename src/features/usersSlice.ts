@@ -8,6 +8,7 @@ const initialState: IUserState = {
   signUpLoading: false,
   authorizationError: "",
   authorizationMessage: "",
+  zayavkaRes: null,
 };
 
 const UsersSlice = createSlice({
@@ -16,7 +17,10 @@ const UsersSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = '';
-    }
+    },
+    setZayavkaRes: (state, action) => {
+      state.zayavkaRes = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signUp.pending, (state) => {
@@ -50,4 +54,4 @@ const UsersSlice = createSlice({
 });
 
 export const userReducer = UsersSlice.reducer;
-export const {logout} = UsersSlice.actions;
+export const {logout, setZayavkaRes} = UsersSlice.actions;

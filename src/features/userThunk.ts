@@ -1,6 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import axios, {isAxiosError} from "axios";
+import {isAxiosError} from "axios";
 import {ISignIn, ISignUp, ISignUpRes, ValidationError} from "../type";
+import axiosApi from "../axiosApi";
 
 export const signUp = createAsyncThunk<
   ISignUpRes,
@@ -8,7 +9,7 @@ export const signUp = createAsyncThunk<
   { rejectValue: ValidationError }
 >("user/signUp", async (userData, {rejectWithValue}) => {
   try {
-    const response = await axios.post<ISignUpRes>("http://10.1.2.10:8001/register/", userData);
+    const response = await axiosApi.post<ISignUpRes>("/register/", userData);
     return response.data;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
@@ -24,7 +25,7 @@ export const signIn = createAsyncThunk<
   { rejectValue: ValidationError }
 >("user/signIn", async (userData, {rejectWithValue}) => {
   try {
-    const response = await axios.post<ISignUpRes>("http://10.1.2.10:8001/login/", userData);
+    const response = await axiosApi.post<ISignUpRes>("/login/", userData);
     return response.data;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {

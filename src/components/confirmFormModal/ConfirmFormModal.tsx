@@ -1,10 +1,11 @@
 import React, {FormEvent, useState} from 'react';
-import './confirmFormModal.css';
 import {Box, Button, Typography} from "@mui/material";
-import axios from "axios";
 import {IRegion} from "../../containers/form/Form";
 import {LoadingButton} from "@mui/lab";
 import axiosApi from "../../axiosApi";
+import {useAppDispatch} from "../../app/hooks";
+import {setZayavkaRes} from "../../features/usersSlice";
+import './confirmFormModal.css';
 
 interface IAssets {
   file1: File | null;
@@ -14,6 +15,7 @@ interface IAssets {
 
 interface IProps {
   toggleModal: () => void;
+  toggleResModal: () => void;
   state: string;
   regions2: IRegion[];
   data: {
@@ -40,7 +42,8 @@ interface IProps {
   } | null
 }
 
-const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state, regions2}) => {
+const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, state, regions2}) => {
+  const dispatch = useAppDispatch();
   const [assets, setAssets] = useState({
     passport1: "",
     passport2: "",
@@ -67,7 +70,7 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state, regions2}
         }
       });
 
-      const res = await axios.post("http://10.1.2.10:8001/upload-passport/", formData);
+      const res = await axiosApi.post("/upload-passport/", formData);
       setAssets(() => ({
         passport1: res.data.data[0].image_path,
         passport2: res.data.data[1].image_path,
@@ -114,11 +117,13 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state, regions2}
         body.address.street = data.street;
       }
       setSendDataLoading(true);
-      await sendAssets();
-      setTimeout(() => {
-        void axiosApi.post("http://10.1.2.10:8001/zayavka/", body)
-          .then(() => setSendDataLoading(false));
-      }, 500);
+      sendAssets().then(async () => {
+        const res = await axiosApi.post("/z/", body);
+        dispatch(setZayavkaRes(res.data));
+        setSendDataLoading(false);
+        toggleModal();
+        toggleResModal();
+      });
     } catch (e) {
       console.log(e);
     }
@@ -240,8 +245,8 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state, regions2}
         <div className="confirm-form-buttons">
           <Button variant="outlined" onClick={toggleModal} disabled={sendDataLoading}>Изменить данные</Button>
           <LoadingButton
-            // loading={sendDataLoading}
-            // disabled={sendDataLoading}
+            loading={sendDataLoading}
+            disabled={sendDataLoading}
             variant="contained"
             type="submit"
           >
@@ -253,4 +258,4 @@ const ConfirmFormModal: React.FC<IProps> = ({data, toggleModal, state, regions2}
   );
 };
 
-export default ConfirmFormModal;
+export default ConfirmResModal;

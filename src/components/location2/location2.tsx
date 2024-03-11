@@ -7,7 +7,7 @@ import Select from '@mui/material/Select';
 import {IState} from "../../App";
 
 const Location: React.FC<IState> = (
-  {regions2, districts2, region2, district2, handleChange}
+  {regions2, districts2, region2, district2, regions2Loading, districts2Loading, handleChange}
 ) => {
   const getCurrentRegion = (name: string) => {
     return regions2?.filter(region => region.VALUE === name)[0] || null;
@@ -37,13 +37,16 @@ const Location: React.FC<IState> = (
                 value={region2}
                 label="Регион"
                 name="region2"
-                onChange={(e) => handleChange ? handleChange(e,null, getCurrentRegion(e.target.value)) : () => {
+                onChange={(e) => handleChange ? handleChange(e, null, getCurrentRegion(e.target.value)) : () => {
                 }}
               >
                 {
-                  regions2?.map((location, i) => (
-                    <MenuItem value={location.VALUE} key={i}>{location.VALUE}</MenuItem>
-                  ))
+                  regions2Loading ?
+                    <MenuItem>Загрузка...</MenuItem>
+                    :
+                    regions2?.map((location, i) => (
+                      <MenuItem value={location.VALUE} key={i}>{location.VALUE}</MenuItem>
+                    ))
                 }
               </Select>
             </FormControl>
@@ -64,6 +67,8 @@ const Location: React.FC<IState> = (
                     target: {name: 'district2'}
                     // @ts-ignore
                   }, null, getCurrentDistrict(e.target.innerHTML))}
+                loading={districts2Loading}
+                loadingText="Загрузка..."
                 renderInput={(params) => <TextField {...params} label="Район"/>}
               />
             </Grid>

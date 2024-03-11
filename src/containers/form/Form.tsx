@@ -8,12 +8,13 @@ import {SelectChangeEvent} from "@mui/material/Select";
 import FileInput from "../../components/FileInput/FileInput";
 import AboutUser from "../../components/aboutUser/aboutUser";
 import Location2 from "../../components/location2/location2";
-import {IState} from "../../App";
 import ConfirmFormModal from "../../components/confirmFormModal/ConfirmFormModal";
 import './form.css';
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../app/hooks";
 import axiosApi from "../../axiosApi";
+import ConfirmResFormModal from "../../components/confirmResModal/ConfirmResModal";
+import {IState} from "../../App";
 
 export interface IRegion {
   ID: string;
@@ -38,6 +39,12 @@ const Form = () => {
   const [providersFrom, setProvidersFrom] = useState([]);
   const [superTvs, setSuperTvs] = useState([]);
   const [currentForm, setCurrentForm] = useState(1);
+  const [regionsLoading, setRegionsLoading] = useState(false);
+  const [regions2Loading, setRegions2Loading] = useState(false);
+  const [citiesLoading, setCitiesLoading] = useState(false);
+  const [districts2Loading, setDistricts2Loading] = useState(false);
+  const [districtsLoading, setDistrictsLoading] = useState(false);
+  const [streetsLoading, setStreetsLoading] = useState(false);
   const [state, setState] = useState<IState>({
     region: {name: "", hydra_id: -1,},
     region2: "",
@@ -58,6 +65,7 @@ const Form = () => {
   });
   const [currentImageInput, setCurrentImageInput] = useState('');
   const [confirmationReq, setConfirmationReq] = useState('');
+  const [confirmationRes, setConfirmationRes] = useState('');
   const navigate = useNavigate();
   const userToken = useAppSelector((state) => state.userState.user);
 
@@ -135,6 +143,15 @@ const Form = () => {
     }
   };
 
+  const toggleConfirmationRes = () => {
+    if (confirmationRes === 'open') {
+      setConfirmationRes('closed');
+      setTimeout(() => window.location.reload(), 160);
+    } else if (confirmationRes === 'closed' || confirmationRes === '') {
+      setConfirmationRes('open');
+    }
+  };
+
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
@@ -173,10 +190,12 @@ const Form = () => {
 
   const getRegions = async () => {
     try {
+      setRegionsLoading(true);
       const res = await axiosApi.get(
-        'http://10.1.2.10:8001/region_list/');
+        '/region_list/');
       const regions = await res.data;
       setRegions(regions);
+      setRegionsLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -184,29 +203,35 @@ const Form = () => {
 
   const getRegions2 = async () => {
     try {
-      const res = await axiosApi.get(`http://10.1.2.10:8001/bx/`);
+      setRegions2Loading(true);
+      const res = await axiosApi.get(`/bx/`);
       setRegions2(res.data);
+      setRegions2Loading(false);
     } catch (e) {
       console.log(e);
     }
   };
 
   const getRegions2Districts = (name: string) => {
+    setDistricts2Loading(true);
     let dists: IRegion[] = [];
     Object.keys(regions2).forEach((regionName) => {
       if (name.includes(regionName)) {
         dists = [...dists, ...regions2[regionName]]
       }
     });
+    setDistricts2Loading(false);
     return dists;
   };
 
   const getCities = async (parent_id: string) => {
     try {
+      setCitiesLoading(true);
       const res = await axiosApi.get(
-        `http://10.1.2.10:8001/get_child/?parent_id=${parent_id}`);
+        `/get_child/?parent_id=${parent_id}`);
       const cities = await res.data;
       setCities(cities);
+      setCitiesLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -214,10 +239,12 @@ const Form = () => {
 
   const getDistricts = async (parent_id: string) => {
     try {
+      setDistrictsLoading(true);
       const res = await axiosApi.get(
-        `http://10.1.2.10:8001/get_child/?parent_id=${parent_id}`);
+        `/get_child/?parent_id=${parent_id}`);
       const cities = await res.data;
       setDistricts(cities);
+      setDistrictsLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -225,10 +252,12 @@ const Form = () => {
 
   const getStreets = async (parent_id: string) => {
     try {
+      setStreetsLoading(true);
       const res = await axiosApi.get(
-        `http://10.1.2.10:8001/get_child/?parent_id=${parent_id}`);
+        `/get_child/?parent_id=${parent_id}`);
       const cities = await res.data;
       setStreets(cities);
+      setStreetsLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -237,7 +266,7 @@ const Form = () => {
   const getOrderStatusData = async () => {
     try {
       const res = await axiosApi.get(
-        `http://10.1.2.10:8001/send-data-router/`);
+        `/send-data-router/`);
       const orderStatuses = await res.data[3];
       setOrderStatuses(orderStatuses.splice(0, 2));
 
@@ -324,7 +353,6 @@ const Form = () => {
       state.userSirName &&
       state.userPhoneNumber &&
       state.userAdditionalPhoneNumber &&
-      state.domoPhone &&
       (state.userPhoneNumber !== state.userAdditionalPhoneNumber)
     );
   };
@@ -350,10 +378,10 @@ const Form = () => {
           variant="contained"
           endIcon={<ArrowForwardIosIcon/>}
           disabled={
-            // (currentForm === 1 && !locationFilled()) ||
-            // (currentForm === 2 && !location2Filled()) ||
-            // (currentForm === 3 && !orderStatus()) ||
-            // (currentForm === 4 && !assets()) ||
+            (currentForm === 1 && !locationFilled()) ||
+            (currentForm === 2 && !location2Filled()) ||
+            (currentForm === 3 && !orderStatus()) ||
+            (currentForm === 4 && !assets()) ||
             currentForm === 6
           }
           onClick={() => setCurrentForm(currentForm + 1)}
@@ -361,8 +389,8 @@ const Form = () => {
       </Box>
       <Box className="form" component="form" onSubmit={(e) => {
         e.preventDefault();
-        toggleConfirmation();
         if (locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled()) {
+          toggleConfirmation();
         }
       }}>
         {currentForm === 1 && <Location
@@ -376,6 +404,10 @@ const Form = () => {
           street={state.street}
           address={state.address}
           handleChange={handleChange}
+          regionsLoading={regionsLoading}
+          citiesLoading={citiesLoading}
+          districtsLoading={districtsLoading}
+          streetsLoading={streetsLoading}
         />}
         {currentForm === 2 && <Location2
           region2={state.region2}
@@ -383,6 +415,8 @@ const Form = () => {
           regions2={regions2List}
           districts2={districts2}
           handleChange={handleChange}
+          regions2Loading={regions2Loading}
+          districts2Loading={districts2Loading}
         />}
         {currentForm === 3 && <OrderStatus
           orderStatus={state.orderStatus}
@@ -477,15 +511,15 @@ const Form = () => {
           />
         }
         {
-          // locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() &&
+          locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() &&
           <Button
             className='confirm-form-button'
             type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}
           >
             {
-              // locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?
+              locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?
               'Подтвердить'
-              // : 'Заполните все поля'
+              : 'Заполните все поля'
             }
           </Button>
         }
@@ -495,7 +529,12 @@ const Form = () => {
         data={state}
         state={confirmationReq}
         toggleModal={toggleConfirmation}
+        toggleResModal={toggleConfirmationRes}
         regions2={regions2List}
+      />
+      <ConfirmResFormModal
+      toggleResModal={toggleConfirmationRes}
+      state={confirmationRes}
       />
     </div>
   );

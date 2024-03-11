@@ -1,1 +1,25 @@
-export const apiUrl = '';
+export const apiUrl = 'http://10.1.2.138:8001/';
+
+export const defaultState = {
+  region: {name: "", hydra_id: -1,},
+  region2: "",
+  city: {name: "", hydra_id: -1,},
+  district: {name: "", hydra_id: -1,},
+  district2: {VALUE: "", ID: "",},
+  street: "",
+  address: "",
+  orderStatus: {VALUE: "", ID: "",},
+  routerInstallationType: {VALUE: "", ID: "",},
+  tariff: {VALUE: "", ID: "",},
+  superTv: {VALUE: "", ID: "",},
+  passport: null,
+  passport2: null,
+  locationScreenShot: null,
+  description: "",
+  providerFrom: {VALUE: "", ID: "",},
+  username: "",
+  userSirName: "",
+  userPhoneNumber: "",
+  userAdditionalPhoneNumber: "",
+  domoPhone: "",
+}
