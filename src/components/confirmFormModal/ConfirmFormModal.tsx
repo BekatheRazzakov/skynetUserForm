@@ -13,6 +13,10 @@ interface IAssets {
   file3: File | null;
 }
 
+interface ITelegraphData {
+  data: { image_path: string }[]
+}
+
 interface IProps {
   toggleModal: () => void;
   toggleResModal: () => void;
@@ -44,46 +48,50 @@ interface IProps {
 
 const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, state, regions2}) => {
   const dispatch = useAppDispatch();
-  const [assets, setAssets] = useState({
-    passport1: "",
-    passport2: "",
-    locationScreenShot: "",
-  });
   const [sendDataLoading, setSendDataLoading] = useState(false);
-
-  const sendAssets = async () => {
-    try {
-      const assets: IAssets = {
-        file1: data?.passport || null,
-        file2: data?.passport2 || null,
-        file3: data?.locationScreenShot || null,
-      };
-      const formData = new FormData();
-      const keys = Object.keys(assets) as (keyof IAssets)[];
-
-      keys.forEach((key) => {
-        const value = assets[key];
-
-        if (value !== undefined && value !== null) {
-          // @ts-ignore
-          formData.append(key, value);
-        }
-      });
-
-      const res = await axiosApi.post("/upload-passport/", formData);
-      setAssets(() => ({
-        passport1: res.data.data[0].image_path,
-        passport2: res.data.data[1].image_path,
-        locationScreenShot: res.data.data[2].image_path,
-      }));
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const onSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
+      let telegraphAssets = {
+        passport1: '',
+        passport2: '',
+        locationScreenShot: '',
+      }
+
+      const sendAssets = async () => {
+        try {
+          const assets: IAssets = {
+            file1: data?.passport || null,
+            file2: data?.passport2 || null,
+            file3: data?.locationScreenShot || null,
+          };
+          const formData = new FormData();
+          const keys = Object.keys(assets) as (keyof IAssets)[];
+
+          keys.forEach((key) => {
+            const value = assets[key];
+
+            if (value !== undefined && value !== null) {
+              // @ts-ignore
+              formData.append(key, value);
+            }
+          });
+
+          const res = await axiosApi.post("/upload-passport/", formData);
+          telegraphAssets = {
+            passport1: (res.data as ITelegraphData).data[0].image_path,
+            passport2: (res.data as ITelegraphData).data[1].image_path,
+            locationScreenShot: (res.data as ITelegraphData).data[2].image_path,
+          };
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+      setSendDataLoading(true);
+      await sendAssets();
+
       let body = {...data};
       delete body.region;
       delete body.city;
@@ -110,21 +118,19 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
         region2: regions2.filter(region => region.VALUE === body.region2)[0],
         userPhoneNumber: `996${data?.userPhoneNumber}`,
         userAdditionalPhoneNumber: `996${data?.userAdditionalPhoneNumber}`,
-        assets,
+        assets: telegraphAssets,
       };
       if (data?.street?.name) {
         // @ts-ignore
         body.address.street = data.street;
       }
-      setSendDataLoading(true);
-      sendAssets().then(async () => {
-        const res = await axiosApi.post("/z/", body);
-        dispatch(setZayavkaRes(res.data));
-        setSendDataLoading(false);
-        toggleModal();
-        toggleResModal();
-      });
+      const res = await axiosApi.post("/z/", body);
+      dispatch(setZayavkaRes(res.data));
+      setSendDataLoading(false);
+      toggleModal();
+      toggleResModal();
     } catch (e) {
+      setSendDataLoading(false);
       console.log(e);
     }
   };
