@@ -25,6 +25,8 @@ const UsersSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signUp.pending, (state) => {
       state.user = '';
+      state.authorizationError = '';
+      state.authorizationMessage = '';
       state.signUpLoading = true;
     });
     builder.addCase(signUp.fulfilled, (state, {payload: res}) => {
@@ -34,11 +36,13 @@ const UsersSlice = createSlice({
     });
     builder.addCase(signUp.rejected, (state, {payload: error}) => {
       state.signUpLoading = false;
-      state.authorizationError = error?.error || '';
+      state.authorizationError = error?.error || 'Произошла ошибка. Попробуйте позже';
     });
 
     builder.addCase(signIn.pending, (state) => {
       state.user = '';
+      state.authorizationError = '';
+      state.authorizationMessage = '';
       state.signInLoading = true;
     });
     builder.addCase(signIn.fulfilled, (state, {payload: res}) => {
@@ -48,7 +52,7 @@ const UsersSlice = createSlice({
     });
     builder.addCase(signIn.rejected, (state, {payload: error}) => {
       state.signInLoading = false;
-      state.authorizationError = error?.error || '';
+      state.authorizationError = error?.error || 'Произошла ошибка. Попробуйте позже';
     });
   },
 });
