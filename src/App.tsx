@@ -1,11 +1,13 @@
 import React, {ChangeEvent} from 'react';
 import {Route, Routes} from "react-router-dom";
-import Form, {IRegion} from "./containers/form/Form";
+import NewApplication, {IRegion} from "./containers/newApplication/NewApplication";
 import {SelectChangeEvent} from "@mui/material/Select";
 import SignUp from "./containers/signUp/SignUp";
 import SignIn from "./containers/signIn/SignIn";
 import AppToolbar from "./components/toolbar/Toolbar";
 import MyApplications from "./containers/myApplications/MyApplications";
+import Neactivka from "./containers/neactivka/Neactivka";
+import {useAppSelector} from "./app/hooks";
 
 export interface IState {
   handleChange?: (
@@ -55,14 +57,18 @@ export interface IState {
 }
 
 const App = () => {
+  const userToken = useAppSelector((state) => state.userState.user);
+
   return (
     <div>
       <AppToolbar/>
       <Routes>
-        <Route path='new-application' element={<Form/>}/>
+        <Route path='*' element={userToken ? <MyApplications/> : <SignIn/>}/>
+        <Route path='new-application' element={<NewApplication/>}/>
         <Route path='sign-up' element={<SignUp/>}/>
         <Route path='sign-in' element={<SignIn/>}/>
         <Route path='my-applications' element={<MyApplications/>}/>
+        <Route path='neactivka' element={<Neactivka/>}/>
       </Routes>
     </div>
   );

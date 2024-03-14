@@ -9,12 +9,12 @@ import FileInput from "../../components/FileInput/FileInput";
 import AboutUser from "../../components/aboutUser/aboutUser";
 import Location2 from "../../components/location2/location2";
 import ConfirmFormModal from "../../components/confirmFormModal/ConfirmFormModal";
-import './form.css';
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../app/hooks";
 import axiosApi from "../../axiosApi";
 import ConfirmResFormModal from "../../components/confirmResModal/ConfirmResModal";
 import {IState} from "../../App";
+import './form.css';
 
 export interface IRegion {
   ID: string;
@@ -25,7 +25,7 @@ interface IRegions {
   [region: string]: IRegion[]
 }
 
-const Form = () => {
+const NewApplication = () => {
   const [regions, setRegions] = useState([]);
   const [regions2, setRegions2] = useState<IRegions>({});
   const [regions2List, setRegions2List] = useState<IRegion[]>([]);
@@ -540,4 +540,4 @@ const Form = () => {
   );
 }
 
-export default Form;
+export default NewApplication;

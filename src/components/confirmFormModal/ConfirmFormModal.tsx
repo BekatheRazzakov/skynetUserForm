@@ -1,6 +1,6 @@
 import React, {FormEvent, useState} from 'react';
 import {Box, Button, Typography} from "@mui/material";
-import {IRegion} from "../../containers/form/Form";
+import {IRegion} from "../../containers/newApplication/NewApplication";
 import {LoadingButton} from "@mui/lab";
 import axiosApi from "../../axiosApi";
 import {useAppDispatch} from "../../app/hooks";

@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import './myApplications.css';
 import {CircularProgress, Paper, Typography} from "@mui/material";
 import ApplicationPopup from "../../components/applicationPopup/ApplicationPopup";
 import axiosApi from "../../axiosApi";
 import {useAppSelector} from "../../app/hooks";
 import {useNavigate} from "react-router-dom";
+import './myApplications.css';
 
 export interface IAppSate {
   id: number,
@@ -41,7 +41,7 @@ const MyApplications = () => {
   const getApps = async () => {
     try {
       setApplicationsLoading(true);
-      const apps = await axiosApi('http://10.1.2.138:8001/mazay/');
+      const apps = await axiosApi('mazay/');
       setApplications(apps.data);
       setApplicationsLoading(false);
     }
