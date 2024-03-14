@@ -5,6 +5,7 @@ import {SelectChangeEvent} from "@mui/material/Select";
 import SignUp from "./containers/signUp/SignUp";
 import SignIn from "./containers/signIn/SignIn";
 import AppToolbar from "./components/toolbar/Toolbar";
+import MyApplications from "./containers/myApplications/MyApplications";
 
 export interface IState {
   handleChange?: (
@@ -58,9 +59,10 @@ const App = () => {
     <div>
       <AppToolbar/>
       <Routes>
-        <Route path='form' element={<Form/>}/>
+        <Route path='new-application' element={<Form/>}/>
         <Route path='sign-up' element={<SignUp/>}/>
         <Route path='sign-in' element={<SignIn/>}/>
+        <Route path='my-applications' element={<MyApplications/>}/>
       </Routes>
     </div>
   );

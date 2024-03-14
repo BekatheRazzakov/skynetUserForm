@@ -1,0 +1,135 @@
+.application-popup-,
+.application-popup-opened,
+.application-popup-closed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.application-popup-opened {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.22);
+  height: 110%;
+  animation: containerOpen 0.2s linear;
+}
+
+.application-popup-closed {
+  opacity: 0;
+  height: 0;
+  animation: containerClose 0.1s linear;
+}
+
+.application-popup-opened .application-popup-inner {
+  transform: translateX(0);
+  animation: open 0.2s linear;
+}
+
+.application-popup-closed .application-popup-inner {
+  transform: translateX(60px);
+  animation: close 0.1s linear;
+}
+
+.application-popup-inner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100%;
+  background-color: white;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.application-popup-title {
+  font-size: 26px!important;
+  font-weight: 700!important;
+  text-align: center;
+}
+
+.application-popup-inner .application-item-key-name,
+.application-popup-inner .application-item-key-value {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.application-popup-inner .application-item-key-value {
+  font-weight: 400;
+  width: unset;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: unset;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: unset;
+}
+
+@keyframes open {
+  0% {
+    transform: translateX(60px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes close {
+  0% {
+    transform: translateX(0);
+  }
+  30% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(60px);
+  }
+}
+
+@keyframes containerOpen {
+  0% {
+    height: 110%;
+    opacity: 0;
+  }
+  100% {
+    height: 110%;
+    opacity: 1;
+  }
+}
+
+@keyframes containerClose {
+  0% {
+    height: 110%;
+    opacity: 1;
+  }
+  100% {
+    height: 110%;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 550px) {
+  .application-popup-inner {
+    width: 310px;
+  }
+}
+
+@media (max-width: 440px) {
+  .application-popup-inner {
+    width: 250px;
+  }
+
+  .application-popup-title {
+    font-size: 18px!important;
+  }
+
+  .application-popup-inner .application-item-key-name,
+  .application-popup-inner .application-item-key-value {
+    font-size: 12px;
+  }
+}

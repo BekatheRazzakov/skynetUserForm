@@ -33,9 +33,10 @@ const AppToolbar = () => {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
             {
-              location.pathname === '/form' ? 'Создание заявки' :
+              location.pathname === '/new-application' ? 'Создание заявки' :
                 location.pathname === '/sign-in' ? 'Логин' :
-                  location.pathname === '/sign-up' ? 'Регистрация' : ''
+                  location.pathname === '/sign-up' ? 'Регистрация' :
+                    location.pathname === '/my-applications' ? 'Мои заявки' : ''
             }
           </Typography>
           <div>
@@ -66,7 +67,15 @@ const AppToolbar = () => {
             >
               {
                 userToken ?
-                  <MenuItem onClick={() => dispatch(logout())}>Выйти из аккантуа</MenuItem>
+                  <>
+                    <Link to="/new-application">
+                      <MenuItem onClick={handleClose}>Создать заявку</MenuItem>
+                    </Link>
+                    <Link to="/my-applications">
+                      <MenuItem onClick={handleClose}>Мои заявки</MenuItem>
+                    </Link>
+                    <MenuItem onClick={() => dispatch(logout())}>Выйти из аккантуа</MenuItem>
+                  </>
                   :
                   <>
                     <Link to="/sign-in">

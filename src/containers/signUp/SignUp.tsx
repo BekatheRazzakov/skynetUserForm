@@ -29,7 +29,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (userToken) {
-      navigate('/form');
+      navigate('/my-applications');
     }
   }, [navigate, userToken]);
 
