@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {Link, useLocation} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {Button, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {Button, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import {logout} from "../../features/usersSlice";
 import '../../App.css';
@@ -16,10 +16,6 @@ const AppToolbar = () => {
   const [anchorEl, setAnchorEl] = useState(false);
   const location = useLocation();
   const userToken = useAppSelector((state) => state.userState.user);
-
-  const handleClose = (value: string) => {
-    // setAnchorEl(value);
-  };
 
   return (
     <Box sx={{flexGrow: 1}}>
@@ -44,12 +40,12 @@ const AppToolbar = () => {
                 <Link to="/my-applications">
                   <Button variant="contained" className="nav-link" disableElevation>Мои заявки</Button>
                 </Link>
-                {/*<Link to="/neactivka">*/}
-                {/*  <Button variant="contained" className="nav-link" disableElevation>Неактивка</Button>*/}
-                {/*</Link>*/}
-                {/*<Link to="/neactivka">*/}
-                {/*  <Button variant="contained" className="nav-link" disableElevation>Жалоба абонентов</Button>*/}
-                {/*</Link>*/}
+                <Link to="/neactivka">
+                  <Button variant="contained" className="nav-link" disableElevation>Неактивка</Button>
+                </Link>
+                <Link to="/neactivka">
+                  <Button variant="contained" className="nav-link" disableElevation>Жалоба абонентов</Button>
+                </Link>
                 <Button
                   variant="contained" color="error" className="nav-link"
                   onClick={() => dispatch(logout())}
@@ -73,7 +69,10 @@ const AppToolbar = () => {
                   onClose={() => setAnchorEl(false)}
                   className="mobile-nav-bar"
                 >
-                  <List sx={{width: '250px', height: '100%', display: 'flex', flexDirection: 'column'}}>
+                  <List
+                    sx={{width: '250px', height: '100%', display: 'flex', flexDirection: 'column'}}
+                    onClick={() => setAnchorEl(false)}
+                  >
                     <Link to="/new-application">
                       <ListItem disablePadding>
                         <ListItemButton>
@@ -88,20 +87,20 @@ const AppToolbar = () => {
                         </ListItemButton>
                       </ListItem>
                     </Link>
-                    {/*<Link to="/neactivka">*/}
-                    {/*  <ListItem disablePadding>*/}
-                    {/*    <ListItemButton>*/}
-                    {/*      <ListItemText primary="Неактивка"/>*/}
-                    {/*    </ListItemButton>*/}
-                    {/*  </ListItem>*/}
-                    {/*</Link>*/}
-                    {/*<Link to="/neactivka">*/}
-                    {/*  <ListItem disablePadding>*/}
-                    {/*    <ListItemButton>*/}
-                    {/*      <ListItemText primary="Жалоба абонентов"/>*/}
-                    {/*    </ListItemButton>*/}
-                    {/*  </ListItem>*/}
-                    {/*</Link>*/}
+                    <Link to="/neactivka">
+                      <ListItem disablePadding>
+                        <ListItemButton>
+                          <ListItemText primary="Неактивка"/>
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+                    <Link to="/neactivka">
+                      <ListItem disablePadding>
+                        <ListItemButton>
+                          <ListItemText primary="Жалоба абонентов"/>
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
                     <ListItem disablePadding sx={{ marginTop: 'auto' }}>
                       <Button
                         sx={{ width: '100%' }}

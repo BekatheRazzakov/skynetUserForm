@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from 'react';
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import NewApplication, {IRegion} from "./containers/newApplication/NewApplication";
 import {SelectChangeEvent} from "@mui/material/Select";
 import SignUp from "./containers/signUp/SignUp";
@@ -60,17 +60,18 @@ const App = () => {
   const userToken = useAppSelector((state) => state.userState.user);
 
   return (
-    <div>
+    <>
       <AppToolbar/>
       <Routes>
-        <Route path='*' element={userToken ? <MyApplications/> : <SignIn/>}/>
+        <Route path='*' element={userToken ?
+          <Navigate to="/my-applications" replace/> : <Navigate to="/sign-in" replace/>}/>
         <Route path='new-application' element={<NewApplication/>}/>
         <Route path='sign-up' element={<SignUp/>}/>
         <Route path='sign-in' element={<SignIn/>}/>
         <Route path='my-applications' element={<MyApplications/>}/>
         <Route path='neactivka' element={<Neactivka/>}/>
       </Routes>
-    </div>
+    </>
   );
 };
 

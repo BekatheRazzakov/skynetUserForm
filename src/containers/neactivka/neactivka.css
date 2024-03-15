@@ -1,0 +1,32 @@
+.neactivka-form {
+  /*margin: 20px auto;*/
+  margin-bottom: 10px;
+  /*background-color: #f5f5f5;*/
+  padding: 10px;
+  border-radius: 12px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: calc(100% - 110px);
+}
+
+.neactivka-form-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.neactivka-form .MuiGrid-root {
+  background-color: white;
+  border: 0;
+  border-radius: 8px;
+}
+
+@media (max-width: 400px) {
+  .neactivka-form {
+    width: 95%;
+    height: calc(100% - 80px);
+  }
+}
