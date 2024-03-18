@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Autocomplete, Avatar, Box, Container, Grid, TextField, Typography} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import axios from "axios";
 import {ISignUp, ISupervizer} from "../../type";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {signUp} from "../../features/userThunk";
 import {Link, useNavigate} from "react-router-dom";
 import {LoadingButton} from "@mui/lab";
 import './sign-up.css';
+import axiosApi from "../../axiosApi";
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
@@ -56,7 +56,7 @@ const SignUp = () => {
 
   const getSupervizers = async () => {
     try {
-      const req = await axios('http://10.1.2.10:8001/register/');
+      const req = await axiosApi('/register/');
       const supervizers = await req.data;
       setSupervizers(supervizers);
     } catch (e) {
