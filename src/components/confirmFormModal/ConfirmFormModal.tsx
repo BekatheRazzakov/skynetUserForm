@@ -251,7 +251,7 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
         <div className="confirm-form-buttons">
           <Button variant="outlined" onClick={toggleModal} disabled={sendDataLoading}>Изменить данные</Button>
           <LoadingButton
-            loading={!sendDataLoading}
+            loading={sendDataLoading}
             disabled={sendDataLoading}
             variant="contained"
             type="submit"

@@ -102,10 +102,10 @@ const NewApplication = () => {
           name === 'providerFrom' ||
           name === 'tariff' ?
             dist :
-      name === 'userPhoneNumber' ||
-      name === 'domoPhone' ||
-      name === 'userAdditionalPhoneNumber' ?
-        formatPhoneNumber(value) : value,
+            name === 'userPhoneNumber' ||
+            name === 'domoPhone' ||
+            name === 'userAdditionalPhoneNumber' ?
+              formatPhoneNumber(value) : value,
     }));
     if (name === 'region') {
       setState((prevState) => ({
@@ -389,8 +389,8 @@ const NewApplication = () => {
       </Box>
       <Box className="form" component="form" onSubmit={(e) => {
         e.preventDefault();
-        toggleConfirmation();
         if (locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled()) {
+          toggleConfirmation();
         }
       }}>
         {currentForm === 1 && <Location
@@ -511,15 +511,15 @@ const NewApplication = () => {
           />
         }
         {
-          // locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() &&
+          locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() &&
           <Button
             className='confirm-form-button'
             type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}
           >
             {
-              // locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?
+              locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?
               'Подтвердить'
-              // : 'Заполните все поля'
+              : 'Заполните все поля'
             }
           </Button>
         }
@@ -533,8 +533,8 @@ const NewApplication = () => {
         regions2={regions2List}
       />
       <ConfirmResFormModal
-      toggleResModal={toggleConfirmationRes}
-      state={confirmationRes}
+        toggleResModal={toggleConfirmationRes}
+        state={confirmationRes}
       />
     </div>
   );
