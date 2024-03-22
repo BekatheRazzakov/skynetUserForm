@@ -96,16 +96,23 @@ const Location: React.FC<IState> = (
                 id="combo-box-demo"
                 // @ts-ignore
                 options={districts?.map((item) => item.name)}
-                onChange={(e) =>
-                  // @ts-ignore
-                  handleChange({
-                    // @ts-ignore
-                    target: {name: 'district'}
-                    // @ts-ignore
-                  }, getCurrentDistrict(e.target.innerHTML))}
                 loading={districtsLoading}
                 loadingText="Загрузка..."
                 renderInput={(params) => <TextField {...params} label="Мкр/ж-в/улица"/>}
+                renderOption={(props, option) => (
+                  <li
+                    {...props}
+                    onClick={(e) =>
+                      // @ts-ignore
+                      handleChange({
+                        // @ts-ignore
+                        target: {name: 'district'}
+                        // @ts-ignore
+                      }, getCurrentDistrict(e.target.innerHTML))}
+                  >
+                    {option}
+                  </li>
+                )}
               />
             </Grid>
           }
@@ -118,13 +125,20 @@ const Location: React.FC<IState> = (
                 id="combo-box-demo"
                 // @ts-ignore
                 options={streets?.map((item) => item.name)}
-                onChange={(e) =>
-                  // @ts-ignore
-                  handleChange({
-                    // @ts-ignore
-                    target: {name: 'street'}
-                    // @ts-ignore
-                  }, getCurrentStreet(e.target.innerHTML))}
+                renderOption={(props, option) => (
+                  <li
+                    {...props}
+                    onClick={(e) =>
+                      // @ts-ignore
+                      handleChange({
+                        // @ts-ignore
+                        target: {name: 'street'}
+                        // @ts-ignore
+                      }, getCurrentStreet(e.target.innerHTML))}
+                  >
+                    {option}
+                  </li>
+                )}
                 loading={streetsLoading}
                 loadingText="Загрузка..."
                 renderInput={(params) => <TextField {...params} label="Улица"/>}

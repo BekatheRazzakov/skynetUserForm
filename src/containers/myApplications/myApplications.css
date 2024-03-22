@@ -68,7 +68,7 @@
   }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 554px) {
   .application-items {
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   }
