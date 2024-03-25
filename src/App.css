@@ -37,6 +37,11 @@ html, body, #root {
   text-transform: uppercase;
 }
 
+.MuiAutocomplete-popupIndicator,
+.MuiAutocomplete-clearIndicator {
+  padding: 4px !important;
+}
+
 @media (max-width: 1024px) {
   .MuiToolbar-root {
     padding: 0 30px!important;

@@ -77,7 +77,7 @@ const NewApplication = () => {
 
   useEffect(() => {
     if (!userToken) {
-      // navigate('/sign-in');
+      navigate('/sign-in');
     }
   }, [navigate, userToken]);
 
@@ -111,8 +111,11 @@ const NewApplication = () => {
       setState((prevState) => ({
         ...prevState,
         city: {name: '', hydra_id: -1},
+        region2: regions2List.filter((region2) => obj?.name.includes(region2.VALUE || 'not found'))[0]?.VALUE || 'not found',
       }));
       void getCities(obj?.hydra_id.toString() || '');
+      const dists = getRegions2Districts(obj?.name || '');
+      setDistricts2(dists);
     } else if (name === 'city') {
       setState((prevState) => ({
         ...prevState,
@@ -125,13 +128,6 @@ const NewApplication = () => {
         street: {name: '', hydra_id: -1},
       }));
       void getStreets(obj?.hydra_id.toString() || '');
-    } else if (name === 'region2' && dist) {
-      setState((prevState) => ({
-        ...prevState,
-        district2: {VALUE: '', ID: ""},
-      }));
-      const dists = getRegions2Districts(dist?.VALUE);
-      setDistricts2(dists);
     }
   };
 
@@ -265,6 +261,7 @@ const NewApplication = () => {
 
   const getOrderStatusData = async () => {
     try {
+      setRegions2Loading(true);
       const res = await axiosApi.get(
         `/send-data-router/`);
       const orderStatuses = await res.data[3];
@@ -308,8 +305,10 @@ const NewApplication = () => {
       });
       setProvidersFrom(providersFrom.filter((item: IRegion) => item));
       setRegions2List(res.data[0]);
+      setRegions2Loading(false);
     } catch (e) {
       console.log(e);
+      setRegions2Loading(false);
     }
   };
 
@@ -368,21 +367,19 @@ const NewApplication = () => {
         />
         <Typography>
           {currentForm === 1 ? 'Ваш адрес' : ''}
-          {currentForm === 2 ? 'Локация' : ''}
-          {currentForm === 3 ? 'Статус заявки' : ''}
-          {currentForm === 4 ? 'Загрузка фото' : ''}
-          {currentForm === 5 ? 'Описание' : ''}
-          {currentForm === 6 ? 'О абоненте' : ''}
+          {currentForm === 2 ? 'Статус заявки' : ''}
+          {currentForm === 3 ? 'Загрузка фото' : ''}
+          {currentForm === 4 ? 'Описание' : ''}
+          {currentForm === 5 ? 'О абоненте' : ''}
         </Typography>
         <Button
           variant="contained"
           endIcon={<ArrowForwardIosIcon/>}
           disabled={
             (currentForm === 1 && !locationFilled()) ||
-            (currentForm === 2 && !location2Filled()) ||
-            (currentForm === 3 && !orderStatus()) ||
-            (currentForm === 4 && !assets()) ||
-            currentForm === 6
+            (currentForm === 2 && !orderStatus()) ||
+            (currentForm === 3 && !assets()) ||
+            currentForm === 5
           }
           onClick={() => setCurrentForm(currentForm + 1)}
         />
@@ -397,28 +394,23 @@ const NewApplication = () => {
           regions={regions}
           cities={cities}
           districts={districts}
+          districts2={districts2}
           streets={streets}
           region={state.region}
+          region2={state.region2}
           city={state.city}
           district={state.district}
+          district2={state.district2}
           street={state.street}
           address={state.address}
           handleChange={handleChange}
           regionsLoading={regionsLoading}
+          regions2Loading={regions2Loading}
           citiesLoading={citiesLoading}
           districtsLoading={districtsLoading}
           streetsLoading={streetsLoading}
         />}
-        {currentForm === 2 && <Location2
-          region2={state.region2}
-          district2={state.district2}
-          regions2={regions2List}
-          districts2={districts2}
-          handleChange={handleChange}
-          regions2Loading={regions2Loading}
-          districts2Loading={districts2Loading}
-        />}
-        {currentForm === 3 && <OrderStatus
+        {currentForm === 2 && <OrderStatus
           orderStatus={state.orderStatus}
           routerInstallationType={state.routerInstallationType}
           tariff={state.tariff}
@@ -429,7 +421,7 @@ const NewApplication = () => {
           superTvs={superTvs}
           handleChange={handleChange}
         />}
-        {currentForm === 4 &&
+        {currentForm === 3 &&
           <Container component="main">
             <Box
               style={{
@@ -485,7 +477,7 @@ const NewApplication = () => {
           </Container>
         }
         {
-          currentForm === 5 &&
+          currentForm === 4 &&
           <TextField
             className="description-field"
             id="outlined-multiline-static"
@@ -498,7 +490,7 @@ const NewApplication = () => {
           />
         }
         {
-          currentForm === 6 &&
+          currentForm === 5 &&
           <AboutUser
             providerFrom={state.providerFrom}
             providersFrom={providersFrom}
@@ -518,8 +510,8 @@ const NewApplication = () => {
           >
             {
               locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?
-              'Подтвердить'
-              : 'Заполните все поля'
+                'Подтвердить'
+                : 'Заполните все поля'
             }
           </Button>
         }
