@@ -109,7 +109,7 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
         address: {
           region: data?.region,
           city: data?.city,
-          district2: data?.district,
+          district: data?.district,
         },
         exactAddress: {
           address: data?.address,

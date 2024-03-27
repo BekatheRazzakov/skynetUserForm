@@ -7,7 +7,6 @@ import OrderStatus from "../../components/orderStatus/orderStatus";
 import {SelectChangeEvent} from "@mui/material/Select";
 import FileInput from "../../components/FileInput/FileInput";
 import AboutUser from "../../components/aboutUser/aboutUser";
-import Location2 from "../../components/location2/location2";
 import ConfirmFormModal from "../../components/confirmFormModal/ConfirmFormModal";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../app/hooks";
@@ -356,6 +355,8 @@ const NewApplication = () => {
     );
   };
 
+  console.log(state);
+
   return (
     <div className="App">
       <Box className="form-nav">
@@ -408,6 +409,7 @@ const NewApplication = () => {
           regions2Loading={regions2Loading}
           citiesLoading={citiesLoading}
           districtsLoading={districtsLoading}
+          districts2Loading={districts2Loading}
           streetsLoading={streetsLoading}
         />}
         {currentForm === 2 && <OrderStatus
