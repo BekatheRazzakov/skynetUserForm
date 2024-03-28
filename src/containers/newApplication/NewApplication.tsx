@@ -110,7 +110,7 @@ const NewApplication = () => {
       setState((prevState) => ({
         ...prevState,
         city: {name: '', hydra_id: -1},
-        region2: regions2List.filter((region2) => obj?.name.includes(region2.VALUE || 'not found'))[0]?.VALUE || 'not found',
+        region2: regions2List.filter((region2) => obj?.name.toLowerCase().includes(region2.VALUE.toLowerCase()))[0]?.VALUE || 'not found',
       }));
       void getCities(obj?.hydra_id.toString() || '');
       const dists = getRegions2Districts(obj?.name || '');

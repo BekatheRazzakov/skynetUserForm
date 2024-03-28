@@ -15,13 +15,11 @@ const root = ReactDOM.createRoot(
 addInterceptors(store);
 
 root.render(
-  <React.StrictMode>
-    <PersistGate persistor={persistor}>
-      <Provider store={store}>
-        <BrowserRouter>
-          <App/>
-        </BrowserRouter>
-      </Provider>
-    </PersistGate>
-  </React.StrictMode>
+  <PersistGate persistor={persistor}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
+    </Provider>
+  </PersistGate>
 );
