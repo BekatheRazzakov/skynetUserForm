@@ -150,26 +150,10 @@ const NewApplication = () => {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
-    if (
-      file && (
-        file.name.slice(-4) === '.jpg' ||
-        file.name.slice(-4) === '.PNG' ||
-        file.name.slice(-5) === '.JPEG' ||
-        file.name.slice(-5) === '.jpeg' ||
-        file.name.slice(-4) === '.png'
-      )) {
-      setState((prevState) => ({
-        ...prevState,
-        [fieldName]: file,
-      }));
-    } else if (
-      file && (
-        file.name.slice(-4) !== '.jpg' ||
-        file.name.slice(-4) !== '.jpeg' ||
-        file.name.slice(-4) !== '.png'
-      )) {
-      alert('Загрузка фото только в формате .jpg, .jpeg или .png');
-    }
+    setState((prevState) => ({
+      ...prevState,
+      [fieldName]: file,
+    }));
   };
 
   const formatPhoneNumber = (phoneNum: string) => {
