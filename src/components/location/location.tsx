@@ -10,7 +10,7 @@ const Location: React.FC<IState> = (
   {
     regions, cities, districts, streets, regionsLoading, regions2Loading, citiesLoading,
     districtsLoading, streetsLoading, region, city, district, street, address,
-    region2, districts2, district2, districts2Loading, handleChange
+    districts2, district2, districts2Loading, handleChange
   }
 ) => {
   const getCurrentRegion = (name: string) => {
@@ -67,29 +67,6 @@ const Location: React.FC<IState> = (
               </Select>
             </FormControl>
           </Grid>
-          {region2 &&
-            <Grid item xs={12}>
-              <Autocomplete
-                disablePortal
-                // @ts-ignore
-                value={district2?.VALUE}
-                noOptionsText="Не найдено"
-                id="combo-box-demo"
-                // @ts-ignore
-                options={districts2?.map((item) => item.VALUE)}
-                onChange={(e) =>
-                  // @ts-ignore
-                  handleChange({
-                    // @ts-ignore
-                    target: {name: 'district2'}
-                    // @ts-ignore
-                  }, null, getCurrentDistrict2(e.target.innerHTML))}
-                loading={districts2Loading}
-                loadingText="Загрузка..."
-                renderInput={(params) => <TextField {...params} label="Наименование локации"/>}
-              />
-            </Grid>
-          }
           {region?.name &&
             <Grid item xs={12}>
               <FormControl fullWidth className="form-control">
@@ -173,6 +150,29 @@ const Location: React.FC<IState> = (
                   onChange={handleChange}
                 />
               </FormControl>
+            </Grid>
+          }
+          {region?.name && address &&
+            <Grid item xs={12}>
+              <Autocomplete
+                disablePortal
+                // @ts-ignore
+                value={district2?.VALUE}
+                noOptionsText="Не найдено"
+                id="combo-box-demo"
+                // @ts-ignore
+                options={districts2?.map((item) => item.VALUE)}
+                onChange={(e) =>
+                  // @ts-ignore
+                  handleChange({
+                    // @ts-ignore
+                    target: {name: 'district2'}
+                    // @ts-ignore
+                  }, null, getCurrentDistrict2(e.target.innerHTML))}
+                loading={districts2Loading}
+                loadingText="Загрузка..."
+                renderInput={(params) => <TextField {...params} label="Наименование локации"/>}
+              />
             </Grid>
           }
         </Grid>
