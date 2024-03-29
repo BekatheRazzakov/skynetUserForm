@@ -124,11 +124,13 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
         // @ts-ignore
         body.address.street = data.street;
       }
-      const res = await axiosApi.post("/z/", body);
-      dispatch(setZayavkaRes(res.data));
+      if (telegraphAssets.locationScreenShot && telegraphAssets.passport1 && telegraphAssets.passport2) {
+        const res = await axiosApi.post("/z/", body);
+        dispatch(setZayavkaRes(res.data));
+        toggleModal();
+        toggleResModal();
+      }
       setSendDataLoading(false);
-      toggleModal();
-      toggleResModal();
     } catch (e) {
       setSendDataLoading(false);
       console.log(e);
