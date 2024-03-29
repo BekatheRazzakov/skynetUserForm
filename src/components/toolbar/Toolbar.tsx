@@ -40,12 +40,6 @@ const AppToolbar = () => {
                 <Link to="/my-applications">
                   <Button variant="contained" className="nav-link" disableElevation>Мои заявки</Button>
                 </Link>
-                <Link to="/neactivka">
-                  <Button variant="contained" className="nav-link" disableElevation>Неактивка</Button>
-                </Link>
-                <Link to="/neactivka">
-                  <Button variant="contained" className="nav-link" disableElevation>Жалоба абонентов</Button>
-                </Link>
                 <Button
                   variant="contained" color="error" className="nav-link"
                   onClick={() => dispatch(logout())}

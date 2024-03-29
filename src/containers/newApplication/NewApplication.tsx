@@ -89,7 +89,6 @@ const NewApplication = () => {
     setState((prevState) => ({
       ...prevState,
       [name]:
-        name === 'region' ||
         name === 'city' ||
         name === 'district' ||
         name === 'street' ?
@@ -107,11 +106,14 @@ const NewApplication = () => {
               formatPhoneNumber(value) : value,
     }));
     if (name === 'region') {
-      setState((prevState) => ({
-        ...prevState,
-        city: {name: '', hydra_id: -1},
-        region2: regions2List.filter((region2) => obj?.name.toLowerCase().includes(region2.VALUE.toLowerCase()))[0]?.VALUE || 'not found',
-      }));
+      if (regions2List.length) {
+        setState((prevState) => ({
+          ...prevState,
+          region: obj,
+          city: {name: '', hydra_id: -1},
+          region2: regions2List.filter((region2) => obj?.name.toLowerCase().includes(region2.VALUE.toLowerCase()))[0]?.VALUE || 'not found',
+        }));
+      }
       void getCities(obj?.hydra_id.toString() || '');
       const dists = getRegions2Districts(obj?.name || '');
       setDistricts2(dists);
