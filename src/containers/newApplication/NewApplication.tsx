@@ -107,16 +107,17 @@ const NewApplication = () => {
     }));
     if (name === 'region') {
       if (regions2List.length) {
+        const region2Name = regions2List.filter((region2) => obj?.name.toLowerCase().includes(region2.VALUE.toLowerCase()))[0]?.VALUE;
         setState((prevState) => ({
           ...prevState,
           region: obj,
           city: {name: '', hydra_id: -1},
-          region2: regions2List.filter((region2) => obj?.name.toLowerCase().includes(region2.VALUE.toLowerCase()))[0]?.VALUE || 'not found',
+          region2: region2Name || 'not found',
         }));
+        void getCities(obj?.hydra_id.toString() || '');
+        const dists = getRegions2Districts(region2Name || '');
+        setDistricts2(dists);
       }
-      void getCities(obj?.hydra_id.toString() || '');
-      const dists = getRegions2Districts(obj?.name || '');
-      setDistricts2(dists);
     } else if (name === 'city') {
       setState((prevState) => ({
         ...prevState,
@@ -340,8 +341,6 @@ const NewApplication = () => {
       (state.userPhoneNumber !== state.userAdditionalPhoneNumber)
     );
   };
-
-  console.log(state);
 
   return (
     <div className="App">
