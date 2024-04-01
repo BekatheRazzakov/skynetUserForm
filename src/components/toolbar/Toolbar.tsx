@@ -18,7 +18,7 @@ const AppToolbar = () => {
   const userToken = useAppSelector((state) => state.userState.user);
 
   return (
-    <Box sx={{flexGrow: 1}}>
+    <Box sx={{flexGrow: 1}} className="toolbar">
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{flexGrow: 1}}>

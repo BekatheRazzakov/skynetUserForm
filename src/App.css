@@ -7,6 +7,12 @@ html, body, #root {
   overflow-y: auto;
 }
 
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .nav-links {
   display: flex;
 }

@@ -15,22 +15,22 @@ import ConfirmResFormModal from "../../components/confirmResModal/ConfirmResModa
 import {IState} from "../../App";
 import './form.css';
 
-export interface IRegion {
+export interface IInt {
   ID: string;
   VALUE: string;
 }
 
 interface IRegions {
-  [region: string]: IRegion[]
+  [region: string]: IInt[]
 }
 
 const NewApplication = () => {
   const [regions, setRegions] = useState([]);
   const [regions2, setRegions2] = useState<IRegions>({});
-  const [regions2List, setRegions2List] = useState<IRegion[]>([]);
+  const [regions2List, setRegions2List] = useState<IInt[]>([]);
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
-  const [districts2, setDistricts2] = useState<IRegion[]>([]);
+  const [districts2, setDistricts2] = useState<IInt[]>([]);
   const [streets, setStreets] = useState([]);
   const [orderStatuses, setOrderStatuses] = useState([]);
   const [routerInstallations, setRouterInstallations] = useState([]);
@@ -196,7 +196,7 @@ const NewApplication = () => {
 
   const getRegions2Districts = (name: string) => {
     setDistricts2Loading(true);
-    let dists: IRegion[] = [];
+    let dists: IInt[] = [];
     Object.keys(regions2).forEach((regionName) => {
       if (name.includes(regionName)) {
         dists = [...dists, ...regions2[regionName]]
@@ -257,9 +257,9 @@ const NewApplication = () => {
       setSuperTvs(superTvs);
 
       const routerInstallations = await res.data[2];
-      setRouterInstallations(routerInstallations.filter((item: IRegion) => item.VALUE !== 'Да выкуп'));
+      setRouterInstallations(routerInstallations.filter((item: IInt) => item.VALUE !== 'Да выкуп'));
 
-      const tariffs = await res.data[1].map((item: IRegion) => {
+      const tariffs = await res.data[1].map((item: IInt) => {
         if (
           item.VALUE === 'Оптимальный (600)' ||
           item.VALUE === 'Sky70 (890)' ||
@@ -270,9 +270,9 @@ const NewApplication = () => {
           return item;
         }
       });
-      setTariffs(tariffs.filter((item: IRegion) => item));
+      setTariffs(tariffs.filter((item: IInt) => item));
 
-      const providersFrom = await res.data[4].map((item: IRegion) => {
+      const providersFrom = await res.data[4].map((item: IInt) => {
         if (
           item.VALUE.includes('Aknet') ||
           item.VALUE.includes('Saima Telecom') ||
@@ -289,7 +289,7 @@ const NewApplication = () => {
           return item;
         }
       });
-      setProvidersFrom(providersFrom.filter((item: IRegion) => item));
+      setProvidersFrom(providersFrom.filter((item: IInt) => item));
       setRegions2List(res.data[0]);
       setRegions2Loading(false);
     } catch (e) {

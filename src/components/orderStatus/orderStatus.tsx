@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {IState} from "../../App";
-import {IRegion} from "../../containers/newApplication/NewApplication";
+import {IInt} from "../../containers/newApplication/NewApplication";
 
 const OrderStatus: React.FC<IState> = (
   {
@@ -51,7 +51,7 @@ const OrderStatus: React.FC<IState> = (
                   () => {}}
               >
                 {
-                  orderStatuses?.map((item: IRegion) => (
+                  orderStatuses?.map((item: IInt) => (
                     <MenuItem value={`${item.VALUE}`} key={item.ID}>{item.VALUE}</MenuItem>
                   ))
                 }
@@ -72,7 +72,7 @@ const OrderStatus: React.FC<IState> = (
                   () => {}}
               >
                 {
-                  routerInstallations?.map((item: IRegion) => (
+                  routerInstallations?.map((item: IInt) => (
                     <MenuItem value={`${item.VALUE}`} key={item.ID}>{item.VALUE}</MenuItem>
                   ))
                 }
@@ -93,7 +93,7 @@ const OrderStatus: React.FC<IState> = (
                   () => {}}
               >
                 {
-                  tariffs?.map((item: IRegion) => (
+                  tariffs?.map((item: IInt) => (
                     <MenuItem value={`${item.VALUE}`} key={item.ID}>{item.VALUE}</MenuItem>
                   ))
                 }
@@ -114,7 +114,7 @@ const OrderStatus: React.FC<IState> = (
                   () => {}}
               >
                 {
-                  superTvs?.map((item: IRegion) => (
+                  superTvs?.map((item: IInt) => (
                     <MenuItem value={`${item.VALUE}`} key={item.ID}>{item.VALUE}</MenuItem>
                   ))
                 }

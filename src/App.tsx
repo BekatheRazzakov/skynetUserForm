@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
-import NewApplication, {IRegion} from "./containers/newApplication/NewApplication";
+import NewApplication, {IInt} from "./containers/newApplication/NewApplication";
 import {SelectChangeEvent} from "@mui/material/Select";
 import SignUp from "./containers/signUp/SignUp";
 import SignIn from "./containers/signIn/SignIn";
@@ -42,11 +42,11 @@ export interface IState {
   userSirName?: string;
   userPhoneNumber?: string;
   userAdditionalPhoneNumber?: string;
-  orderStatuses?: IRegion[];
-  routerInstallations?: IRegion[];
-  tariffs?: IRegion[];
-  providersFrom?: IRegion[];
-  superTvs?: IRegion[];
+  orderStatuses?: IInt[];
+  routerInstallations?: IInt[];
+  tariffs?: IInt[];
+  providersFrom?: IInt[];
+  superTvs?: IInt[];
   domoPhone?: string;
   regionsLoading?: boolean;
   regions2Loading?: boolean;

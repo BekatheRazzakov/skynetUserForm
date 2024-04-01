@@ -1,11 +1,12 @@
 import React, {FormEvent, useState} from 'react';
 import {Box, Button, Typography} from "@mui/material";
-import {IRegion} from "../../containers/newApplication/NewApplication";
+import {IInt} from "../../containers/newApplication/NewApplication";
 import {LoadingButton} from "@mui/lab";
 import axiosApi from "../../axiosApi";
 import {useAppDispatch} from "../../app/hooks";
 import {setZayavkaRes} from "../../features/usersSlice";
 import './confirmFormModal.css';
+import {useNavigate} from "react-router-dom";
 
 interface IAssets {
   file1: File | null;
@@ -21,7 +22,7 @@ interface IProps {
   toggleModal: () => void;
   toggleResModal: () => void;
   state: string;
-  regions2: IRegion[];
+  regions2: IInt[];
   data: {
     region: { name: string; hydra_id: number; } | null;
     region2: string;
@@ -48,6 +49,7 @@ interface IProps {
 
 const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, state, regions2}) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [sendDataLoading, setSendDataLoading] = useState(false);
 
   const onSubmit = async (e: FormEvent) => {
@@ -129,6 +131,7 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
         dispatch(setZayavkaRes(res.data));
         toggleModal();
         toggleResModal();
+        navigate('');
       }
       setSendDataLoading(false);
     } catch (e) {
