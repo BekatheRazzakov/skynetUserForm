@@ -62,8 +62,9 @@ const FileInput: React.FC<Props> = (
                 variant="outlined"
                 startIcon={<DeleteIcon/>}
                 onClick={() => {
-                  if (removeImage) {
+                  if (removeImage && inputRef.current) {
                     removeImage(currentImageInput);
+                    inputRef.current.value = '';
                   }
                 }}
               />

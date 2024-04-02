@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {Box, Button, Grid, TextField} from "@mui/material";
 import './neactivka.css';
 import FormControl from "@mui/material/FormControl";
@@ -7,6 +7,7 @@ import {IInt} from "../newApplication/NewApplication";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import FileInput from "../../components/FileInput/FileInput";
 
 interface IState {
   region: IInt;
@@ -22,6 +23,7 @@ interface IState {
   personalAccount: string;
   phoneNumber: string;
   additionalPhoneNumber: string;
+  locationScreenShot: File | null;
   comment: string;
 }
 
@@ -47,6 +49,7 @@ const Neactivka = () => {
     personalAccount: '',
     phoneNumber: '',
     additionalPhoneNumber: '',
+    locationScreenShot: null,
     comment: '',
   });
 
@@ -54,7 +57,6 @@ const Neactivka = () => {
     event: { target: { name: string; value: unknown } }
   ) => {
     const {name, value} = event.target;
-    console.log(name, value);
     setState((prevState) => ({
       ...prevState,
       [name]:
@@ -69,6 +71,22 @@ const Neactivka = () => {
     }));
   };
 
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
+    if (!e.target.files) return;
+    const file = e.target.files[0];
+    setState((prevState) => ({
+      ...prevState,
+      [fieldName]: file,
+    }));
+  };
+
+  const removeImage = (key: string) => {
+    setState((prevState) => ({
+      ...prevState,
+      locationScreenShot: null,
+    }));
+  };
+
   const getCurrentOption = (optionsName: string, name: unknown) => {
     switch (optionsName) {
       case 'region':
@@ -78,7 +96,7 @@ const Neactivka = () => {
       case 'nonActivePaymentStatus':
         return nonActivePaymentStatuses.filter((item) => item.VALUE === name)[0];
       case 'nonActiveReason':
-        return nonActiveStatuses.filter((item) => item.VALUE === name)[0];
+        return nonActiveReasons.filter((item) => item.VALUE === name)[0];
       case 'tariff':
         return tariffs.filter((item) => item.VALUE === name)[0];
       case 'discount':
@@ -103,12 +121,39 @@ const Neactivka = () => {
       console.log(e);
     }
   };
+
   useEffect(() => {
     void getData();
   }, []);
 
+  const allFieldsFilled = () => {
+    return (
+      state.region.VALUE &&
+      state.nonActiveStatus.VALUE &&
+      state.nonActivePaymentStatus.VALUE &&
+      state.nonActiveReason.VALUE &&
+      state.tariff.VALUE &&
+      state.discount.VALUE &&
+      state.fixEquipment.VALUE &&
+      state.address &&
+      state.userName &&
+      state.userSirName &&
+      state.personalAccount &&
+      state.phoneNumber &&
+      state.additionalPhoneNumber &&
+      state.phoneNumber !== state.additionalPhoneNumber
+    );
+  };
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (allFieldsFilled()) {
+      console.log(JSON.stringify(state));
+    }
+  };
+
   return (
-    <Box component="form" className="neactivka-form">
+    <Box component="form" className="neactivka-form" onSubmit={onSubmit}>
       <div className="neactivka-form-inner">
         <Grid item xs={12}>
           <FormControl fullWidth className="form-control">
@@ -235,14 +280,7 @@ const Neactivka = () => {
               name="phoneNumber"
               onChange={handleChange}
               inputProps={{maxLength: 9}}
-              // helperText={
-              //   userAdditionalPhoneNumber &&
-              //   userAdditionalPhoneNumber?.length < 9 ? 'Формат: 700555333' :
-              //     userAdditionalPhoneNumber && userAdditionalPhoneNumber === userPhoneNumber ?
-              //       'Основной и доп. номера не должны быть похожими' : ''
-              // }
-              // error={userAdditionalPhoneNumber &&
-              // userAdditionalPhoneNumber?.length > 0 ? userAdditionalPhoneNumber === userPhoneNumber : false}
+              helperText={state.phoneNumber && state.phoneNumber.length < 9 && 'Формат: 700555333'}
             />
           </FormControl>
         </Grid>
@@ -252,17 +290,17 @@ const Neactivka = () => {
               id="outlined-multiline-flexible"
               value={state.additionalPhoneNumber}
               label="Доп. номер телефона"
-              name="additioanlPhoneNumber"
+              name="additionalPhoneNumber"
               onChange={handleChange}
               inputProps={{maxLength: 9}}
-              // helperText={
-              //   userAdditionalPhoneNumber &&
-              //   userAdditionalPhoneNumber?.length < 9 ? 'Формат: 700555333' :
-              //     userAdditionalPhoneNumber && userAdditionalPhoneNumber === userPhoneNumber ?
-              //       'Основной и доп. номера не должны быть похожими' : ''
-              // }
-              // error={userAdditionalPhoneNumber &&
-              // userAdditionalPhoneNumber?.length > 0 ? userAdditionalPhoneNumber === userPhoneNumber : false}
+              helperText={
+                state.additionalPhoneNumber &&
+                state.additionalPhoneNumber?.length < 9 ? 'Формат: 700555333' :
+                  state.additionalPhoneNumber && state.additionalPhoneNumber === state.phoneNumber ?
+                    'Основной и доп. номера не должны быть похожими' : ''
+              }
+              error={state.additionalPhoneNumber &&
+              state.additionalPhoneNumber?.length > 0 ? state.additionalPhoneNumber === state.phoneNumber : false}
             />
           </FormControl>
         </Grid>
@@ -317,6 +355,22 @@ const Neactivka = () => {
             </Select>
           </FormControl>
         </Grid>
+        <Box
+          style={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <FileInput
+            label="Скриншот локации"
+            handleImageChange={handleImageChange}
+            file={state?.locationScreenShot ? state.locationScreenShot : null}
+            removeImage={removeImage}
+            currentImageInput={'locationScreenShot'}
+          />
+        </Box>
         <Grid item xs={12}>
           <TextField
             id="outlined-multiline-static"
@@ -324,6 +378,7 @@ const Neactivka = () => {
             multiline
             rows={4}
             value={state.comment}
+            name="comment"
             onChange={handleChange}
           />
         </Grid>
@@ -331,6 +386,7 @@ const Neactivka = () => {
       <Button
         variant="contained" type="submit"
         style={{margin: '10px 0'}}
+        disabled={!allFieldsFilled()}
       >Подтвердить</Button>
     </Box>
   );
