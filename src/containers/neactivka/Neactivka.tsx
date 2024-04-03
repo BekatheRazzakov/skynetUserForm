@@ -9,6 +9,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FileInput from "../../components/FileInput/FileInput";
 import axiosApi from "../../axiosApi";
+import {useNavigate} from "react-router-dom";
 
 interface IState {
   region: IInt;
@@ -29,6 +30,7 @@ interface IState {
 }
 
 const Neactivka = () => {
+  const navigate = useNavigate();
   const [regions, setRegions] = useState<IInt[]>([]);
   const [nonActiveStatuses, setNonActiveStatuses] = useState<IInt[]>([]);
   const [nonActivePaymentStatuses, setNonActivePaymentStatuses] = useState<IInt[]>([]);
@@ -81,7 +83,7 @@ const Neactivka = () => {
     }));
   };
 
-  const removeImage = (key: string) => {
+  const removeImage = () => {
     setState((prevState) => ({
       ...prevState,
       locationScreenShot: null,
@@ -149,9 +151,8 @@ const Neactivka = () => {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (allFieldsFilled()) {
-      const req = await axiosApi.post('http://10.1.9.122:3000/api/create-neactivka/', state);
-      const res = await req.data;
-      console.log(res);
+      await axiosApi.post('http://10.1.9.122:3000/api/create-neactivka/', state);
+      navigate('/my-applications');
     }
   };
 
