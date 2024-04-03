@@ -8,6 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FileInput from "../../components/FileInput/FileInput";
+import axiosApi from "../../axiosApi";
 
 interface IState {
   region: IInt;
@@ -145,10 +146,12 @@ const Neactivka = () => {
     );
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (allFieldsFilled()) {
-      console.log(JSON.stringify(state));
+      const req = await axiosApi.post('http://10.1.9.122:3000/api/create-neactivka/', state);
+      const res = await req.data;
+      console.log(res);
     }
   };
 

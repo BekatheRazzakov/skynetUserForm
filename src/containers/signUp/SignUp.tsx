@@ -129,7 +129,6 @@ const SignUp = () => {
             name="hydra_id_sales"
             value={state.hydra_id_sales}
             onChange={inputChangeHandler}
-            required
           />
           <Autocomplete
             noOptionsText="Не найдено"
@@ -151,7 +150,6 @@ const SignUp = () => {
               !state.surname ||
               !state.password ||
               !state.confirmPassword ||
-              !state.hydra_id_sales ||
               state.supervizer <= 0
             }
             loading={authLoading}
