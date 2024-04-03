@@ -113,15 +113,6 @@ const AboutUser: React.FC<IState> = (
                 name="domoPhone"
                 onChange={handleChange}
                 type="number"
-                // inputProps={{maxLength: 9}}
-                // helperText={
-                //   userAdditionalPhoneNumber &&
-                //   userAdditionalPhoneNumber?.length < 9 ? 'Формат: 700555333' :
-                //     userAdditionalPhoneNumber && userAdditionalPhoneNumber === userPhoneNumber ?
-                //       'Основной и доп. номера не должны быть похожими' : ''
-                // }
-                // error={userAdditionalPhoneNumber &&
-                // userAdditionalPhoneNumber?.length > 0 ? userAdditionalPhoneNumber === userPhoneNumber : false}
               />
             </FormControl>
           </Grid>

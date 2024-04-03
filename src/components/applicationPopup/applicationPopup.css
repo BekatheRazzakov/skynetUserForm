@@ -8,6 +8,7 @@
   height: 0;
   opacity: 0;
   overflow: hidden;
+  z-index: 2;
 }
 
 .application-popup-opened {

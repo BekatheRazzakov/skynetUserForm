@@ -151,7 +151,16 @@ const Neactivka = () => {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (allFieldsFilled()) {
-      await axiosApi.post('http://10.1.9.122:3000/api/create-neactivka/', state);
+      await axiosApi.post('http://10.1.9.122:3000/api/create-neactivka/', {
+        ...state,
+        region: state.region.ID,
+        nonActiveStatus: state.nonActiveStatus.ID,
+        nonActivePaymentStatus: state.nonActivePaymentStatus.ID,
+        nonActiveReason: state.nonActiveReason.ID,
+        tariff: state.tariff.ID,
+        discount: state.discount.ID,
+        fixEquipment: state.fixEquipment.ID,
+      });
       navigate('/my-applications');
     }
   };

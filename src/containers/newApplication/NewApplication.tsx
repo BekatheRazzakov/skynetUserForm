@@ -338,7 +338,8 @@ const NewApplication = () => {
       state.userSirName &&
       state.userPhoneNumber &&
       state.userAdditionalPhoneNumber &&
-      (state.userPhoneNumber !== state.userAdditionalPhoneNumber)
+      (state.userPhoneNumber !== state.userAdditionalPhoneNumber) &&
+      state.domoPhone
     );
   };
 
