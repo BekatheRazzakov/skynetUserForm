@@ -93,14 +93,14 @@ const SignUp = () => {
         </Typography>
         <Box component="form" onSubmit={submitFormHandler} sx={{mt: 3}}>
           <TextField
-            label="Имя"
+            label="Login"
             name="username"
             value={state.username}
             onChange={inputChangeHandler}
             required
           />
           <TextField
-            label="Фамилия"
+            label="ФИО"
             name="surname"
             value={state.surname}
             onChange={inputChangeHandler}
