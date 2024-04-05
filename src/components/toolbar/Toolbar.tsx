@@ -27,7 +27,8 @@ const AppToolbar = () => {
                 location.pathname === '/sign-in' ? 'Логин' :
                   location.pathname === '/sign-up' ? 'Регистрация' :
                     location.pathname === '/my-applications' ? 'Мои заявки' :
-                      location.pathname === '/neactivka' ? 'Неактивка' : ''
+                      location.pathname === '/neactivka' ? 'Неактивка' :
+                        location.pathname === '/zhaloba' ? 'Жалоба' : ''
             }
           </Typography>
           {
@@ -39,6 +40,12 @@ const AppToolbar = () => {
                 </Link>
                 <Link to="/my-applications">
                   <Button variant="contained" className="nav-link" disableElevation>Мои заявки</Button>
+                </Link>
+                <Link to="/neactivka">
+                  <Button variant="contained" className="nav-link" disableElevation>Неактивка</Button>
+                </Link>
+                <Link to="/zhaloba">
+                  <Button variant="contained" className="nav-link" disableElevation>Жалоба</Button>
                 </Link>
                 <Button
                   variant="contained" color="error" className="nav-link"
@@ -88,7 +95,7 @@ const AppToolbar = () => {
                         </ListItemButton>
                       </ListItem>
                     </Link>
-                    <Link to="/neactivka">
+                    <Link to="/zhaloba">
                       <ListItem disablePadding>
                         <ListItemButton>
                           <ListItemText primary="Жалоба абонентов"/>

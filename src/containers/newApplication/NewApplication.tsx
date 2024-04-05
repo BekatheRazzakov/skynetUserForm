@@ -20,7 +20,7 @@ export interface IInt {
   VALUE: string;
 }
 
-interface IRegions {
+export interface IRegions {
   [region: string]: IInt[]
 }
 
@@ -338,8 +338,7 @@ const NewApplication = () => {
       state.userSirName &&
       state.userPhoneNumber &&
       state.userAdditionalPhoneNumber &&
-      (state.userPhoneNumber !== state.userAdditionalPhoneNumber) &&
-      state.domoPhone
+      (state.userPhoneNumber !== state.userAdditionalPhoneNumber)
     );
   };
 

@@ -1,6 +1,5 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {Box, Button, Grid, TextField} from "@mui/material";
-import './neactivka.css';
 import FormControl from "@mui/material/FormControl";
 import axios from "axios";
 import {IInt} from "../newApplication/NewApplication";
@@ -10,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FileInput from "../../components/FileInput/FileInput";
 import axiosApi from "../../axiosApi";
 import {useNavigate} from "react-router-dom";
+import './neactivka.css';
 
 interface IState {
   region: IInt;

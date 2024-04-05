@@ -1,0 +1,31 @@
+.zhaloba-form {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: calc(100% - 110px);
+}
+
+.zhaloba-form-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  padding-top: 10px;
+}
+
+.zhaloba-form .MuiGrid-root {
+  background-color: white;
+  border: 0;
+  border-radius: 8px;
+}
+
+@media (max-width: 400px) {
+  .zhaloba-form {
+    width: 95%;
+    height: calc(100% - 80px);
+  }
+}

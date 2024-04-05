@@ -8,6 +8,7 @@ import AppToolbar from "./components/toolbar/Toolbar";
 import MyApplications from "./containers/myApplications/MyApplications";
 import Neactivka from "./containers/neactivka/Neactivka";
 import {useAppSelector} from "./app/hooks";
+import Zhaloba from "./containers/zhaloba/Zhaloba";
 
 export interface IState {
   handleChange?: (
@@ -70,6 +71,7 @@ const App = () => {
         <Route path='sign-in' element={<SignIn/>}/>
         <Route path='my-applications' element={<MyApplications/>}/>
         <Route path='neactivka' element={<Neactivka/>}/>
+        <Route path='zhaloba' element={<Zhaloba/>}/>
       </Routes>
     </>
   );
