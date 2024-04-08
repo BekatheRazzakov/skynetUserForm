@@ -114,13 +114,12 @@ const Zhaloba = () => {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (allFieldsFilled()) {
-      await axiosApi.post('http://10.1.9.122:3000/api/create-zhaloba/', {
+      await axiosApi.post('create-zhaloba/', {
         ...state,
-        region: state.region.ID,
-        district: state.district.ID,
-        zhalobaReason: state.zhalobaReason.ID,
+        street: {VALUE: state.street},
+        personalAccount: {VALUE: state.personalAccount}
       });
-      navigate('/my-applications');
+      navigate('/zhaloba-list');
     }
   };
 

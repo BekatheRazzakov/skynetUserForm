@@ -25,7 +25,6 @@ interface IState {
   personalAccount: string;
   phoneNumber: string;
   additionalPhoneNumber: string;
-  locationScreenShot: File | null;
   comment: string;
 }
 
@@ -52,7 +51,6 @@ const Neactivka = () => {
     personalAccount: '',
     phoneNumber: '',
     additionalPhoneNumber: '',
-    locationScreenShot: null,
     comment: '',
   });
 
@@ -359,22 +357,6 @@ const Neactivka = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Box
-          style={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <FileInput
-            label="Скриншот локации"
-            handleImageChange={handleImageChange}
-            file={state?.locationScreenShot ? state.locationScreenShot : null}
-            removeImage={removeImage}
-            currentImageInput={'locationScreenShot'}
-          />
-        </Box>
         <Grid item xs={12}>
           <TextField
             id="outlined-multiline-static"

@@ -27,8 +27,8 @@ const AppToolbar = () => {
                 location.pathname === '/sign-in' ? 'Логин' :
                   location.pathname === '/sign-up' ? 'Регистрация' :
                     location.pathname === '/my-applications' ? 'Мои заявки' :
-                      location.pathname === '/neactivka' ? 'Неактивка' :
-                        location.pathname === '/zhaloba' ? 'Жалоба' :
+                      location.pathname === '/neactivka' ? 'Новая неактивка' :
+                        location.pathname === '/zhaloba' ? 'Новая жалоба' :
                           location.pathname === '/zhaloba-list' ? 'Список жалоб' :
                             location.pathname === '/neactivka-list' ? 'Список неактивок' : ''
             }
