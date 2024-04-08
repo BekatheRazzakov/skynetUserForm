@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import {Box, Button, Grid, TextField} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import axios from "axios";
@@ -6,7 +6,6 @@ import {IInt} from "../newApplication/NewApplication";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import FileInput from "../../components/FileInput/FileInput";
 import axiosApi from "../../axiosApi";
 import {useNavigate} from "react-router-dom";
 import './neactivka.css';
@@ -69,22 +68,6 @@ const Neactivka = () => {
         name === 'discount' ||
         name === 'fixEquipment' ?
           getCurrentOption(name, value) : value
-    }));
-  };
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
-    if (!e.target.files) return;
-    const file = e.target.files[0];
-    setState((prevState) => ({
-      ...prevState,
-      [fieldName]: file,
-    }));
-  };
-
-  const removeImage = () => {
-    setState((prevState) => ({
-      ...prevState,
-      locationScreenShot: null,
     }));
   };
 
