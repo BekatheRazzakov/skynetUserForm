@@ -65,7 +65,29 @@ const MyApplications = () => {
 
   return (
     <Paper className="my-applications-container" elevation={4}>
-      <ApplicationPopup togglePopup={toggleAppPopup} popup={applicationPopup} data={application}/>
+      <ApplicationPopup togglePopup={toggleAppPopup} popup={applicationPopup}>
+        <Typography variant="body1" className="application-popup-title">Информация о заявке</Typography>
+        <Paper elevation={1} className="application-item-content">
+          <span className="application-item-key-name">hydra abbon ls: </span>
+          <span className="application-item-key-value">{application?.hydra_abbon_ls || '-'}</span>
+        </Paper>
+        <Paper elevation={1} className="application-item-content">
+          <span className="application-item-key-name">Гидра договор: </span>
+          <span className="application-item-key-value">{application?.hydra_dogovor || '-'}</span>
+        </Paper>
+        <Paper elevation={1} className="application-item-content">
+          <span className="application-item-key-name">Адрес: </span>
+          <span className="application-item-key-value">{application?.hydra_address || '-'}</span>
+        </Paper>
+        <Paper elevation={1} className="application-item-content">
+          <span className="application-item-key-name">Статус: </span>
+          <span className="application-item-key-value">{application?.status || '-'}</span>
+        </Paper>
+        <Paper elevation={1} className="application-item-content">
+          <span className="application-item-key-name">ID: </span>
+          <span className="application-item-key-value">{application?.id || '-'}</span>
+        </Paper>
+      </ApplicationPopup>
       {
         applicationsLoading ?
           <div className="applications-loading">

@@ -28,7 +28,9 @@ const AppToolbar = () => {
                   location.pathname === '/sign-up' ? 'Регистрация' :
                     location.pathname === '/my-applications' ? 'Мои заявки' :
                       location.pathname === '/neactivka' ? 'Неактивка' :
-                        location.pathname === '/zhaloba' ? 'Жалоба' : ''
+                        location.pathname === '/zhaloba' ? 'Жалоба' :
+                          location.pathname === '/zhaloba-list' ? 'Список жалоб' :
+                            location.pathname === '/neactivka-list' ? 'Список неактивок' : ''
             }
           </Typography>
           {
@@ -36,22 +38,28 @@ const AppToolbar = () => {
             <>
               <div className="nav-links">
                 <Link to="/new-application">
-                  <Button variant="contained" className="nav-link" disableElevation>Создать заявку</Button>
+                  <Button variant="contained" className="nav-link" disableElevation>Новая заявка</Button>
                 </Link>
                 <Link to="/my-applications">
                   <Button variant="contained" className="nav-link" disableElevation>Мои заявки</Button>
                 </Link>
                 <Link to="/neactivka">
-                  <Button variant="contained" className="nav-link" disableElevation>Неактивка</Button>
+                  <Button variant="contained" className="nav-link" disableElevation>Новая неактивка</Button>
                 </Link>
                 <Link to="/zhaloba">
-                  <Button variant="contained" className="nav-link" disableElevation>Жалоба</Button>
+                  <Button variant="contained" className="nav-link" disableElevation>Новая жалоба</Button>
+                </Link>
+                <Link to="/neactivka-list">
+                  <Button variant="contained" className="nav-link" disableElevation>Список неактивок</Button>
+                </Link>
+                <Link to="/zhaloba-list">
+                  <Button variant="contained" className="nav-link" disableElevation>Список жалоб</Button>
                 </Link>
                 <Button
                   variant="contained" color="error" className="nav-link"
                   onClick={() => dispatch(logout())}
                   style={{ backgroundColor: 'rgba(255,69,69,0.48)' }}
-                  disableElevation>Выйти из аккаунта</Button>
+                  disableElevation>Выйти</Button>
               </div>
               <div className="nav-links-mobile">
                 <IconButton
@@ -77,7 +85,7 @@ const AppToolbar = () => {
                     <Link to="/new-application">
                       <ListItem disablePadding>
                         <ListItemButton>
-                          <ListItemText primary="Создать заявку"/>
+                          <ListItemText primary="Новая заявка"/>
                         </ListItemButton>
                       </ListItem>
                     </Link>
@@ -91,14 +99,28 @@ const AppToolbar = () => {
                     <Link to="/neactivka">
                       <ListItem disablePadding>
                         <ListItemButton>
-                          <ListItemText primary="Неактивка"/>
+                          <ListItemText primary="Новая неактивка"/>
                         </ListItemButton>
                       </ListItem>
                     </Link>
                     <Link to="/zhaloba">
                       <ListItem disablePadding>
                         <ListItemButton>
-                          <ListItemText primary="Жалоба абонентов"/>
+                          <ListItemText primary="Новая жалоба"/>
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+                    <Link to="/neactivka-list">
+                      <ListItem disablePadding>
+                        <ListItemButton>
+                          <ListItemText primary="Список неактивок"/>
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+                    <Link to="/zhaloba-list">
+                      <ListItem disablePadding>
+                        <ListItemButton>
+                          <ListItemText primary="Список жалоб"/>
                         </ListItemButton>
                       </ListItem>
                     </Link>

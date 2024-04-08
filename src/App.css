@@ -48,6 +48,16 @@ html, body, #root {
   padding: 4px !important;
 }
 
+@media (max-width: 1180px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links-mobile {
+    display: flex;
+  }
+}
+
 @media (max-width: 1024px) {
   .MuiToolbar-root {
     padding: 0 30px!important;
@@ -55,16 +65,6 @@ html, body, #root {
 
   .nav-link {
     font-size: 10px!important;
-  }
-}
-
-@media (max-width: 900px) {
-  .nav-links {
-    display: none;
-  }
-
-  .nav-links-mobile {
-    display: flex;
   }
 }
 

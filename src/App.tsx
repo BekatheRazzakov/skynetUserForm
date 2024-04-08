@@ -9,6 +9,8 @@ import MyApplications from "./containers/myApplications/MyApplications";
 import Neactivka from "./containers/neactivka/Neactivka";
 import {useAppSelector} from "./app/hooks";
 import Zhaloba from "./containers/zhaloba/Zhaloba";
+import ZhalobaList from "./containers/ZhalobaList/ZhalobaList";
+import NeactivkaList from "./containers/NeactivkaList/NeactivkaList";
 
 export interface IState {
   handleChange?: (
@@ -72,6 +74,8 @@ const App = () => {
         <Route path='my-applications' element={<MyApplications/>}/>
         <Route path='neactivka' element={<Neactivka/>}/>
         <Route path='zhaloba' element={<Zhaloba/>}/>
+        <Route path='zhaloba-list' element={<ZhalobaList/>}/>
+        <Route path='neactivka-list' element={<NeactivkaList/>}/>
       </Routes>
     </>
   );

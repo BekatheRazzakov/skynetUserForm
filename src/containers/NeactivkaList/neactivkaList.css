@@ -1,0 +1,72 @@
+.my-applications-container {
+  max-width: 1120px;
+  margin: 20px auto 20px;
+  padding: 10px;
+}
+
+.applications-loading {
+  display: flex;
+  justify-content: center;
+  padding: 50px 0;
+}
+
+.no-applications {
+  text-align: center;
+  margin: 10px 0!important;
+}
+
+.application-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-gap: 7px 15px;
+}
+
+.application-item {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 5px;
+}
+
+.application-item-content {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.application-item-key-name,
+.application-item-key-value {
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 50%;
+}
+
+.application-item-key-value {
+  display: flex!important;
+  align-items: center;
+  font-weight: 400;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1180px) {
+  .my-applications-container {
+    margin: 20px 20px;
+  }
+}
+
+@media (max-width: 719px) {
+  .my-applications-container {
+    margin: 20px 10px;
+  }
+}
+
+@media (max-width: 554px) {
+  .application-items {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  }
+}
