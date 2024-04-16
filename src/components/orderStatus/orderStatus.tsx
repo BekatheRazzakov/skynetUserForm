@@ -16,13 +16,13 @@ const OrderStatus: React.FC<IState> = (
   const getCurrentChoice = (field: string, value: string) => {
     switch (field) {
       case 'orderStatus':
-        return orderStatuses?.filter(item => item.VALUE === value)[0];
+        return orderStatuses?.filter(item => item?.VALUE === (value || ''))[0];
       case 'routerInstallationType':
-        return routerInstallations?.filter(item => item.VALUE === value)[0];
+        return routerInstallations?.filter(item => item?.VALUE === (value || ''))[0];
       case 'tariff':
-        return tariffs?.filter(item => item.VALUE === value)[0];
+        return tariffs?.filter(item => item?.VALUE === (value || ''))[0];
       case 'superTv':
-        return superTvs?.filter(item => item.VALUE === value)[0];
+        return superTvs?.filter(item => item?.VALUE === (value || ''))[0];
     }
   };
 

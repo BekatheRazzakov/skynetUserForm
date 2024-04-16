@@ -1,14 +1,14 @@
 import React, {FormEvent, useEffect, useState} from 'react';
 import {Autocomplete, Box, Button, Grid, TextField} from "@mui/material";
-import './zhaloba.css';
 import FormControl from "@mui/material/FormControl";
 import axios from "axios";
-import {IInt, IRegions} from "../newApplication/NewApplication";
+import {IInt} from "../newApplication/NewApplication";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import axiosApi from "../../axiosApi";
 import {useNavigate} from "react-router-dom";
+import './zhaloba.css';
 
 interface IState {
   region: IInt;
@@ -24,8 +24,7 @@ interface IState {
 const Zhaloba = () => {
   const navigate = useNavigate();
   const [regions, setRegions] = useState<IInt[]>([]);
-  const [districts, setDistricts] = useState<IRegions>({});
-  const [districtsArr, setDistrictsArr] = useState<IInt[]>([]);
+  const [districts, setDistricts] = useState<IInt[]>([]);
   const [zhalobaReasons, setZhalobaReasons] = useState<IInt[]>([]);
   const [dataLoading, setDataLoading] = useState(false);
   const [state, setState] = useState<IState>({
@@ -53,13 +52,6 @@ const Zhaloba = () => {
           ['phoneNumber', 'personalAccount'].includes(name) ? (value as string).replace(/[^0-9]/g, '') : value
     }));
     if (name === 'region') {
-      const dists = Object.keys(districts).map((key) => {
-        if ((value as string).includes(key)) {
-          return districts[key];
-        }
-        return [];
-      }).filter((item) => item.length)[0];
-      setDistrictsArr(dists);
       setState((prevState) => ({
         ...prevState,
         district: {ID: '', VALUE: ''},
@@ -70,11 +62,11 @@ const Zhaloba = () => {
   const getCurrentOption = (optionsName: string, name: unknown) => {
     switch (optionsName) {
       case 'region':
-        return regions.filter((item) => item.VALUE === name)[0];
+        return regions.filter((item) => item.VALUE === (name))[0] || null;
       case 'district':
-        return districtsArr.filter((item) => item.VALUE === name)[0];
+        return districts.filter((item) => item.VALUE === (name))[0] || null;
       case 'zhalobaReason':
-        return zhalobaReasons.filter((item) => item.VALUE === name)[0];
+        return zhalobaReasons.filter((item) => item.VALUE === (name))[0] || null;
     }
   };
 
@@ -82,12 +74,10 @@ const Zhaloba = () => {
     try {
       setDataLoading(true);
       const fetchZhalobaData = await axios.get('http://10.1.9.122:3000/api/zhaloba/');
-      const fetchAddresses = await axios.get('http://10.1.9.122:3000/api/zhaloba-regions/');
-      const addresses = await fetchAddresses.data;
       const zhalobaData = await fetchZhalobaData.data;
-      setDistricts(addresses);
-      setRegions(zhalobaData[0]);
-      setZhalobaReasons(zhalobaData[1]);
+      setDistricts(zhalobaData[0]);
+      setRegions(zhalobaData[1]);
+      setZhalobaReasons(zhalobaData[2]);
       setDataLoading(false);
     } catch (e) {
       console.log(e);
@@ -100,9 +90,9 @@ const Zhaloba = () => {
 
   const allFieldsFilled = () => {
     return (
-      state.region.VALUE &&
-      state.district.VALUE &&
-      state.zhalobaReason.VALUE &&
+      state.region?.VALUE &&
+      state.district?.VALUE &&
+      state.zhalobaReason?.VALUE &&
       state.street &&
       state.personalAccount &&
       state.name &&
@@ -114,11 +104,7 @@ const Zhaloba = () => {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (allFieldsFilled()) {
-      await axiosApi.post('create-zhaloba/', {
-        ...state,
-        street: {VALUE: state.street},
-        personalAccount: {VALUE: state.personalAccount}
-      });
+      await axiosApi.post('create-zhaloba/', {...state});
       navigate('/zhaloba-list');
     }
   };
@@ -149,10 +135,10 @@ const Zhaloba = () => {
           <Autocomplete
             disablePortal
             // @ts-ignore
-            value={state.district.VALUE}
+            value={state.district?.VALUE}
             noOptionsText="Не найдено"
             id="combo-box-demo"
-            options={districtsArr.map((dist) => dist.VALUE)}
+            options={districts.map((dist) => dist.VALUE)}
             // @ts-ignore
             onChange={(e) => handleChange({target: {name: 'district', value: e.target.innerHTML}})}
             loading={dataLoading}

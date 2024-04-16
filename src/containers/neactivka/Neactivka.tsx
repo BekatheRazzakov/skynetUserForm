@@ -1,7 +1,6 @@
 import React, {FormEvent, useEffect, useState} from 'react';
-import {Box, Button, Grid, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Grid, TextField} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
-import axios from "axios";
 import {IInt} from "../newApplication/NewApplication";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -12,6 +11,7 @@ import './neactivka.css';
 
 interface IState {
   region: IInt;
+  district: IInt;
   nonActiveStatus: IInt;
   nonActivePaymentStatus: IInt;
   nonActiveReason: IInt;
@@ -30,6 +30,7 @@ interface IState {
 const Neactivka = () => {
   const navigate = useNavigate();
   const [regions, setRegions] = useState<IInt[]>([]);
+  const [districts, setDistricts] = useState<IInt[]>([]);
   const [nonActiveStatuses, setNonActiveStatuses] = useState<IInt[]>([]);
   const [nonActivePaymentStatuses, setNonActivePaymentStatuses] = useState<IInt[]>([]);
   const [nonActiveReasons, setNonActiveReasons] = useState<IInt[]>([]);
@@ -38,6 +39,7 @@ const Neactivka = () => {
   const [fixEquipnents, setFixEquipnents] = useState<IInt[]>([]);
   const [state, setState] = useState<IState>({
     region: {ID: '', VALUE: ''},
+    district: {ID: '', VALUE: ''},
     nonActiveStatus: {ID: '', VALUE: ''},
     nonActivePaymentStatus: {ID: '', VALUE: ''},
     nonActiveReason: {ID: '', VALUE: ''},
@@ -52,6 +54,7 @@ const Neactivka = () => {
     additionalPhoneNumber: '',
     comment: '',
   });
+  const [dataLoading, setDataLoading] = useState(false);
 
   const handleChange = (
     event: { target: { name: string; value: unknown } }
@@ -61,6 +64,7 @@ const Neactivka = () => {
       ...prevState,
       [name]:
         name === 'region' ||
+        name === 'district' ||
         name === 'nonActiveStatus' ||
         name === 'nonActivePaymentStatus' ||
         name === 'nonActiveReason' ||
@@ -75,6 +79,8 @@ const Neactivka = () => {
     switch (optionsName) {
       case 'region':
         return regions.filter((item) => item.VALUE === name)[0];
+      case 'district':
+        return districts.filter((item) => item.VALUE === name)[0];
       case 'nonActiveStatus':
         return nonActiveStatuses.filter((item) => item.VALUE === name)[0];
       case 'nonActivePaymentStatus':
@@ -92,15 +98,18 @@ const Neactivka = () => {
 
   const getData = async () => {
     try {
-      const req = await axios.get('http://10.1.9.122:3000/api/neactivka/');
+      setDataLoading(true);
+      const req = await axiosApi('neactivka/');
       const res = await req.data;
-      setRegions(res[0]);
-      setNonActiveStatuses(res[1]);
-      setNonActivePaymentStatuses(res[2]);
-      setTariffs(res[3]);
-      setNonActiveReasons(res[4]);
-      setDiscounts(res[5]);
-      setFixEquipnents(res[6]);
+      setDistricts(res[0]);
+      setRegions(res[1])
+      setNonActiveStatuses(res[2]);
+      setNonActivePaymentStatuses(res[3]);
+      setTariffs(res[4]);
+      setNonActiveReasons(res[5]);
+      setDiscounts(res[6]);
+      setFixEquipnents(res[7]);
+      setDataLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -113,6 +122,7 @@ const Neactivka = () => {
   const allFieldsFilled = () => {
     return (
       state.region.VALUE &&
+      state.district.VALUE &&
       state.nonActiveStatus.VALUE &&
       state.nonActivePaymentStatus.VALUE &&
       state.nonActiveReason.VALUE &&
@@ -132,7 +142,7 @@ const Neactivka = () => {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (allFieldsFilled()) {
-      await axiosApi.post('create-neactivka/', state);
+      await axiosApi.post('create-neactivka/', {...state});
       navigate('/neactivka-list');
     }
   };
@@ -156,6 +166,20 @@ const Neactivka = () => {
               }
             </Select>
           </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <Autocomplete
+            disablePortal
+            value={state.district?.VALUE}
+            noOptionsText="Не найдено"
+            id="combo-box-demo"
+            options={districts?.map((item) => item.VALUE)}
+            // @ts-ignore
+            onChange={(e) => handleChange({target: {name: 'district', value: e.target.innerHTML}})}
+            loading={dataLoading}
+            loadingText="Загрузка..."
+            renderInput={(params) => <TextField {...params} label="Район"/>}
+          />
         </Grid>
         <Grid item xs={12}>
           <FormControl fullWidth className="form-control">

@@ -10,7 +10,7 @@ const AboutUser: React.FC<IState> = (
   {providerFrom, providersFrom, username, userSirName, userPhoneNumber, userAdditionalPhoneNumber, domoPhone, handleChange}
 ) => {
   const getCurrentChoice = (value: string) => {
-    return providersFrom?.filter(item => item.VALUE === value)[0];
+    return providersFrom?.filter(item => item?.VALUE === (value || ''))[0];
   };
 
   return (
