@@ -1,7 +1,6 @@
 import React, {FormEvent, useEffect, useState} from 'react';
 import {Autocomplete, Box, Button, Grid, TextField} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
-import axios from "axios";
 import {IInt} from "../newApplication/NewApplication";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -73,7 +72,7 @@ const Zhaloba = () => {
   const getData = async () => {
     try {
       setDataLoading(true);
-      const fetchZhalobaData = await axios.get('http://10.1.9.122:3000/api/zhaloba/');
+      const fetchZhalobaData = await axiosApi('zhaloba/');
       const zhalobaData = await fetchZhalobaData.data;
       setDistricts(zhalobaData[0]);
       setRegions(zhalobaData[1]);
