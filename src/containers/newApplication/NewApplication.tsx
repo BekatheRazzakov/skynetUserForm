@@ -93,7 +93,6 @@ const NewApplication = () => {
         name === 'district' ||
         name === 'street' ?
           obj :
-          name === 'district2' ||
           name === 'orderStatus' ||
           name === 'routerInstallationType' ||
           name === 'superTv' ||
@@ -128,6 +127,7 @@ const NewApplication = () => {
       setState((prevState) => ({
         ...prevState,
         street: {name: '', hydra_id: -1},
+        district2: getDist2(obj?.name || '') || {VALUE: "", ID: "",},
       }));
       void getStreets(obj?.hydra_id.toString() || '');
     }
@@ -340,6 +340,127 @@ const NewApplication = () => {
       state.userAdditionalPhoneNumber &&
       (state.userPhoneNumber !== state.userAdditionalPhoneNumber)
     );
+  };
+
+  const getDist2 = (dist2name: string) => {
+    if (dist2name === 'с. Дружба') return districts2.filter((dist2) => dist2.VALUE === 'Дружба')[0];
+    if (dist2name === 'г. Шопоков') return districts2.filter((dist2) => dist2.VALUE === 'Шопоков')[0];
+    if (dist2name === 'с. Романовка') return districts2.filter((dist2) => dist2.VALUE === 'Романовка')[0];
+    if (dist2name === 'с. Гавриловка') return districts2.filter((dist2) => dist2.VALUE === 'Гавриловка')[0];
+    if (dist2name === 'г. Кара-Балта') return districts2.filter((dist2) => dist2.VALUE === 'Кара-Балта')[0];
+    if (dist2name === 'с. Станция Ивановка') return districts2.filter((dist2) => dist2.VALUE === 'Ст.Ивановка')[0];
+    if (dist2name === 'с. Кенбулун') return districts2.filter((dist2) => dist2.VALUE === 'Кенбулун')[0];
+    if (dist2name === 'с. Сокулук') return districts2.filter((dist2) => dist2.VALUE === 'Сокулук')[0];
+    if (dist2name === 'ж/м. Биримдик-Кут') return districts2.filter((dist2) => dist2.VALUE === 'Биримдик Кут')[0];
+    if (dist2name === 'ж/м. Ак-Бата') return districts2.filter((dist2) => dist2.VALUE === 'Ак-бата')[0];
+    if (dist2name === 'ж/м. Дордой') return districts2.filter((dist2) => dist2.VALUE === 'Дордой')[0];
+    if (dist2name === 'ж/м. Келечек') return districts2.filter((dist2) => dist2.VALUE === 'Келечек')[0];
+    if (dist2name === 'ж/м. Калыс-Ордо') return districts2.filter((dist2) => dist2.VALUE === 'Калыс-ордо')[0];
+    if (dist2name === 'г. Кант') return districts2.filter((dist2) => dist2.VALUE === 'Кант')[0];
+    if (dist2name === 'г. Каинды') return districts2.filter((dist2) => dist2.VALUE === 'Кайынды')[0];
+    if (dist2name === 'с. Чалдовар') return districts2.filter((dist2) => dist2.VALUE === 'Чалдовар')[0];
+    if (dist2name === 'с. Новопавловка') return districts2.filter((dist2) => dist2.VALUE === 'Новопавловка')[0];
+    if (dist2name === 'ж/м. Карагачова Роща') return districts2.filter((dist2) => dist2.VALUE === 'Карагачевая роща')[0];
+    if (dist2name === 'с. Маевка') return districts2.filter((dist2) => dist2.VALUE === 'Маевка')[0];
+    if (dist2name === 'с. Таш-Булак') return districts2.filter((dist2) => dist2.VALUE === 'Таш-Булак')[0];
+    if (dist2name === 'с. Юрьевка') return districts2.filter((dist2) => dist2.VALUE === 'Юрьевка')[0];
+    if (dist2name === 'ж/м. Кок-Жар') return districts2.filter((dist2) => dist2.VALUE === 'Кок-жар-1 Чуй' || dist2.VALUE === 'Кок-жар-2 Чуй')[0];
+    if (dist2name === 'с. Тельман') return districts2.filter((dist2) => dist2.VALUE === 'Тельман Чуй')[0];
+    if (dist2name === 'с. Сын-Таш') return districts2.filter((dist2) => dist2.VALUE === 'Сынташ Чуй')[0];
+    if (dist2name === 'с. Нурманбет') return districts2.filter((dist2) => dist2.VALUE === 'Нурманбет Чуй')[0];
+    if (dist2name === 'ж/м. Алтын-Ордо') return districts2.filter((dist2) => dist2.VALUE === 'Алтын-ордо Чуй')[0];
+    if (dist2name === 'с. Рот-Фронт') return districts2.filter((dist2) => dist2.VALUE === 'Рот-фронт Чуй')[0];
+    if (dist2name === 'с. Асылбаш') return districts2.filter((dist2) => dist2.VALUE === 'Асылбаш Чуй')[0];
+    if (dist2name === 'с. Жетиген') return districts2.filter((dist2) => dist2.VALUE === 'Жетиген Чуй')[0];
+    if (dist2name === 'с. Алексеевка') return districts2.filter((dist2) => dist2.VALUE === 'Алексеевка Чуй')[0];
+    if (dist2name === 'ж/м. Ак-Босого') return districts2.filter((dist2) => dist2.VALUE === 'Ак-босого Чуй' || dist2.VALUE === 'Ак-босого1 Чуй' || dist2.VALUE === 'Ак-босого2 Чуй' || dist2.VALUE === 'Ак-босого3 Чуй')[0];
+    if (dist2name === 'с. Совхоз Ала-Тоо') return districts2.filter((dist2) => dist2.VALUE === 'Ала-тоо сары-жон Чуй')[0];
+    if (dist2name === 'с. Джал') return districts2.filter((dist2) => dist2.VALUE === 'Село Джал Чуй')[0];
+    if (dist2name === 'с. Ак-Жол') return districts2.filter((dist2) => dist2.VALUE === 'Ак-жол Чуй')[0];
+    if (dist2name === 'с. Комсомольское') return districts2.filter((dist2) => dist2.VALUE === 'Комсомольское Чуй')[0];
+    if (dist2name === 'с. Манас') return districts2.filter((dist2) => dist2.VALUE === 'Манас чуй')[0];
+    if (dist2name === 'с. Беш-Кунгей') return districts2.filter((dist2) => dist2.VALUE === 'Беш-Кунгей Чуй')[0];
+    if (dist2name === 'ж/м. Аламединский рынок') return districts2.filter((dist2) => dist2.VALUE === 'Аламединский рынок Бишкек')[0];
+    if (dist2name === 'ж/м. Западный Автовокзал') return districts2.filter((dist2) => dist2.VALUE === 'Западный автовокзал Бишкек')[0];
+    if (dist2name === 'ж/м. Токолдош') return districts2.filter((dist2) => dist2.VALUE === 'Токольдош Бишкек')[0];
+    if (dist2name === 'с. Кой-таш') return districts2.filter((dist2) => dist2.VALUE === 'Кой-Таш Чуй')[0];
+    if (dist2name === 'с. Интернациональное / Бозбармак') return districts2.filter((dist2) => dist2.VALUE === 'Интернациональное/Босбармак')[0];
+    if (dist2name === 'ж/м. Кузнечная крепость') return districts2.filter((dist2) => dist2.VALUE === 'Кузнечная крепость Бишкек')[0];
+    if (dist2name === 'с. Ивановка') return districts2.filter((dist2) => dist2.VALUE === 'Ивановка')[0];
+    if (dist2name === 'ж/м. Пригородное') return districts2.filter((dist2) => dist2.VALUE === 'Пригородное Бишкек')[0];
+    if (dist2name === 'ж/м. Ак-Ордо 1') return districts2.filter((dist2) => dist2.VALUE === 'Ак-ордо-1 Чуй')[0];
+    if (dist2name === 'ж/м. Арча-Бешик') return districts2.filter((dist2) => dist2.VALUE === 'Арча-Бешик Чуй')[0];
+    if (dist2name === 'ж/м. Телевышка') return districts2.filter((dist2) => dist2.VALUE === 'Телевышка Чуй')[0];
+    if (dist2name === 'ж/м. Кызыл-Аскер') return districts2.filter((dist2) => dist2.VALUE === 'Кызыл-Аскер Бишкек')[0];
+    if (dist2name === 'ж/м. Касым') return districts2.filter((dist2) => dist2.VALUE === 'ж/м Касым Чуй')[0];
+    if (dist2name === 'с. Гидростроитель') return districts2.filter((dist2) => dist2.VALUE === 'Гидростроитель Чуй')[0];
+    if (dist2name === 'мкр. Этажки ГКНБ') return districts2.filter((dist2) => dist2.VALUE === 'Этажки ГКНБ')[0];
+    if (dist2name === 'ж/м. Бакай-Ата') return districts2.filter((dist2) => dist2.VALUE === 'Бакай-Ата Чуй')[0];
+    if (dist2name === 'с. Аламедин') return districts2.filter((dist2) => dist2.VALUE === 'Аламедин Чуй')[0];
+    if (dist2name === 'ж/м. Кудрука (город 3)') return districts2.filter((dist2) => dist2.VALUE === 'Кудрука Чуй')[0];
+    if (dist2name === 'ж/м. Ак-Ордо 2') return districts2.filter((dist2) => dist2.VALUE === 'Ак-ордо-2 Чуй')[0];
+    if (dist2name === 'с. Чолпон') return districts2.filter((dist2) => dist2.VALUE === 'Чолпон Чуй')[0];
+    if (dist2name === 'ж/м. Мурас-Ордо (Озерное)') return districts2.filter((dist2) => dist2.VALUE === 'Озерное Чуй')[0];
+    if (dist2name === 'ж/м. Ала-Тоо 3') return districts2.filter((dist2) => dist2.VALUE === 'Ала-тоо 3')[0];
+    if (dist2name === 'ж/м. Ак-Ордо 3') return districts2.filter((dist2) => dist2.VALUE === 'Ак-ордо-3 Чуй')[0];
+    if (dist2name === 'Мкр Тунгуч') return districts2.filter((dist2) => dist2.VALUE === 'Бишкек')[0];
+    if (dist2name === 'мкр 12-й') return districts2.filter((dist2) => dist2.VALUE === 'Бишкек')[0];
+    if (dist2name === 'мкр 11-й') return districts2.filter((dist2) => dist2.VALUE === 'Бишкек')[0];
+    if (dist2name === 'мкр 6-й') return districts2.filter((dist2) => dist2.VALUE === 'Бишкек')[0];
+    if (dist2name === 'мкр 4-й') return districts2.filter((dist2) => dist2.VALUE === 'Бишкек')[0];
+    if (dist2name === 'мкр Улан 1') return districts2.filter((dist2) => dist2.VALUE === 'Бишкек')[0];
+    if (dist2name === 'мкр Улан 2') return districts2.filter((dist2) => dist2.VALUE === 'Бишкек')[0];
+    if (dist2name === 'мкр Сейтек(Арашан)') return districts2.filter((dist2) => dist2.VALUE === 'Бишкек')[0];
+    if (dist2name === 'Ат-Башы') return districts2.filter((dist2) => dist2.VALUE === 'Ат-Башы')[0];
+    if (dist2name === 'Нарын') return districts2.filter((dist2) => dist2.VALUE === 'Нарын')[0];
+    if (dist2name === 'Кочкор') return districts2.filter((dist2) => dist2.VALUE === 'Кочкор')[0];
+    if (dist2name === 'Ача Кайынды') return districts2.filter((dist2) => dist2.VALUE === 'Добавить Ача Кайынды')[0];
+    if (dist2name === 'Балыкчы') return districts2.filter((dist2) => dist2.VALUE === 'Балыкчы')[0];
+    if (dist2name === 'Тамга') return districts2.filter((dist2) => dist2.VALUE === 'Тамга')[0];
+    if (dist2name === 'Григорьевка') return districts2.filter((dist2) => dist2.VALUE === 'Григорьевка')[0];
+    if (dist2name === 'Дархан') return districts2.filter((dist2) => dist2.VALUE === 'Дархан')[0];
+    if (dist2name === 'Ананьево') return districts2.filter((dist2) => dist2.VALUE === 'Ананьево')[0];
+    if (dist2name === 'Саруу') return districts2.filter((dist2) => dist2.VALUE === 'Саруу')[0];
+    if (dist2name === 'Боконбаево') return districts2.filter((dist2) => dist2.VALUE === 'Боконбаево')[0];
+    if (dist2name === 'Чолпон-Ата') return districts2.filter((dist2) => dist2.VALUE === 'Чолпон-Ата')[0];
+    if (dist2name === 'Бостери') return districts2.filter((dist2) => dist2.VALUE === 'Бостери')[0];
+    if (dist2name === 'Бактуу-Долонотуу') return districts2.filter((dist2) => dist2.VALUE === 'Бактуу-долонотуу')[0];
+    if (dist2name === 'Кызыл-суу') return districts2.filter((dist2) => dist2.VALUE === 'Кызыл-Суу')[0];
+    if (dist2name === 'Барскоон') return districts2.filter((dist2) => dist2.VALUE === 'Барскоон')[0];
+    if (dist2name === 'Кара-Ой') return districts2.filter((dist2) => dist2.VALUE === 'Долинка')[0];
+    if (dist2name === 'Жениш') return districts2.filter((dist2) => dist2.VALUE === 'Жениш')[0];
+    if (dist2name === 'Жалгыз-Орук') return districts2.filter((dist2) => dist2.VALUE === 'Жалгыз-Орук')[0];
+    if (dist2name === 'Бакай-Ата') return districts2.filter((dist2) => dist2.VALUE === 'Бакай-Ата Талас')[0];
+    if (dist2name === 'Кок-Ой') return districts2.filter((dist2) => dist2.VALUE === 'Кок-Ой Талас')[0];
+    if (dist2name === 'Кызыл-Адыр') return districts2.filter((dist2) => dist2.VALUE === 'Кызыл-Адыр Талас')[0];
+    if (dist2name === 'Талас') return districts2.filter((dist2) => dist2.VALUE === 'Талас')[0];
+    if (dist2name === 'Атая Огонбаева') return districts2.filter((dist2) => dist2.VALUE === 'Огонбаева')[0];
+    if (dist2name === 'Калба') return districts2.filter((dist2) => dist2.VALUE === 'Калба')[0];
+    if (dist2name === 'Араван') return districts2.filter((dist2) => dist2.VALUE === 'Араван')[0];
+    if (dist2name === 'Медресе') return districts2.filter((dist2) => dist2.VALUE === 'Ош медресе')[0];
+    if (dist2name === 'Он-Адыр') return districts2.filter((dist2) => dist2.VALUE === 'Ош Он-адыр')[0];
+    if (dist2name === 'г. Карасуу') return districts2.filter((dist2) => dist2.VALUE === 'Карасуу')[0];
+    if (dist2name === 'с. Жийделик') return districts2.filter((dist2) => dist2.VALUE === 'Жийделик')[0];
+    if (dist2name === 'с. Кенжекул') return districts2.filter((dist2) => dist2.VALUE === 'Кенжекул')[0];
+    if (dist2name === 'с.Кыргыз-Чек') return districts2.filter((dist2) => dist2.VALUE === 'Ош Кыргыз-чек')[0];
+    if (dist2name === 'с.Нариман') return districts2.filter((dist2) => dist2.VALUE === 'Ош Нариман')[0];
+    if (dist2name === 'с.Нурдар') return districts2.filter((dist2) => dist2.VALUE === 'Ош Нурдар')[0];
+    if (dist2name === 'с.Шарк') return districts2.filter((dist2) => dist2.VALUE === 'Ош Шарк')[0];
+    if (dist2name === 'с.Фуркат') return districts2.filter((dist2) => dist2.VALUE === 'Фуркат')[0];
+    if (dist2name === 'Авиагородок') return districts2.filter((dist2) => dist2.VALUE === 'Ош Авиагородок')[0];
+    if (dist2name === 'Ак-Тилек') return districts2.filter((dist2) => dist2.VALUE === 'Ак-Тилек')[0];
+    if (dist2name === 'мкр Южный') return districts2.filter((dist2) => dist2.VALUE === 'Ош Южный')[0];
+    if (dist2name === 'г. Ош') return districts2.filter((dist2) => dist2.VALUE === 'Ош')[0];
+    if (dist2name === 'г. Базар-Коргон') return districts2.filter((dist2) => dist2.VALUE === 'Базар-Коргон')[0];
+    if (dist2name === 'мкр Курманбек') return districts2.filter((dist2) => dist2.VALUE === 'ДА Курманбек')[0];
+    if (dist2name === 'мкр СМУ') return districts2.filter((dist2) => dist2.VALUE === 'ДА Сму')[0];
+    if (dist2name === 'мкр Сузак') return districts2.filter((dist2) => dist2.VALUE === 'ДА Сузак' || dist2.VALUE === 'г. Сузак')[0];
+    if (dist2name === 'мкр Ынтымак') return districts2.filter((dist2) => dist2.VALUE === 'ДА Ынтымак')[0];
+    if (dist2name === 'г. Кочкор-Ата') return districts2.filter((dist2) => dist2.VALUE === 'Кочкор-Ата')[0];
+    if (dist2name === 'с. Благовещенка') return districts2.filter((dist2) => dist2.VALUE === 'Благовещенка')[0];
+    if (dist2name === 'г. Токтогул') return districts2.filter((dist2) => dist2.VALUE === 'Токтогул')[0];
+    if (dist2name === 'с. Лавдан-Кара') return districts2.filter((dist2) => dist2.VALUE === 'Лавдан-Кара ДЖ')[0];
+    if (dist2name === 'с. Кызыл-туу') return districts2.filter((dist2) => dist2.VALUE === 'ДА Кызыл-туу')[0];
   };
 
   return (
