@@ -103,7 +103,8 @@ const NewApplication = () => {
             name === 'userPhoneNumber' ||
             name === 'domoPhone' ||
             name === 'userAdditionalPhoneNumber' ?
-              formatPhoneNumber(value) : value,
+              formatPhoneNumber(value) :
+              name === 'domoPhone' ? formatPhoneNumber(value) : value,
     }));
     if (name === 'region') {
       if (regions2List.length) {
@@ -484,9 +485,9 @@ const NewApplication = () => {
           variant="contained"
           endIcon={<ArrowForwardIosIcon/>}
           disabled={
-            // (currentForm === 1 && !locationFilled()) ||
-            // (currentForm === 2 && !orderStatus()) ||
-            // (currentForm === 3 && !assets()) ||
+            (currentForm === 1 && !locationFilled()) ||
+            (currentForm === 2 && !orderStatus()) ||
+            (currentForm === 3 && !assets()) ||
             currentForm === 5
           }
           onClick={() => setCurrentForm(currentForm + 1)}

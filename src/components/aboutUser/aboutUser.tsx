@@ -112,7 +112,7 @@ const AboutUser: React.FC<IState> = (
                 label="Лицевой счёт домофона"
                 name="domoPhone"
                 onChange={handleChange}
-                type="number"
+                type="text"
               />
             </FormControl>
           </Grid>
