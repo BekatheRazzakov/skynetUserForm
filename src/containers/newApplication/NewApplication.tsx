@@ -93,6 +93,7 @@ const NewApplication = () => {
         name === 'district' ||
         name === 'street' ?
           obj :
+          name === 'district2' ||
           name === 'orderStatus' ||
           name === 'routerInstallationType' ||
           name === 'superTv' ||
