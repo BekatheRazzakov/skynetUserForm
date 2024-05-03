@@ -474,8 +474,6 @@ const NewApplication = () => {
     if (dist2name === 'с. Кызыл-туу') return districts2.filter((dist2) => dist2.VALUE === 'ДА Кызыл-туу')[0];
   };
 
-  console.log(state.region2, state.district2);
-
   return (
     <div className="App">
       <Box className="form-nav">
