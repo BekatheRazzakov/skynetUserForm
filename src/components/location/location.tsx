@@ -9,7 +9,7 @@ import {IState} from "../../App";
 const Location: React.FC<IState> = (
   {
     regions, cities, districts, streets, regionsLoading, regions2Loading, citiesLoading,
-    districtsLoading, streetsLoading, region, city, district, street, address,
+    districtsLoading, streetsLoading, region, city, district, street, address, entrance, floor, apart,
     districts2, district2, districts2Loading, handleChange
   }
 ) => {
@@ -138,7 +138,7 @@ const Location: React.FC<IState> = (
               />
             </Grid>
           }
-          {district?.name &&
+          {district?.name && !district?.name.includes('мкр') &&
             <Grid item xs={12}>
               <FormControl fullWidth className="form-control">
                 <TextField
@@ -147,6 +147,48 @@ const Location: React.FC<IState> = (
                   value={address}
                   label="Точный адрес"
                   name="address"
+                  onChange={handleChange}
+                />
+              </FormControl>
+            </Grid>
+          }
+          {district?.name && district?.name.includes('мкр') &&
+            <Grid item xs={12}>
+              <FormControl fullWidth className="form-control">
+                <TextField
+                  id="outlined-multiline-flexible"
+                  maxRows={4}
+                  value={entrance}
+                  label="Подъезд"
+                  name="entrance"
+                  onChange={handleChange}
+                />
+              </FormControl>
+            </Grid>
+          }
+          {district?.name && district?.name.includes('мкр') &&
+            <Grid item xs={12}>
+              <FormControl fullWidth className="form-control">
+                <TextField
+                  id="outlined-multiline-flexible"
+                  maxRows={4}
+                  value={floor}
+                  label="Этаж"
+                  name="floor"
+                  onChange={handleChange}
+                />
+              </FormControl>
+            </Grid>
+          }
+          {district?.name && district?.name.includes('мкр') &&
+            <Grid item xs={12}>
+              <FormControl fullWidth className="form-control">
+                <TextField
+                  id="outlined-multiline-flexible"
+                  maxRows={4}
+                  value={apart}
+                  label="Квартира"
+                  name="apart"
                   onChange={handleChange}
                 />
               </FormControl>

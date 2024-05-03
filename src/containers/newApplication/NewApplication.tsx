@@ -51,6 +51,9 @@ const NewApplication = () => {
     district: {name: "", hydra_id: -1,},
     district2: {VALUE: "", ID: "",},
     address: "",
+    entrance: "",
+    floor: "",
+    apart: "",
     orderStatus: {VALUE: "", ID: "",},
     routerInstallationType: {VALUE: "", ID: "",},
     tariff: {VALUE: "", ID: "",},
@@ -132,6 +135,11 @@ const NewApplication = () => {
         district2: getDist2(obj?.name || '') || {VALUE: "", ID: "",},
       }));
       void getStreets(obj?.hydra_id.toString() || '');
+    } else if (name === 'street') {
+      setState((prevState) => ({
+        ...prevState,
+        address: "",
+      }));
     }
   };
 
@@ -305,7 +313,8 @@ const NewApplication = () => {
       state.region?.name &&
       state.city?.name &&
       state.district?.name &&
-      ((streets.length && state.street?.name && state.address) || (!streets.length && state.address))
+      (((streets.length && state.street?.name && state.address) || (!streets.length && state.address)) ||
+      !state.address && (state.entrance && state.floor && state.apart))
     );
   };
 
@@ -512,6 +521,9 @@ const NewApplication = () => {
           district2={state.district2}
           street={state.street}
           address={state.address}
+          entrance={state.entrance}
+          floor={state.floor}
+          apart={state.apart}
           handleChange={handleChange}
           regionsLoading={regionsLoading}
           regions2Loading={regions2Loading}

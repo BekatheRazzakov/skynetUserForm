@@ -32,6 +32,9 @@ export interface IState {
   district2?: { VALUE: string; ID: string; };
   street?: { name: string; hydra_id: number; } | null;
   address?: string;
+  entrance?: string;
+  floor?: string;
+  apart?: string;
   orderStatus?: { VALUE: string; ID: string; };
   routerInstallationType?: { VALUE: string; ID: string; };
   tariff?: { VALUE: string; ID: string; };
