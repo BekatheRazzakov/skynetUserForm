@@ -194,7 +194,7 @@ const Location: React.FC<IState> = (
               </FormControl>
             </Grid>
           }
-          {region?.name && address &&
+          {region?.name &&
             <Grid item xs={12}>
               <Autocomplete
                 disablePortal
