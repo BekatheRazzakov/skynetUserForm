@@ -273,9 +273,20 @@ const NewApplication = () => {
         if (
           item.VALUE === 'Оптимальный (600)' ||
           item.VALUE === 'Sky70 (890)' ||
+          item.VALUE === 'Промо (790)' ||
+          item.VALUE === 'Промо60 (890)' ||
           item.VALUE === 'Промо70 (980)' ||
+          item.VALUE === 'Промо80 (1190)' ||
           item.VALUE === 'Промо90 (1190)' ||
-          item.VALUE === 'Промо100 (1280)'
+          item.VALUE === 'Промо100 (1280)' ||
+          item.VALUE === 'Интер 70 (890)' ||
+          item.VALUE === 'Интер 90 (1190)' ||
+          item.VALUE === 'Интер 100 (1280)' ||
+          item.VALUE === 'Интер 70 (980)' ||
+          item.VALUE === 'Интер+ ТВ 70' ||
+          item.VALUE === 'Интер+ ТВ 90' ||
+          item.VALUE === 'Интер+ ТВ 100' ||
+          item.VALUE === 'inter (200)'
         ) {
           return item;
         }
