@@ -145,7 +145,7 @@ const Location: React.FC<IState> = (
                   id="outlined-multiline-flexible"
                   maxRows={4}
                   value={address}
-                  label="Точный адрес"
+                  label="Дом"
                   name="address"
                   onChange={handleChange}
                 />
