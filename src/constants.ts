@@ -1,1 +1,1 @@
-export const apiUrl = 'http://91.210.169.237:3000/api/';
+export const apiUrl = 'https://ticketup.skynet.kg:3000/api/';

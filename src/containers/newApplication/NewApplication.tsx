@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, SyntheticEvent, useEffect, useState} from 'react';
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -25,6 +25,8 @@ export interface IRegions {
 }
 
 const NewApplication = () => {
+  const navigate = useNavigate();
+  const userToken = useAppSelector((state) => state.userState.user);
   const [regions, setRegions] = useState([]);
   const [regions2, setRegions2] = useState<IRegions>({});
   const [regions2List, setRegions2List] = useState<IInt[]>([]);
@@ -68,21 +70,20 @@ const NewApplication = () => {
   const [currentImageInput, setCurrentImageInput] = useState('');
   const [confirmationReq, setConfirmationReq] = useState('');
   const [confirmationRes, setConfirmationRes] = useState('');
-  const navigate = useNavigate();
-  const userToken = useAppSelector((state) => state.userState.user);
-
+  const [locationType, setLocationType] = useState('flat');
+  
   useEffect(() => {
     void getRegions();
     void getRegions2();
     void getOrderStatusData();
   }, []);
-
+  
   useEffect(() => {
     if (!userToken) {
       navigate('/sign-in');
     }
   }, [navigate, userToken]);
-
+  
   const handleChange = (
     event: SelectChangeEvent | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     obj?: { name: string; hydra_id: number; } | null,
@@ -142,7 +143,11 @@ const NewApplication = () => {
       }));
     }
   };
-
+  
+  const onLocationTypeChange = (_: SyntheticEvent, value: string) => {
+    setLocationType(value || 'flat');
+  };
+  
   const toggleConfirmation = () => {
     if (confirmationReq === 'open') {
       setConfirmationReq('closed');
@@ -150,7 +155,7 @@ const NewApplication = () => {
       setConfirmationReq('open');
     }
   };
-
+  
   const toggleConfirmationRes = () => {
     if (confirmationRes === 'open') {
       setConfirmationRes('closed');
@@ -159,7 +164,7 @@ const NewApplication = () => {
       setConfirmationRes('open');
     }
   };
-
+  
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
@@ -168,18 +173,18 @@ const NewApplication = () => {
       [fieldName]: file,
     }));
   };
-
+  
   const formatPhoneNumber = (phoneNum: string) => {
     return phoneNum.replace(/\D/g, '');
   }
-
+  
   const removeImage = (key: string) => {
     setState((prevState) => ({
       ...prevState,
       [key]: null,
     }));
   };
-
+  
   const getRegions = async () => {
     try {
       setRegionsLoading(true);
@@ -192,7 +197,7 @@ const NewApplication = () => {
       console.log(e);
     }
   };
-
+  
   const getRegions2 = async () => {
     try {
       setRegions2Loading(true);
@@ -203,7 +208,7 @@ const NewApplication = () => {
       console.log(e);
     }
   };
-
+  
   const getRegions2Districts = (name: string) => {
     setDistricts2Loading(true);
     let dists: IInt[] = [];
@@ -215,7 +220,7 @@ const NewApplication = () => {
     setDistricts2Loading(false);
     return dists;
   };
-
+  
   const getCities = async (parent_id: string) => {
     try {
       setCitiesLoading(true);
@@ -228,7 +233,7 @@ const NewApplication = () => {
       console.log(e);
     }
   };
-
+  
   const getDistricts = async (parent_id: string) => {
     try {
       setDistrictsLoading(true);
@@ -241,7 +246,7 @@ const NewApplication = () => {
       console.log(e);
     }
   };
-
+  
   const getStreets = async (parent_id: string) => {
     try {
       setStreetsLoading(true);
@@ -254,7 +259,7 @@ const NewApplication = () => {
       console.log(e);
     }
   };
-
+  
   const getOrderStatusData = async () => {
     try {
       setRegions2Loading(true);
@@ -262,13 +267,13 @@ const NewApplication = () => {
         `/send-data-router/`);
       const orderStatuses = await res.data[3];
       setOrderStatuses(orderStatuses.splice(0, 2));
-
+      
       const superTvs = await res.data[5];
       setSuperTvs(superTvs);
-
+      
       const routerInstallations = await res.data[2];
       setRouterInstallations(routerInstallations.filter((item: IInt) => item.VALUE !== 'Да выкуп'));
-
+      
       const tariffs = await res.data[1].map((item: IInt) => {
         if (
           item.VALUE === 'Оптимальный (600)' ||
@@ -292,7 +297,7 @@ const NewApplication = () => {
         }
       });
       setTariffs(tariffs.filter((item: IInt) => item));
-
+      
       const providersFrom = await res.data[4].map((item: IInt) => {
         if (
           item.VALUE.includes('Aknet') ||
@@ -318,24 +323,24 @@ const NewApplication = () => {
       setRegions2Loading(false);
     }
   };
-
+  
   const locationFilled = () => {
     return Boolean(
       state.region?.name &&
       state.city?.name &&
       state.district?.name &&
       (((streets.length && state.street?.name && state.address) || (!streets.length && state.address)) ||
-      !state.address && (state.entrance && state.floor && state.apart))
+        !state.address && (state.entrance && state.floor && state.apart))
     );
   };
-
+  
   const location2Filled = () => {
     return Boolean(
       state.region2 &&
       state.district2?.VALUE
     );
   };
-
+  
   const orderStatus = () => {
     return Boolean(
       state.orderStatus?.VALUE &&
@@ -344,7 +349,7 @@ const NewApplication = () => {
       state.superTv?.VALUE
     );
   };
-
+  
   const assets = () => {
     return Boolean(
       state.passport &&
@@ -352,7 +357,7 @@ const NewApplication = () => {
       state.passport2 &&
       state.locationScreenShot);
   };
-
+  
   const clientInfoFilled = () => {
     return Boolean(
       state.providerFrom?.VALUE &&
@@ -363,7 +368,7 @@ const NewApplication = () => {
       (state.userPhoneNumber !== state.userAdditionalPhoneNumber)
     );
   };
-
+  
   const getDist2 = (dist2name: string) => {
     if (dist2name === 'с. Дружба') return districts2.filter((dist2) => dist2.VALUE === 'Дружба')[0];
     if (dist2name === 'г. Шопоков') return districts2.filter((dist2) => dist2.VALUE === 'Шопоков')[0];
@@ -484,12 +489,12 @@ const NewApplication = () => {
     if (dist2name === 'с. Лавдан-Кара') return districts2.filter((dist2) => dist2.VALUE === 'Лавдан-Кара ДЖ')[0];
     if (dist2name === 'с. Кызыл-туу') return districts2.filter((dist2) => dist2.VALUE === 'ДА Кызыл-туу')[0];
   };
-
+  
   return (
-    <div className="App">
-      <Box className="form-nav">
+    <div className='App'>
+      <Box className='form-nav'>
         <Button
-          variant="contained"
+          variant='contained'
           endIcon={<ArrowBackIosNewIcon/>}
           disabled={currentForm === 1}
           onClick={() => setCurrentForm(currentForm - 1)}
@@ -502,7 +507,7 @@ const NewApplication = () => {
           {currentForm === 5 ? 'О абоненте' : ''}
         </Typography>
         <Button
-          variant="contained"
+          variant='contained'
           endIcon={<ArrowForwardIosIcon/>}
           disabled={
             (currentForm === 1 && !locationFilled()) ||
@@ -513,7 +518,7 @@ const NewApplication = () => {
           onClick={() => setCurrentForm(currentForm + 1)}
         />
       </Box>
-      <Box className="form" component="form" onSubmit={(e) => {
+      <Box className='form' component='form' onSubmit={(e) => {
         e.preventDefault();
         if (locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled()) {
           toggleConfirmation();
@@ -535,6 +540,8 @@ const NewApplication = () => {
           entrance={state.entrance}
           floor={state.floor}
           apart={state.apart}
+          locationType={locationType}
+          onLocationTypeChange={onLocationTypeChange}
           handleChange={handleChange}
           regionsLoading={regionsLoading}
           regions2Loading={regions2Loading}
@@ -555,7 +562,7 @@ const NewApplication = () => {
           handleChange={handleChange}
         />}
         {currentForm === 3 &&
-          <Container component="main">
+          <Container component='main'>
             <Box
               style={{
                 margin: '25px 0',
@@ -566,7 +573,7 @@ const NewApplication = () => {
               onMouseDown={() => setCurrentImageInput('passport')}
             >
               <FileInput
-                label="Лицевая сторона паспорта"
+                label='Лицевая сторона паспорта'
                 handleImageChange={handleImageChange}
                 file={state?.passport ? state.passport : null}
                 removeImage={removeImage}
@@ -583,7 +590,7 @@ const NewApplication = () => {
               onMouseDown={() => setCurrentImageInput('passport2')}
             >
               <FileInput
-                label="Обратная сторона паспорта"
+                label='Обратная сторона паспорта'
                 handleImageChange={handleImageChange}
                 file={state?.passport2 ? state.passport2 : null}
                 removeImage={removeImage}
@@ -600,7 +607,7 @@ const NewApplication = () => {
               onMouseDown={() => setCurrentImageInput('locationScreenShot')}
             >
               <FileInput
-                label="Скриншот локации"
+                label='Скриншот локации'
                 handleImageChange={handleImageChange}
                 file={state?.locationScreenShot ? state.locationScreenShot : null}
                 removeImage={removeImage}
@@ -612,14 +619,14 @@ const NewApplication = () => {
         {
           currentForm === 4 &&
           <TextField
-            className="description-field"
-            id="outlined-multiline-static"
-            label="Описание"
+            className='description-field'
+            id='outlined-multiline-static'
+            label='Описание'
             multiline
             rows={5}
             onChange={handleChange}
             value={state.description}
-            name="description"
+            name='description'
           />
         }
         {
@@ -639,7 +646,7 @@ const NewApplication = () => {
           locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() &&
           <Button
             className='confirm-form-button'
-            type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}
+            type='submit' fullWidth variant='contained' sx={{mt: 3, mb: 2}}
           >
             {
               locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?

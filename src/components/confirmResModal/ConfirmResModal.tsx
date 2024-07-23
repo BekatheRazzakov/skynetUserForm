@@ -26,8 +26,6 @@ const ConfirmResFormModal: React.FC<IProps> = ({toggleResModal, state}) => {
           </div>
         </div>
         <LoadingButton
-          // loading={sendDataLoading}
-          // disabled={sendDataLoading}
           variant="contained"
           style={{ marginTop: 20 }}
           onClick={toggleResModal}

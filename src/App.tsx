@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, SyntheticEvent} from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
 import NewApplication, {IInt} from "./containers/newApplication/NewApplication";
 import {SelectChangeEvent} from "@mui/material/Select";
@@ -60,17 +60,19 @@ export interface IState {
   districtsLoading?: boolean;
   districts2Loading?: boolean;
   streetsLoading?: boolean;
+  locationType?: string;
+  onLocationTypeChange?: (_: SyntheticEvent, value: string) => void;
 }
 
 const App = () => {
   const userToken = useAppSelector((state) => state.userState.user);
-
+  
   return (
     <>
       <AppToolbar/>
       <Routes>
         <Route path='*' element={userToken ?
-          <Navigate to="/my-applications" replace/> : <Navigate to="/sign-in" replace/>}/>
+          <Navigate to='/my-applications' replace/> : <Navigate to='/sign-in' replace/>}/>
         <Route path='new-application' element={<NewApplication/>}/>
         <Route path='sign-up' element={<SignUp/>}/>
         <Route path='sign-in' element={<SignIn/>}/>
