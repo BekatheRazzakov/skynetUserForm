@@ -17,7 +17,7 @@ const ConfirmResFormModal: React.FC<IProps> = ({toggleResModal, state}) => {
       <Box className='confirm-modal-inner' component='div' style={{ marginBottom: 100 }}>
         <div className="data-list">
           <div className='data-line'>
-            <span>Лицевой счёт домофона</span>
+            <span>Лицевой счёт</span>
             <span>{zayavkaRes?.hydra_ls}</span>
           </div>
           <div className='data-line'>

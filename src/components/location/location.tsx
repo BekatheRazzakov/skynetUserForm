@@ -5,15 +5,12 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {IState} from "../../App";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 
 const Location: React.FC<IState> = (
   {
     regions, cities, districts, streets, regionsLoading, regions2Loading, citiesLoading,
     districtsLoading, streetsLoading, region, city, district, street, address, entrance, floor, apart,
     districts2, district2, districts2Loading, handleChange,
-    locationType, onLocationTypeChange
   }
 ) => {
   const getCurrentRegion = (name: string) => {
@@ -46,9 +43,18 @@ const Location: React.FC<IState> = (
           alignItems: 'center',
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FormControl fullWidth className='form-control'>
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid
+            item
+            xs={12}
+          >
+            <FormControl
+              fullWidth
+              className='form-control'
+            >
               <InputLabel id='demo-simple-select-label'>Регион</InputLabel>
               <Select
                 labelId='demo-simple-select-label'
@@ -64,15 +70,24 @@ const Location: React.FC<IState> = (
                     <MenuItem>Загрузка...</MenuItem>
                     :
                     regions?.map((location, i) => (
-                      <MenuItem value={location.name} key={i}>{location.name}</MenuItem>
+                      <MenuItem
+                        value={location.name}
+                        key={i}
+                      >{location.name}</MenuItem>
                     ))
                 }
               </Select>
             </FormControl>
           </Grid>
           {region?.name &&
-            <Grid item xs={12}>
-              <FormControl fullWidth className='form-control'>
+            <Grid
+              item
+              xs={12}
+            >
+              <FormControl
+                fullWidth
+                className='form-control'
+              >
                 <InputLabel id='demo-simple-select-label'>Город</InputLabel>
                 <Select
                   labelId='demo-simple-select-label'
@@ -88,23 +103,21 @@ const Location: React.FC<IState> = (
                       <MenuItem>Загрузка...</MenuItem>
                       :
                       cities?.map((location, index) => (
-                        <MenuItem value={location.name} key={index}>{location.name}</MenuItem>
+                        <MenuItem
+                          value={location.name}
+                          key={index}
+                        >{location.name}</MenuItem>
                       ))
                   }
                 </Select>
               </FormControl>
             </Grid>
           }
-          {/*<Grid item xs={12}>*/}
-          {/*  <FormControl fullWidth className='form-control'>*/}
-          {/*    <Tabs value={locationType} onChange={onLocationTypeChange} aria-label='basic tabs example'>*/}
-          {/*      <Tab label='Многоэтажка' value='flat' sx={{flexGrow: 1}}/>*/}
-          {/*      <Tab label='Частный сектор' value='private sector' sx={{flexGrow: 1}}/>*/}
-          {/*    </Tabs>*/}
-          {/*  </FormControl>*/}
-          {/*</Grid>*/}
           {city?.name &&
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+            >
               <Autocomplete
                 disablePortal
                 // @ts-ignore
@@ -127,7 +140,10 @@ const Location: React.FC<IState> = (
             </Grid>
           }
           {district?.name && streets?.length !== 0 &&
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+            >
               <Autocomplete
                 disablePortal
                 // @ts-ignore
@@ -145,13 +161,19 @@ const Location: React.FC<IState> = (
                   }, getCurrentStreet(e.target.innerHTML))}
                 loading={streetsLoading}
                 loadingText='Загрузка...'
-                renderInput={(params) => <TextField {...params} label='Улица'/>}
+                renderInput={(params) => <TextField {...params} label='Улица/Дом'/>}
               />
             </Grid>
           }
-          {district?.name && !district?.name.includes('мкр') &&
-            <Grid item xs={12}>
-              <FormControl fullWidth className='form-control'>
+          {district?.name && !district?.name.includes('мкр') && !['ул. Тыналиева', 'ул. Коперника', 'ул. Кулатова'].includes(district?.name) &&
+            <Grid
+              item
+              xs={12}
+            >
+              <FormControl
+                fullWidth
+                className='form-control'
+              >
                 <TextField
                   id='outlined-multiline-flexible'
                   maxRows={4}
@@ -163,9 +185,17 @@ const Location: React.FC<IState> = (
               </FormControl>
             </Grid>
           }
-          {district?.name && district?.name.includes('мкр') &&
-            <Grid item xs={12}>
-              <FormControl fullWidth className='form-control'>
+          {
+            // @ts-ignore
+            district?.name && (district?.name.includes('мкр') || ['ул. Тыналиева', 'ул. Коперника', 'ул. Кулатова'].includes(district?.name)) &&
+            <Grid
+              item
+              xs={12}
+            >
+              <FormControl
+                fullWidth
+                className='form-control'
+              >
                 <TextField
                   id='outlined-multiline-flexible'
                   maxRows={4}
@@ -177,9 +207,17 @@ const Location: React.FC<IState> = (
               </FormControl>
             </Grid>
           }
-          {district?.name && district?.name.includes('мкр') &&
-            <Grid item xs={12}>
-              <FormControl fullWidth className='form-control'>
+          {
+            // @ts-ignore
+            district?.name && (district?.name.includes('мкр') || ['ул. Тыналиева', 'ул. Коперника', 'ул. Кулатова'].includes(district?.name)) &&
+            <Grid
+              item
+              xs={12}
+            >
+              <FormControl
+                fullWidth
+                className='form-control'
+              >
                 <TextField
                   id='outlined-multiline-flexible'
                   maxRows={4}
@@ -191,9 +229,17 @@ const Location: React.FC<IState> = (
               </FormControl>
             </Grid>
           }
-          {district?.name && district?.name.includes('мкр') &&
-            <Grid item xs={12}>
-              <FormControl fullWidth className='form-control'>
+          {
+            // @ts-ignore
+            district?.name && (district?.name.includes('мкр') || ['ул. Тыналиева', 'ул. Коперника', 'ул. Кулатова'].includes(district?.name)) &&
+            <Grid
+              item
+              xs={12}
+            >
+              <FormControl
+                fullWidth
+                className='form-control'
+              >
                 <TextField
                   id='outlined-multiline-flexible'
                   maxRows={4}
@@ -206,7 +252,10 @@ const Location: React.FC<IState> = (
             </Grid>
           }
           {region?.name &&
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+            >
               <Autocomplete
                 disablePortal
                 // @ts-ignore

@@ -176,7 +176,7 @@ const NewApplication = () => {
   
   const formatPhoneNumber = (phoneNum: string) => {
     return phoneNum.replace(/\D/g, '');
-  }
+  };
   
   const removeImage = (key: string) => {
     setState((prevState) => ({
