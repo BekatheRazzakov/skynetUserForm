@@ -353,9 +353,7 @@ const NewApplication = () => {
       state.orderStatus?.VALUE &&
       state.routerInstallationType?.VALUE &&
       state.tariff?.VALUE &&
-      state.superTv?.VALUE &&
-      state.discount?.VALUE &&
-      (state?.discount?.VALUE === 'Приведи друга' ? state?.discount_ls : true)
+      state.superTv?.VALUE
     );
   };
   
