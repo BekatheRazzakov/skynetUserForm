@@ -186,6 +186,9 @@ const OrderStatus: React.FC<IState> = (
                   () => {
                   }}
               >
+                <MenuItem
+                  value=''
+                >Не выбрано</MenuItem>
                 {
                   discounts?.map((item: IInt) => (
                     <MenuItem
