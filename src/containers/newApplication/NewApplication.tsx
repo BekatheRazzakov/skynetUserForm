@@ -298,6 +298,8 @@ const NewApplication = () => {
           item.VALUE === 'Интер+ ТВ 70' ||
           item.VALUE === 'Интер+ ТВ 90' ||
           item.VALUE === 'Интер+ ТВ 100' ||
+          item.VALUE === 'Промо300 (980)' ||
+          item.VALUE === 'Промо500 (1180)' ||
           item.VALUE === 'inter (200)'
         ) {
           return item;
