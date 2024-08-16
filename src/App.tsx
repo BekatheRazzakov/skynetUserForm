@@ -39,6 +39,8 @@ export interface IState {
   routerInstallationType?: { VALUE: string; ID: string; };
   tariff?: { VALUE: string; ID: string; };
   superTv?: { VALUE: string; ID: string; };
+  discount?: { VALUE: string; ID: string; };
+  discount_ls?: string;
   passport?: File | null;
   passport2?: File | null;
   locationScreenShot?: File | null;
@@ -53,6 +55,7 @@ export interface IState {
   tariffs?: IInt[];
   providersFrom?: IInt[];
   superTvs?: IInt[];
+  discounts?: IInt[];
   domoPhone?: string;
   regionsLoading?: boolean;
   regions2Loading?: boolean;

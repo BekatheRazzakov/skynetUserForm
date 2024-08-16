@@ -39,6 +39,7 @@ const NewApplication = () => {
   const [tariffs, setTariffs] = useState([]);
   const [providersFrom, setProvidersFrom] = useState([]);
   const [superTvs, setSuperTvs] = useState([]);
+  const [discounts, setDiscounts] = useState([]);
   const [currentForm, setCurrentForm] = useState(1);
   const [regionsLoading, setRegionsLoading] = useState(false);
   const [regions2Loading, setRegions2Loading] = useState(false);
@@ -60,6 +61,8 @@ const NewApplication = () => {
     routerInstallationType: {VALUE: "", ID: "",},
     tariff: {VALUE: "", ID: "",},
     superTv: {VALUE: "", ID: "",},
+    discount: {VALUE: "", ID: "",},
+    discount_ls: "",
     providerFrom: {VALUE: "", ID: "",},
     passport: null,
     passport2: null,
@@ -101,6 +104,7 @@ const NewApplication = () => {
           name === 'orderStatus' ||
           name === 'routerInstallationType' ||
           name === 'superTv' ||
+          name === 'discount' ||
           name === 'providerFrom' ||
           name === 'tariff' ?
             dist :
@@ -108,7 +112,7 @@ const NewApplication = () => {
             name === 'domoPhone' ||
             name === 'userAdditionalPhoneNumber' ?
               formatPhoneNumber(value) :
-              name === 'domoPhone' ? formatPhoneNumber(value) : value,
+              ['domoPhone', 'discount_ls'].includes(name) ? formatPhoneNumber(value) : value,
     }));
     if (name === 'region') {
       if (regions2List.length) {
@@ -271,6 +275,9 @@ const NewApplication = () => {
       const superTvs = await res.data[5];
       setSuperTvs(superTvs);
       
+      const discounts = await res.data[6];
+      setDiscounts(discounts);
+      
       const routerInstallations = await res.data[2];
       setRouterInstallations(routerInstallations.filter((item: IInt) => item.VALUE !== 'Да выкуп'));
       
@@ -346,7 +353,9 @@ const NewApplication = () => {
       state.orderStatus?.VALUE &&
       state.routerInstallationType?.VALUE &&
       state.tariff?.VALUE &&
-      state.superTv?.VALUE
+      state.superTv?.VALUE &&
+      state.discount?.VALUE &&
+      (state?.discount?.VALUE === 'Приведи друга' ? state?.discount_ls : true)
     );
   };
   
@@ -518,12 +527,16 @@ const NewApplication = () => {
           onClick={() => setCurrentForm(currentForm + 1)}
         />
       </Box>
-      <Box className='form' component='form' onSubmit={(e) => {
-        e.preventDefault();
-        if (locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled()) {
-          toggleConfirmation();
-        }
-      }}>
+      <Box
+        className='form'
+        component='form'
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled()) {
+            toggleConfirmation();
+          }
+        }}
+      >
         {currentForm === 1 && <Location
           regions={regions}
           cities={cities}
@@ -555,10 +568,13 @@ const NewApplication = () => {
           routerInstallationType={state.routerInstallationType}
           tariff={state.tariff}
           superTv={state.superTv}
+          discount={state.discount}
+          discount_ls={state.discount_ls}
           orderStatuses={orderStatuses}
           routerInstallations={routerInstallations}
           tariffs={tariffs}
           superTvs={superTvs}
+          discounts={discounts}
           handleChange={handleChange}
         />}
         {currentForm === 3 &&
@@ -646,7 +662,10 @@ const NewApplication = () => {
           locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() &&
           <Button
             className='confirm-form-button'
-            type='submit' fullWidth variant='contained' sx={{mt: 3, mb: 2}}
+            type='submit'
+            fullWidth
+            variant='contained'
+            sx={{mt: 3, mb: 2}}
           >
             {
               locationFilled() && location2Filled() && orderStatus() && assets() && clientInfoFilled() ?

@@ -35,6 +35,8 @@ interface IProps {
     routerInstallationType: { VALUE: string; ID: number; } | null;
     tariff: { VALUE: string; ID: number; } | null;
     superTv: { VALUE: string; ID: number; } | null;
+    discount: { VALUE: string; ID: number; } | null;
+    discount_ls: string;
     passport: File;
     passport2: File;
     locationScreenShot: File;
@@ -51,7 +53,7 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [sendDataLoading, setSendDataLoading] = useState(false);
-
+  
   const onSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
@@ -60,7 +62,7 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
         passport2: '',
         locationScreenShot: '',
       }
-
+      
       const sendAssets = async () => {
         try {
           const assets: IAssets = {
@@ -70,16 +72,16 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
           };
           const formData = new FormData();
           const keys = Object.keys(assets) as (keyof IAssets)[];
-
+          
           keys.forEach((key) => {
             const value = assets[key];
-
+            
             if (value !== undefined && value !== null) {
               // @ts-ignore
               formData.append(key, value);
             }
           });
-
+          
           const res = await axiosApi.post("/upload-passport/", formData);
           telegraphAssets = {
             passport1: (res.data as ITelegraphData).data[0].image_path,
@@ -90,10 +92,10 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
           console.log(e);
         }
       };
-
+      
       setSendDataLoading(true);
       await sendAssets();
-
+      
       let body = {...data};
       delete body.region;
       delete body.city;
@@ -139,12 +141,16 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
       console.log(e);
     }
   };
-
+  
   return (
     <div className={`confirm-modal-${state}`}>
-      <Box className='confirm-modal-inner' component="form" onSubmit={onSubmit}>
-        <Typography variant="h6">Подтвердите данные</Typography>
-        <div className="data-list">
+      <Box
+        className='confirm-modal-inner'
+        component='form'
+        onSubmit={onSubmit}
+      >
+        <Typography variant='h6'>Подтвердите данные</Typography>
+        <div className='data-list'>
           <div className='data-line'>
             <span>Регион:</span>
             <span>{data?.region?.name || '-'}</span>
@@ -193,13 +199,24 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
             <span>{data?.superTv?.VALUE || '-'}</span>
           </div>
           <div className='data-line'>
+            <span>Акция:</span>
+            <span>{data?.discount?.VALUE || '-'}</span>
+          </div>
+          {
+            data?.discount_ls &&
+            <div className='data-line'>
+              <span>Акция:</span>
+              <span>{data?.discount_ls || '-'}</span>
+            </div>
+          }
+          <div className='data-line'>
             <span>Лицевая сторона паспорта:</span>
             {
               data?.passport ?
                 <img
                   src={data?.passport ? URL.createObjectURL(data.passport) : ''}
-                  alt="passport"
-                  loading="lazy"
+                  alt='passport'
+                  loading='lazy'
                 />
                 : '-'
             }
@@ -210,8 +227,8 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
               data?.passport2 ?
                 <img
                   src={data?.passport2 ? URL.createObjectURL(data.passport2) : ''}
-                  alt="passport"
-                  loading="lazy"
+                  alt='passport'
+                  loading='lazy'
                 />
                 : '-'
             }
@@ -222,8 +239,8 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
               data?.locationScreenShot ?
                 <img
                   src={data?.locationScreenShot ? URL.createObjectURL(data.locationScreenShot) : ''}
-                  alt="passport"
-                  loading="lazy"
+                  alt='passport'
+                  loading='lazy'
                 />
                 : '-'
             }
@@ -253,13 +270,17 @@ const ConfirmResModal: React.FC<IProps> = ({data, toggleModal, toggleResModal, s
             <span>{data?.userAdditionalPhoneNumber || '-'}</span>
           </div>
         </div>
-        <div className="confirm-form-buttons">
-          <Button variant="outlined" onClick={toggleModal} disabled={sendDataLoading}>Изменить данные</Button>
+        <div className='confirm-form-buttons'>
+          <Button
+            variant='outlined'
+            onClick={toggleModal}
+            disabled={sendDataLoading}
+          >Изменить данные</Button>
           <LoadingButton
             loading={sendDataLoading}
             disabled={sendDataLoading}
-            variant="contained"
-            type="submit"
+            variant='contained'
+            type='submit'
           >
             <span>Подтвердить</span>
           </LoadingButton>
