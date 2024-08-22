@@ -291,6 +291,7 @@ const NewApplication = () => {
           item.VALUE === 'Промо80 (1190)' ||
           item.VALUE === 'Промо90 (1190)' ||
           item.VALUE === 'Промо100 (1280)' ||
+          item.VALUE === 'Промо600 (1280)' ||
           item.VALUE === 'Интер 70 (890)' ||
           item.VALUE === 'Интер 90 (1190)' ||
           item.VALUE === 'Интер 100 (1280)' ||
